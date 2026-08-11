@@ -53,6 +53,6 @@ Al ser un sitio estático, funciona igual en las tres plataformas:
 
 ## 📬 Contacto
 
-- **Email:** ukl117733@proton.me
+- **Email:** yaffle9174@anglernook.com
 - **GitHub:** https://github.com/JesusYG
 - **LinkedIn:** https://www.linkedin.com/in/jesús-garcía-a07729222
