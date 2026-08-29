@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soporte N1 IT y Datos</title>
+<meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 11 módulos, ejercicios y autoevaluación." />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8;
+  --surface:#FFFFFF;
+  --surface-2:#ECEFF4;
+  --text:#1B212C;
+  --text-muted:#5B6472;
+  --border:#DBE0E7;
+  --accent-it:#2E86AB;
+  --accent-it-soft:#E6F1F8;
+  --accent-data:#8B5FBF;
+  --accent-data-soft:#F1EBFA;
+  --accent-core:#A9782B;
+  --accent-core-soft:#F5EEDF;
+  --success:#2F9E5B;
+  --success-soft:#E4F5EB;
+  --danger:#C4453B;
+  --danger-soft:#FBEAE8;
+  --shadow: 0 1px 2px rgba(20,26,38,0.04), 0 8px 24px -12px rgba(20,26,38,0.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F141C;
+    --surface:#161D29;
+    --surface-2:#1B2431;
+    --text:#E6EAF1;
+    --text-muted:#98A2B5;
+    --border:#2A3345;
+    --accent-it:#63B4DC;
+    --accent-it-soft:rgba(99,180,220,0.14);
+    --accent-data:#B592E3;
+    --accent-data-soft:rgba(181,146,227,0.16);
+    --accent-core:#D6AD57;
+    --accent-core-soft:rgba(214,173,87,0.14);
+    --success:#4FBE81;
+    --success-soft:rgba(79,190,129,0.14);
+    --danger:#E1837A;
+    --danger-soft:rgba(225,131,122,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F141C;
+  --surface:#161D29;
+  --surface-2:#1B2431;
+  --text:#E6EAF1;
+  --text-muted:#98A2B5;
+  --border:#2A3345;
+  --accent-it:#63B4DC;
+  --accent-it-soft:rgba(99,180,220,0.14);
+  --accent-data:#B592E3;
+  --accent-data-soft:rgba(181,146,227,0.16);
+  --accent-core:#D6AD57;
+  --accent-core-soft:rgba(214,173,87,0.14);
+  --success:#4FBE81;
+  --success-soft:rgba(79,190,129,0.14);
+  --danger:#E1837A;
+  --danger-soft:rgba(225,131,122,0.14);
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{
+  font-family:"Sora", ui-sans-serif, system-ui, sans-serif;
+  text-wrap:balance;
+  letter-spacing:-0.01em;
+}
+code,.mono{
+  font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+a{color:var(--accent-it);}
+button{font-family:inherit;}
+::selection{background:var(--accent-it-soft);}
+:focus-visible{outline:2px solid var(--accent-it);outline-offset:2px;}
+
+.app-shell{
+  display:flex;
+  min-height:100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:308px;
+  flex:0 0 308px;
+  background:var(--surface-2);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+}
+.sidebar-head{
+  padding:22px 22px 16px;
+  border-bottom:1px solid var(--border);
+}
+.eyebrow{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:11px;
+  letter-spacing:0.09em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin:0 0 6px;
+}
+.sidebar-head h1{
+  font-size:19px;
+  margin:0 0 4px;
+  cursor:pointer;
+}
+.sidebar-head .sub{
+  font-size:12.5px;
+  color:var(--text-muted);
+  margin:0;
+}
+.progress-wrap{
+  padding:16px 22px;
+  border-bottom:1px solid var(--border);
+}
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:11.5px;
+  color:var(--text-muted);
+  margin-bottom:6px;
+  font-family:"IBM Plex Mono", monospace;
+}
+.progress-track{
+  height:6px;
+  border-radius:99px;
+  background:var(--border);
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg, var(--accent-it), var(--accent-data));
+  transition:width .4s ease;
+}
+.legend{
+  display:flex;
+  gap:14px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--text-muted);
+}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;}
+.dot.it{background:var(--accent-it);}
+.dot.data{background:var(--accent-data);}
+.dot.core{background:var(--accent-core);}
+
+.nav-list{
+  list-style:none;
+  margin:0;
+  padding:10px 12px 22px;
+  flex:1;
+}
+.nav-item{margin-bottom:2px;}
+.nav-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:10px;
+  padding:9px 10px;
+  cursor:pointer;
+  color:var(--text);
+  transition:background .15s ease, border-color .15s ease;
+}
+.nav-btn:hover{background:var(--surface);}
+.nav-btn.active{background:var(--surface);border-color:var(--border);box-shadow:var(--shadow);}
+.nav-num{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:11px;
+  width:22px;height:22px;
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  flex:none;
+  background:var(--surface);
+  color:var(--text-muted);
+  border:1px solid var(--border);
+}
+.nav-btn.track-it .nav-num{color:var(--accent-it);border-color:var(--accent-it-soft);}
+.nav-btn.track-data .nav-num{color:var(--accent-data);border-color:var(--accent-data-soft);}
+.nav-btn.track-core .nav-num{color:var(--accent-core);border-color:var(--accent-core-soft);}
+.nav-btn.done .nav-num{background:var(--success-soft);color:var(--success);border-color:transparent;}
+.nav-text{flex:1;min-width:0;}
+.nav-title{font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-dur{font-size:10.5px;color:var(--text-muted);font-family:"IBM Plex Mono",monospace;}
+.nav-check{color:var(--success);flex:none;font-size:13px;}
+
+/* ---------- Main ---------- */
+.main{
+  flex:1;
+  min-width:0;
+  padding:44px 48px 90px;
+  max-width:840px;
+}
+.view{display:none;}
+.view.active{display:block;}
+
+/* Landing */
+.hero-kicker{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:12px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent-it);
+  margin:0 0 12px;
+}
+.hero h2{font-size:36px;margin:0 0 14px;line-height:1.15;}
+.hero p.lead{font-size:16px;color:var(--text-muted);max-width:60ch;margin:0 0 28px;}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;}
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  min-width:120px;
+}
+.stat-card .num{font-family:"Sora";font-size:22px;font-weight:700;}
+.stat-card .lbl{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+.start-btn{
+  font-family:"IBM Plex Sans";
+  font-size:14.5px;
+  font-weight:600;
+  background:var(--text);
+  color:var(--bg);
+  border:none;
+  border-radius:10px;
+  padding:13px 22px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.start-btn:hover{opacity:.88;}
+.track-legend-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(210px,1fr));
+  gap:14px;
+  margin:30px 0 36px;
+}
+.track-card{
+  border-radius:12px;
+  padding:16px 18px;
+  border:1px solid var(--border);
+}
+.track-card h3{font-size:14px;margin:0 0 6px;font-family:"Sora";}
+.track-card p{font-size:12.5px;color:var(--text-muted);margin:0;}
+.track-card.it{background:var(--accent-it-soft);}
+.track-card.it h3{color:var(--accent-it);}
+.track-card.data{background:var(--accent-data-soft);}
+.track-card.data h3{color:var(--accent-data);}
+.track-card.core{background:var(--accent-core-soft);}
+.track-card.core h3{color:var(--accent-core);}
+
+.roadmap{border-top:1px solid var(--border);margin-top:10px;}
+.road-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:13px 4px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.road-row:hover .road-title{text-decoration:underline;}
+.road-badge{
+  font-family:"IBM Plex Mono";
+  font-size:11px;
+  width:26px;height:26px;
+  border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  flex:none;
+  border:1px solid var(--border);
+  color:var(--text-muted);
+}
+.road-row.it .road-badge{color:var(--accent-it);border-color:var(--accent-it-soft);}
+.road-row.data .road-badge{color:var(--accent-data);border-color:var(--accent-data-soft);}
+.road-row.core .road-badge{color:var(--accent-core);border-color:var(--accent-core-soft);}
+.road-title{font-size:14px;flex:1;}
+.road-dur{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--text-muted);}
+
+/* Module view */
+.mod-kicker{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.track-pill{
+  font-family:"IBM Plex Mono";
+  font-size:10.5px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:3px 9px;
+  border-radius:99px;
+}
+.track-pill.it{background:var(--accent-it-soft);color:var(--accent-it);}
+.track-pill.data{background:var(--accent-data-soft);color:var(--accent-data);}
+.track-pill.core{background:var(--accent-core-soft);color:var(--accent-core);}
+.dur-pill{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--text-muted);}
+.mod-title{font-size:28px;margin:0 0 16px;}
+.objective-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent-it);
+  border-radius:10px;
+  padding:14px 18px;
+  margin-bottom:30px;
+  font-size:13.5px;
+}
+.objective-box b{font-family:"Sora";font-size:11.5px;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;color:var(--text-muted);}
+.track-it .objective-box{border-left-color:var(--accent-it);}
+.track-data .objective-box{border-left-color:var(--accent-data);}
+.track-core .objective-box{border-left-color:var(--accent-core);}
+
+.section-block{margin-bottom:26px;}
+.section-block h3{font-size:17px;margin:0 0 8px;}
+.section-block p{margin:0 0 10px;color:var(--text);}
+.section-block p:last-child{margin-bottom:0;}
+
+.ref-table-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--border);border-radius:10px;}
+table.ref-table{border-collapse:collapse;width:100%;font-size:13px;}
+table.ref-table caption{display:none;}
+table.ref-table th, table.ref-table td{
+  padding:9px 14px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+table.ref-table th:first-child, table.ref-table td:first-child{
+  white-space:nowrap;
+}
+table.ref-table td:not(:first-child){
+  min-width:220px;
+}
+table.ref-table th{
+  font-family:"IBM Plex Mono";
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-muted);
+  background:var(--surface-2);
+}
+table.ref-table tr:last-child td{border-bottom:none;}
+table.ref-table td{color:var(--text);}
+.ref-caption{font-size:11.5px;color:var(--text-muted);margin:8px 0 0;font-family:"IBM Plex Mono";}
+
+.steps-list{margin:14px 0;padding:0;list-style:none;counter-reset:step;}
+.steps-list li{
+  counter-increment:step;
+  display:flex;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13.5px;
+}
+.steps-list li:last-child{border-bottom:none;}
+.steps-list li::before{
+  content:counter(step);
+  font-family:"IBM Plex Mono";
+  font-size:11px;
+  width:22px;height:22px;
+  border-radius:50%;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex:none;
+  color:var(--text-muted);
+}
+
+.code-block{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px 16px;
+  overflow-x:auto;
+  margin:14px 0;
+}
+.code-block .code-label{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-family:"IBM Plex Mono";}
+.code-block pre{margin:0;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;}
+
+.exercise-box{
+  background:var(--accent-core-soft);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  margin:30px 0;
+}
+.exercise-box .tag{
+  font-family:"IBM Plex Mono";
+  font-size:10.5px;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  color:var(--accent-core);
+  margin:0 0 8px;
+}
+.exercise-box h4{margin:0 0 8px;font-size:15px;font-family:"Sora";}
+.exercise-box p{margin:0;font-size:13.5px;}
+
+.quiz{border-top:1px solid var(--border);padding-top:22px;margin-top:30px;}
+.quiz h3{font-size:16px;margin:0 0 4px;}
+.quiz > .quiz-sub{font-size:12.5px;color:var(--text-muted);margin:0 0 18px;}
+.q-block{margin-bottom:22px;}
+.q-text{font-size:13.5px;font-weight:600;margin:0 0 10px;}
+.q-options{display:flex;flex-direction:column;gap:7px;}
+.q-opt{
+  text-align:left;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:9px;
+  padding:9px 13px;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--text);
+}
+.q-opt:hover{border-color:var(--accent-it);}
+.q-opt.correct{background:var(--success-soft);border-color:var(--success);color:var(--text);}
+.q-opt.incorrect{background:var(--danger-soft);border-color:var(--danger);color:var(--text);}
+.q-opt[disabled]{cursor:default;}
+.q-explain{font-size:12.5px;color:var(--text-muted);margin:8px 0 0;padding-left:2px;display:none;}
+.q-explain.show{display:block;}
+
+.mod-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:38px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
+  gap:12px;
+  flex-wrap:wrap;
+}
+.complete-btn{
+  font-family:"IBM Plex Sans";
+  font-weight:600;
+  font-size:13.5px;
+  padding:10px 18px;
+  border-radius:9px;
+  border:1px solid var(--success);
+  background:var(--success-soft);
+  color:var(--success);
+  cursor:pointer;
+}
+.complete-btn.done{background:var(--success);color:#fff;}
+.nav-arrows{display:flex;gap:8px;}
+.arrow-btn{
+  font-family:"IBM Plex Sans";
+  font-size:13px;
+  padding:9px 14px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  cursor:pointer;
+}
+.arrow-btn:hover{border-color:var(--accent-it);}
+.arrow-btn[disabled]{opacity:.4;cursor:default;}
+
+.menu-toggle{display:none;}
+
+@media (max-width: 860px){
+  .app-shell{flex-direction:column;}
+  .sidebar{
+    position:relative;
+    width:100%;
+    flex:none;
+    height:auto;
+    max-height:none;
+  }
+  .nav-list{
+    display:none;
+    padding-top:4px;
+  }
+  .nav-list.open{display:block;}
+  .menu-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    background:none;
+    border:none;
+    color:var(--text);
+    padding:12px 22px;
+    font-family:"IBM Plex Mono";
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    cursor:pointer;
+  }
+  .main{padding:32px 20px 70px;}
+  .hero h2{font-size:28px;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <p class="eyebrow">Programa de capacitación &middot; Nivel 1</p>
+      <h1 id="sidebar-title">Analista de Soporte<br>IT y Datos (N1)</h1>
+      <p class="sub">11 módulos &middot; ~13 horas</p>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-text">0 / 11 módulos</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="legend">
+        <span class="legend-item"><span class="dot it"></span>IT</span>
+        <span class="legend-item"><span class="dot data"></span>Datos</span>
+        <span class="legend-item"><span class="dot core"></span>Base</span>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Ver módulos <span id="menu-caret">&#9662;</span></button>
+    <ul class="nav-list" id="nav-list"></ul>
+  </aside>
+
+  <main class="main">
+    <section class="view active" id="view-landing"></section>
+    <section class="view" id="view-module"></section>
+  </main>
+</div>
+
+<script>
+(function(){
+
+var MODULES = [
+  {
+    id:1, track:'core', title:'Bienvenida al rol de Analista N1', duration:'30 min',
+    objective:'Entender qué hace un analista N1, cómo se ubica dentro de la mesa de ayuda y por qué este puesto combina soporte técnico con manejo de datos.',
+    content:[
+      {type:'p', text:'El soporte N1 es el primer punto de contacto cuando un usuario tiene un problema técnico o una solicitud. Recibe el caso, lo clasifica, intenta resolverlo con procedimientos conocidos y, si no puede, lo deriva al nivel siguiente con la información necesaria para que no se pierda tiempo. No se espera que un N1 lo sepa todo: se espera que siga un método, use bien las herramientas y documente con claridad.'},
+      {type:'p', text:'La mesa de ayuda suele organizarse en niveles. El N1 atiende el volumen alto de incidentes frecuentes y bien documentados (accesos, contraseñas, impresoras, conectividad básica, consultas simples sobre el estado de un ticket). El N2 investiga casos que requieren más profundidad técnica. El N3 interviene en problemas complejos o de infraestructura. Sarber cuándo escalar, y a quién, es tan importante como saber resolver.'},
+      {type:'table', caption:'Niveles típicos de soporte', columns:['Nivel','Qué resuelve','Ejemplo'], rows:[
+        ['N1','Incidentes frecuentes con procedimiento conocido','Restablecer contraseña, reconectar impresora'],
+        ['N2','Casos que requieren diagnóstico más profundo','Falla intermitente de red en un sector'],
+        ['N3','Infraestructura, arquitectura, proveedores externos','Caída de un servidor o servicio crítico']
+      ]},
+      {type:'p', text:'Un detalle propio de este puesto: cada vez más, el soporte N1 no solo resuelve incidentes técnicos, también consulta bases de datos e inventarios, arma reportes en Excel y lee dashboards para entender cómo está funcionando la mesa de ayuda en su conjunto. Por eso este programa desarrolla ambas competencias en paralelo: la mitad de los módulos son de soporte técnico y la otra mitad de datos, y el módulo final las combina en un caso único.'}
+    ],
+    exercise:{title:'Reflexión inicial', body:'Antes de avanzar, anotá (en un documento propio) tres tipos de consultas que creés que van a llegar con más frecuencia a un analista N1, pensando en tu propia experiencia como usuario de algún servicio de soporte. Vas a poder comparar esta lista con la realidad del rol a medida que avances en el curso.'},
+    quiz:[
+      {q:'¿Cuál es la función principal de un analista N1?', options:['Diseñar la arquitectura de red de la empresa','Ser el primer punto de contacto y resolver incidentes frecuentes con procedimientos conocidos','Aprobar las compras de hardware','Auditar la seguridad de los servidores'], correct:1, explain:'El N1 es la primera línea de atención: resuelve lo que ya tiene procedimiento y deriva el resto con contexto.'},
+      {q:'¿Qué caracteriza a un caso que debería escalarse a N2?', options:['Que el usuario lo pida por las dudas','Que el N1 no tenga tiempo ese día','Que requiera un diagnóstico más profundo que excede los procedimientos de N1','Que el ticket lleve más de 5 minutos abierto'], correct:2, explain:'Se escala quo un caso supera el alcance o la profundidad técnica esperada de N1, no por plazo o comodidad.'},
+      {q:'¿Por qué este programa incluye módulos de datos además de soporte técnico?', options:['Porque es un curso genérico de oficina','Porque el rol N1 actual también consulta bases de datos, arma reportes y lee dashboards de la mesa de ayuda','Porque no hay suficiente contenido técnico para 13 horas','Porque los datos reemplazan al soporte técnico'], correct:1, explain:'El N1 moderno combina resolución técnica con lectura y manejo básico de datos operativos.'}
+    ]
+  },
+  {
+    id:2, track:'it', title:'Hardware y componentes de una PC', duration:'1 h',
+    objective:'Reconocer los componentes principales de una computadora y aplicar un primer diagnóstico visual ante fallas comunes de hardware.',
+    content:[
+      {type:'p', text:'Para diagnosticar cualquier falla, primero hay que saber qué partes tiene el equipo y qué función cumple cada una. La placa madre conecta todos los componentes entre sí. El procesador (CPU) ejecuta las instrucciones. La memoria RAM guarda datos de uso temporal mientras el equipo está encendido. El almacenamiento (HDD o SSD) guarda el sistema operativo, los programas y los archivos de forma permanente. La fuente de poder convierte la corriente eléctrica en la energía que necesitan los demás componentes.'},
+      {type:'p', text:'Un analista N1 no repara hardware a nivel de placa, pero sí necesita identificar síntomas, aislar la causa probable y saber cuándo un reemplazo simple (un cable, una fuente, un módulo de RAM) puede resolver el problema o cuándo corresponde escalar el equipo a soporte especializado o garantía.'},
+      {type:'table', caption:'Síntomas comunes y primer chequeo', columns:['Síntoma','Primer chequeo'], rows:[
+        ['El equipo no enciende','Cable de alimentación, tomacorriente, luz de la fuente, botón de encendido'],
+        ['Se reinicia solo o se apaga de golpe','Temperatura, ventilación, fuente de poder, actualizaciones pendientes'],
+        ['Ruido de ventilador muy fuerte','Acumulación de polvo, ventilación obstruida, uso elevado de CPU'],
+        ['Pantalla azul (BSOD) o pantalla negra','Anotar el código de error, revisar cambios recientes de hardware o drivers'],
+        ['No detecta un periférico (mouse, teclado)','Puerto USB alternativo, cable, otro equipo para descartar el periférico']
+      ]},
+      {type:'p', text:'Además del diagnóstico, hay buenas prácticas que todo N1 debe respetar: manipular los equipos con cuidado para evitar descargas electrostáticas, no forzar conectores, y registrar siempre el número de serie o de inventario del equipo en el ticket. Esa trazabilidad es clave si el caso se escala o si el mismo equipo vuelve a fallar más adelante.'}
+    ],
+    exercise:{title:'Diagnóstico guiado', body:'Un usuario reporta: "prendo la PC y no pasa nada, ni siquiera se enciende la luz". Usando la tabla de síntomas y chequeos, escribí en orden los tres primeros pasos que seguirías antes de escalar el caso, y qué anotarías en el ticket en cada paso.'},
+    quiz:[
+      {q:'¿Qué componente guarda los datos de forma permanente, incluso apagado el equipo?', options:['La memoria RAM','El almacenamiento (HDD/SSD)','La fuente de poder','El procesador'], correct:1, explain:'La RAM es volátil y se borra al apagar; el almacenamiento conserva la información.'},
+      {q:'Ante una pantalla azul (BSOD), ¿cuál es un primer paso correcto?', options:['Formatear el equipo de inmediato','Anotar el código de error y revisar cambios recientes de hardware o drivers','Ignorarlo si el equipo vuelve a encender','Cambiar la fuente de poder sin más análisis'], correct:1, explain:'El código de error y los cambios recientes acotan la causa antes de tomar una acción más drástica.'},
+      {q:'¿Por qué es importante registrar el número de serie del equipo en el ticket?', options:['Es un requisito estético del sistema','Permite trazabilidad si el caso se escala o el equipo vuelve a fallar','No tiene ninguna utilidad real','Solo lo necesita el área de compras'], correct:1, explain:'La trazabilidad por número de serie ayuda a detectar patrones y da contexto a quien retoma el caso.'}
+    ]
+  },
+  {
+    id:3, track:'it', title:'Sistemas operativos y troubleshooting', duration:'1.5 h',
+    objective:'Aplicar un método de troubleshooting ordenado sobre problemas comunes de sistema operativo, usando las herramientas nativas de diagnóstico de Windows.',
+    content:[
+      {type:'p', text:'La mayoría de los problemas que llegan a un N1 no requieren reinstalar nada: se resuelven siguiendo un método. Reproducir el problema para confirmarlo, aislar qué cambió recientemente (una actualización, una instalación, una configuración), verificar los registros del sistema y, recién después, aplicar una solución progresiva, de la menos invasiva a la más invasiva.'},
+      {type:'steps', caption:'Método de troubleshooting', items:[
+        'Reproducir el problema y confirmar los síntomas exactos con el usuario',
+        'Preguntar qué cambió recientemente (actualización, instalación, configuración)',
+        'Revisar el Visor de eventos y el Administrador de tareas en busca de errores o consumo anormal',
+        'Probar una solución simple: cerrar la aplicación, reiniciar el servicio o el equipo',
+        'Si persiste, iniciar en Modo seguro para descartar que un programa de inicio sea la causa',
+        'Documentar la causa y la solución aplicada antes de cerrar el ticket'
+      ]},
+      {type:'p', text:'Windows ofrece herramientas nativas que todo N1 debe conocer de memoria: el Administrador de tareas (procesos, consumo de CPU/RAM, aplicaciones que no responden), el Visor de eventos (registro histórico de errores y advertencias del sistema), y la Configuración de actualizaciones de Windows (para verificar si una actualización pendiente o reciente está relacionada con la falla).'},
+      {type:'p', text:'Un caso frecuente es "la PC está lenta". Antes de asumir una causa, conviene revisar el consumo de CPU, memoria y disco en el Administrador de tareas para identificar si hay un proceso puntual consumiendo recursos, cuántos programas arrancan junto con Windows, y si el disco tiene poco espacio libre, ya que esto último ralentiza el sistema de forma notable.'}
+    ],
+    exercise:{title:'Caso: "la PC está muy lenta"', body:'Aplicá el método de troubleshooting al caso "la PC del usuario está muy lenta desde ayer". Escribí, paso por paso, qué preguntarías, qué herramienta abrirías primero y qué datos anotarías en el ticket antes de decidir si el caso se resuelve en N1 o se escala.'},
+    quiz:[
+      {q:'¿Cuál es el primer paso del método de troubleshooting?', options:['Reinstalar el sistema operativo','Reproducir el problema y confirmar los síntomas exactos','Escalar directamente a N2','Reiniciar el equipo sin más análisis'], correct:1, explain:'Sin confirmar el síntoma exacto, cualquier solución que se aplique después es una apuesta a ciegas.'},
+      {q:'¿Qué herramienta de Windows muestra el consumo de CPU y RAM en tiempo real?', options:['El Visor de eventos','El Administrador de tareas','El Panel de control de impresoras','El Explorador de archivos'], correct:1, explain:'El Administrador de tareas es la herramienta indicada para ver consumo de recursos en vivo.'},
+      {q:'¿Para qué sirve iniciar el equipo en Modo seguro durante un diagnóstico?', options:['Para borrar todos los archivos del usuario','Para descartar que un programa de inicio sea la causa del problema','Para actualizar Windows más rápido','Para cambiar la contraseña del usuario'], correct:1, explain:'El Modo seguro carga solo lo esencial, lo que ayuda a aislar si la causa está en un programa de inicio.'}
+    ]
+  },
+  {
+    id:4, track:'it', title:'Redes básicas para soporte', duration:'1.5 h',
+    objective:'Comprender los conceptos de red esenciales para el rol y usar comandos básicos para diagnosticar problemas de conectividad.',
+    content:[
+      {type:'p', text:'Cada equipo en una red necesita una dirección IP para comunicarse. La máscara de subred define qué parte de esa dirección identifica a la red y qué parte al equipo. El gateway (puerta de enlace) es el punto por donde el tráfico sale hacia otras redes, como internet. El DNS traduce nombres (como "correo.empresa.com") a direcciones IP. El DHCP es el servicio que asigna direcciones IP automáticamente a los equipos que se conectan.'},
+      {type:'p', text:'La mayoría de los problemas de "no tengo internet" que llegan a un N1 se resuelven verificando, en orden, la conexión física o Wi-Fi, la configuración IP del equipo, y si el problema es local o afecta a otros usuarios. Los comandos de consola son la herramienta principal para esto.'},
+      {type:'table', caption:'Comandos básicos de diagnóstico de red', columns:['Comando','Para qué sirve'], rows:[
+        ['ipconfig /all (Windows) &middot; ifconfig (Linux/Mac)','Ver la configuración IP actual del equipo: dirección, máscara, gateway, DNS'],
+        ['ping <dirección>','Verificar si hay comunicación con otro equipo o servidor'],
+        ['tracert <dirección> (Windows) &middot; traceroute (Linux/Mac)','Ver el recorrido de saltos hasta llegar al destino, útil para ubicar dónde se corta la conexión'],
+        ['nslookup <dominio>','Verificar si el DNS está resolviendo un nombre de dominio correctamente'],
+        ['ipconfig /release y /renew','Liberar y volver a solicitar una dirección IP por DHCP']
+      ]},
+      {type:'steps', caption:'Flujo para diagnosticar "no tengo internet"', items:[
+        'Confirmar si el cable está conectado o el Wi-Fi está activo y con buena señal',
+        'Ejecutar ipconfig y verificar que el equipo tenga una IP válida (no 169.254.x.x)',
+        'Hacer ping al gateway para confirmar conectividad dentro de la red local',
+        'Hacer ping a una IP externa conocida para descartar problema de salida a internet',
+        'Ejecutar nslookup a un dominio conocido para descartar un problema de DNS',
+        'Preguntar si otros usuarios del mismo sector están afectados, para distinguir un caso puntual de una caída general'
+      ]}
+    ],
+    exercise:{title:'Diagnóstico de conectividad', body:'Un usuario reporta que no puede acceder a ningún sitio web, pero otro compañero en el mismo sector sí tiene internet. Usando el flujo de diagnóstico, indicá qué comandos ejecutarías y en qué orden, y qué resultado esperarías ver en cada uno si el problema fuera específico de ese equipo.'},
+    quiz:[
+      {q:'¿Qué función cumple el DNS?', options:['Asigna direcciones IP automáticamente','Traduce nombres de dominio a direcciones IP','Cifra el tráfico de red','Mide la velocidad de la conexión'], correct:1, explain:'El DNS es el "directorio" que convierte nombres legibles en direcciones IP.'},
+      {q:'Si "ipconfig" muestra una dirección que empieza con 169.254, ¿qué indica generalmente?', options:['Que la conexión es excelente','Que el equipo no pudo obtener una IP válida por DHCP','Que el equipo está usando una VPN','Que el firewall está bloqueando todo'], correct:1, explain:'Ese rango es una IP autoasignada, señal de que el DHCP no respondió correctamente.'},
+      {q:'¿Para qué sirve "tracert" / "traceroute"?', options:['Para cambiar la contraseña del Wi-Fi','Para ver el recorrido de saltos hasta el destino y ubicar dónde se corta la conexión','Para instalar una impresora en red','Para medir el espacio libre en disco'], correct:1, explain:'Muestra cada salto de red en el camino, útil para localizar en qué punto falla la comunicación.'}
+    ]
+  },
+  {
+    id:5, track:'it', title:'Atención al usuario y gestión de tickets', duration:'1 h',
+    objective:'Gestionar el ciclo de vida de un ticket de forma profesional y comunicarse con el usuario con claridad, usando los conceptos básicos de prioridad y SLA.',
+    content:[
+      {type:'p', text:'Todo ticket recorre un ciclo: se registra con la información que aporta el usuario, se clasifica según su categoría y prioridad, se diagnostica, se resuelve (o se escala) y finalmente se cierra confirmando con el usuario que el problema quedó resuelto. Saltar pasos de este ciclo, sobre todo el cierre confirmado, es una de las causas más comunes de que un mismo problema vuelva a abrirse.'},
+      {type:'p', text:'La prioridad de un ticket no depende solo de cuán urgente lo considera el usuario, sino de combinar impacto (cuánta gente o qué tan crítico es lo afectado) y urgencia (cuánto tiempo se puede esperar sin consecuencias graves). Un problema que afecta a una sola persona pero le impide trabajar por completo puede tener más prioridad que uno que afecta a varios pero tiene una solución alternativa disponible.'},
+      {type:'table', caption:'Matriz simple de prioridad', columns:['','Urgencia alta','Urgencia baja'], rows:[
+        ['Impacto alto','Prioridad crítica','Prioridad alta'],
+        ['Impacto bajo','Prioridad media','Prioridad baja']
+      ]},
+      {type:'p', text:'El SLA (Service Level Agreement) es el compromiso de tiempo de respuesta y resolución que la empresa asumió con sus usuarios o clientes según la prioridad del ticket. Cumplir el SLA no depende solo de resolver rápido, sino también de mantener informado al usuario mientras el caso sigue abierto: una actualización breve y a tiempo suele valer tanto como la solución misma.'},
+      {type:'p', text:'La comunicación con el usuario debe ser clara y sin tecnicismos innecesarios. En vez de "se reinició el servicio DHCP del switch de sector", una explicación como "hubo un problema con la asignación automática de direcciones de red, ya está resuelto" es más útil para quien no tiene formación técnica.'}
+    ],
+    exercise:{title:'Redacción de respuesta a un ticket', body:'Un usuario escribió: "hace dos horas que no puedo entrar a mi correo, esto es urgente". Redactá la primera respuesta que le enviarías, incluyendo: confirmación de que recibiste el caso, una pregunta de diagnóstico necesaria, y una estimación honesta de próximos pasos.'},
+    quiz:[
+      {q:'¿Qué combina la prioridad de un ticket, según la matriz vista?', options:['Antigüedad del ticket y nombre del usuario','Impacto y urgencia','Cantidad de emails enviados y hora del día','Departamento y presupuesto'], correct:1, explain:'La prioridad surge de cruzar cuánto impacta el problema y cuánto puede esperar.'},
+      {q:'¿Qué es un SLA?', options:['Un tipo de ticket de baja prioridad','El compromiso de tiempo de respuesta y resolución acordado según la prioridad','Un software de mesa de ayuda','Un componente de hardware'], correct:1, explain:'El SLA define los tiempos que la organización se compromete a cumplir.'},
+      {q:'¿Por qué es importante el paso de "cierre confirmado" con el usuario?', options:['Porque es un trámite sin valor real','Porque evita que el mismo problema se reabra sin que nadie lo note','Porque lo exige la ley en todos los países','Porque acorta el SLA automáticamente'], correct:1, explain:'Confirmar con el usuario asegura que el problema quedó realmente resuelto desde su perspectiva.'}
+    ]
+  },
+  {
+    id:6, track:'it', title:'Seguridad de la información', duration:'1 h',
+    objective:'Aplicar buenas prácticas básicas de seguridad y reconocer señales de phishing e ingeniería social en el trabajo diario de soporte.',
+    content:[
+      {type:'p', text:'La seguridad de la información no es solo tarea del área especializada: el N1 es, muchas veces, quien primero detecta un correo sospechoso, un intento de acceso indebido o un pedido de información que no debería concederse. Reconocer estas señales y saber cómo reportarlas es parte central del rol.'},
+      {type:'p', text:'La gestión de contraseñas es la primera línea de defensa. Una buena política incluye contraseñas suficientemente largas y únicas por servicio, y siempre que sea posible, autenticación multifactor (MFA), que exige un segundo paso además de la contraseña. Como N1, nunca se debe pedir la contraseña de un usuario para "probar algo": existen formas de asistir sin necesitarla.'},
+      {type:'table', caption:'Señales de alerta de phishing', columns:['Señal','Por qué importa'], rows:[
+        ['Remitente con dominio parecido pero no idéntico al oficial','Es la técnica más común de suplantación'],
+        ['Urgencia artificial ("actuá ya o se bloqueará tu cuenta")','Busca que la persona actúe sin pensar'],
+        ['Enlaces que no coinciden con el destino que muestran','Al pasar el cursor se ve la URL real, distinta de la mostrada'],
+        ['Pedido de datos sensibles por correo o chat','Ninguna gestión legítima interna suele pedir contraseñas por esos medios'],
+        ['Errores de redacción u formato inusual','Frecuente en campañas automatizadas o traducidas']
+      ]},
+      {type:'p', text:'Los respaldos (backups) son la red de seguridad ante pérdida de datos, ya sea por falla de hardware, error humano o un ataque como un ransomware. Como N1, es importante saber si el equipo o el área del usuario tiene respaldo activo y, ante cualquier incidente de seguridad, actuar con un principio simple: reportar de inmediato, no intentar "solucionarlo" borrando o modificando evidencia, y escalar según el protocolo de la organización.'}
+    ],
+    exercise:{title:'Análisis de un correo sospechoso', body:'Un usuario reenvía un correo que dice ser del "Departamento de Sistemas", pidiendo confirmar la contraseña haciendo clic en un enlace porque "la cuenta será suspendida en 24 horas". Listá al menos tres señales de alerta presentes en este caso y describí qué le responderías al usuario y qué pasos seguirías internamente.'},
+    quiz:[
+      {q:'¿Qué debería hacer un N1 si un usuario le pide ayuda y de paso le da su contraseña?', options:['Usarla para resolver el problema más rápido','No solicitarla ni usarla: existen formas de asistir sin necesitar la contraseña del usuario','Guardarla para futuros casos','Compartirla con el equipo de N2 por conveniencia'], correct:1, explain:'Pedir o usar la contraseña de un usuario nunca es una práctica correcta, incluso con buena intención.'},
+      {q:'¿Cuál de estas es una señal típica de phishing?', options:['Un correo firmado con el nombre completo del remitente','Urgencia artificial para que la persona actúe sin pensar','Un enlace que lleva exactamente al dominio oficial','Un correo enviado en horario laboral'], correct:1, explain:'La urgencia artificial es una táctica clásica de ingeniería social.'},
+      {q:'Ante un incidente de seguridad confirmado, ¿cuál es la actitud correcta de un N1?', options:['Borrar los archivos sospechosos de inmediato','Reportar de inmediato, no alterar evidencia y escalar según protocolo','Resolverlo solo, sin avisar a nadie','Esperar a que el usuario decida qué hacer'], correct:1, explain:'Preservar la evidencia y escalar rápido es clave para que el equipo especializado pueda actuar.'}
+    ]
+  },
+  {
+    id:7, track:'data', title:'Excel aplicado a soporte y datos', duration:'1.5 h',
+    objective:'Organizar información de soporte en Excel y usar fórmulas, filtros y tablas dinámicas básicas para resumirla.',
+    content:[
+      {type:'p', text:'Una planilla de tickets bien estructurada sigue una regla simple: cada fila es un registro (un ticket) y cada columna es un dato de ese registro (fecha, categoría, prioridad, estado, tiempo de resolución). Mezclar formatos, combinar celdas o dejar filas vacías en medio de los datos rompe esta estructura y dificulta cualquier análisis posterior.'},
+      {type:'table', caption:'Fórmulas esenciales para un N1', columns:['Fórmula','Para qué se usa','Ejemplo'], rows:[
+        ['CONTAR.SI / COUNTIF','Contar cuántos registros cumplen una condición','=CONTAR.SI(D:D;"Abierto")'],
+        ['PROMEDIO.SI / AVERAGEIF','Promediar valores que cumplen una condición','=PROMEDIO.SI(C:C;"Alta";E:E)'],
+        ['BUSCARV / VLOOKUP (o BUSCARX/XLOOKUP)','Traer un dato de otra tabla según un valor clave','=BUSCARV(A2;Usuarios!A:C;2;FALSO)'],
+        ['SI / IF','Devolver un valor u otro según se cumpla una condición','=SI(E2>24;"Fuera de SLA";"En SLA")']
+      ]},
+      {type:'p', text:'Los filtros permiten ver solo los registros que interesan en un momento dado, por ejemplo los tickets abiertos de prioridad alta. Las tablas dinámicas van un paso más allá: resumen automáticamente grandes volúmenes de datos, por ejemplo mostrando cuántos tickets hay por categoría y por estado, sin necesidad de contar manualmente ni escribir fórmulas para cada combinación.'},
+      {type:'p', text:'Para un N1, dominar estas herramientas significa poder responder preguntas simples de gestión ("¿cuántos tickets de red tuvimos esta semana?") sin depender de otra persona, y preparar la información de base que después se convierte en reportes o dashboards, tema del módulo 9.'}
+    ],
+    exercise:{title:'Cálculo sobre datos simulados', body:'Imaginá una planilla con columnas Fecha, Categoría, Prioridad, Estado (Abierto/Cerrado) y Horas de resolución, con 40 tickets cargados. Escribí la fórmula que usarías para contar cuántos tickets están "Abiertos" y la fórmula que usarías para calcular el promedio de horas de resolución solo de los tickets de prioridad "Alta".'},
+    quiz:[
+      {q:'¿Cuál es la regla básica de estructura de una planilla de datos?', options:['Cada columna es un ticket y cada fila un dato','Cada fila es un registro y cada columna es un dato de ese registro','Da igual el orden mientras estén todos los datos','Hay que combinar celdas para que se vea prolijo'], correct:1, explain:'Fila = registro, columna = atributo, es la base de cualquier análisis posterior confiable.'},
+      {q:'¿Qué fórmula usarías para contar cuántos tickets están en estado "Abierto"?', options:['PROMEDIO', 'CONTAR.SI / COUNTIF', 'BUSCARV / VLOOKUP', 'CONCATENAR'], correct:1, explain:'CONTAR.SI cuenta celdas que cumplen una condición, exactamente lo que se necesita.'},
+      {q:'¿Para qué sirve una tabla dinámica?', options:['Para cambiar el color de las celdas automáticamente','Para resumir grandes volúmenes de datos sin escribir una fórmula por cada combinación','Para enviar correos automáticos','Para proteger la planilla con contraseña'], correct:1, explain:'Las tablas dinámicas agregan y resumen datos de forma flexible y rápida.'}
+    ]
+  },
+  {
+    id:8, track:'data', title:'SQL básico para consultas de soporte', duration:'1.5 h',
+    objective:'Escribir consultas SQL simples para leer información de tickets, usuarios o inventario desde una base de datos relacional.',
+    content:[
+      {type:'p', text:'Una base de datos relacional organiza la información en tablas, donde cada fila es un registro y cada columna un campo, igual que en Excel, pero con una diferencia clave: las tablas se relacionan entre sí mediante claves. Por ejemplo, una tabla de tickets puede relacionarse con una tabla de usuarios a través de un campo como "id_usuario", en lugar de repetir todos los datos del usuario en cada ticket.'},
+      {type:'p', text:'La instrucción SQL más usada por un N1 es SELECT, que permite leer datos sin modificarlos. Se acompaña de FROM para indicar la tabla, y de WHERE para filtrar solo los registros que interesan. Con ORDER BY se ordenan los resultados, y con LIMIT se restringe la cantidad de filas devueltas.'},
+      {type:'code', label:'Ejemplo: tickets abiertos de prioridad alta', code:'SELECT id_ticket, asunto, fecha_creacion, prioridad\nFROM tickets\nWHERE estado = \'Abierto\'\n  AND prioridad = \'Alta\'\nORDER BY fecha_creacion ASC\nLIMIT 20;'},
+      {type:'p', text:'Cuando la información necesaria está repartida en dos tablas, se usa JOIN para combinarlas a través del campo que las relaciona. Por ejemplo, para mostrar el nombre del usuario junto a cada ticket, es necesario unir la tabla de tickets con la de usuarios.'},
+      {type:'code', label:'Ejemplo: tickets con el nombre del usuario', code:'SELECT t.id_ticket, t.asunto, u.nombre, u.sector\nFROM tickets t\nJOIN usuarios u ON t.id_usuario = u.id_usuario\nWHERE t.estado = \'Abierto\';'},
+      {type:'p', text:'Un N1 no suele escribir consultas complejas, pero sí necesita poder leer y adaptar consultas existentes para responder preguntas puntuales, como cuántos tickets tiene abiertos un sector, o cuál es el historial de casos de un usuario, sin depender siempre de otra persona para obtener esa información.'}
+    ],
+    exercise:{title:'Escribir una consulta guiada', body:'Usando el ejemplo de la tabla "tickets" (columnas: id_ticket, asunto, fecha_creacion, estado, prioridad), escribí la consulta SQL que devuelva los tickets con estado "Abierto" y prioridad "Alta" creados en los últimos 7 días, ordenados del más reciente al más antiguo.'},
+    quiz:[
+      {q:'¿Qué instrucción SQL se usa para leer datos sin modificarlos?', options:['DELETE','UPDATE','SELECT','DROP'], correct:2, explain:'SELECT es la instrucción de lectura; DELETE, UPDATE y DROP modifican o eliminan datos o estructuras.'},
+      {q:'¿Para qué sirve la cláusula WHERE?', options:['Para ordenar los resultados','Para filtrar solo los registros que cumplen una condición','Para unir dos tablas','Para contar filas'], correct:1, explain:'WHERE define la condición que deben cumplir las filas devueltas.'},
+      {q:'¿Cuándo es necesario usar JOIN en una consulta?', options:['Siempre, en cualquier consulta','Cuando la información necesaria está repartida en más de una tabla relacionada','Solo cuando hay más de 100 registros','Nunca, JOIN está en desuso'], correct:1, explain:'JOIN combina tablas relacionadas para traer datos que están separados por diseño.'}
+    ]
+  },
+  {
+    id:9, track:'data', title:'Reportes, métricas y dashboards', duration:'1 h',
+    objective:'Identificar las métricas clave de una mesa de ayuda y elegir la forma adecuada de comunicarlas mediante reportes o dashboards simples.',
+    content:[
+      {type:'p', text:'Un dashboard de soporte no es más que un conjunto de métricas elegidas para responder, de un vistazo, cómo está funcionando la mesa de ayuda. Las métricas más comunes incluyen la cantidad de tickets abiertos y cerrados en un período, el tiempo promedio de resolución, la tasa de reincidencia (tickets que vuelven a abrirse sobre el mismo problema) y, cuando se mide, la satisfacción del usuario (CSAT).'},
+      {type:'table', caption:'Métricas clave de soporte', columns:['Métrica','Qué mide'], rows:[
+        ['Tickets abiertos / cerrados','Volumen de trabajo entrante y resuelto en un período'],
+        ['Tiempo promedio de resolución','Cuánto tarda, en promedio, en cerrarse un ticket'],
+        ['Cumplimiento de SLA','Porcentaje de tickets resueltos dentro del tiempo comprometido'],
+        ['Tasa de reincidencia','Porcentaje de tickets que se vuelven a abrir sobre el mismo problema'],
+        ['CSAT (satisfacción)','Percepción del usuario sobre la atención recibida']
+      ]},
+      {type:'p', text:'El camino desde datos crudos hasta un dashboard útil pasa por limpiar la información (fechas y categorías consistentes, sin duplicados), agregarla (sumar, contar, promediar según corresponda) y recién después visualizarla. Visualizar antes de limpiar y agregar suele producir gráficos que parecen correctos pero esconden errores de base.'},
+      {type:'p', text:'No todos los datos se comunican mejor con el mismo tipo de gráfico. Una serie en el tiempo (tickets por día) se lee mejor en un gráfico de líneas. Una comparación entre categorías (tickets por tipo de problema) se lee mejor en barras. Una proporción del total (qué porcentaje representa cada categoría) puede mostrarse en un gráfico de torta, aunque las barras suelen ser más precisas de leer incluso para proporciones. La regla general es elegir el gráfico más simple que responda la pregunta, no el más vistoso.'}
+    ],
+    exercise:{title:'Elegir la visualización correcta', body:'Tenés datos de "cantidad de tickets por categoría en el último mes" (por ejemplo: Red, Hardware, Software, Accesos, Datos). Elegí qué tipo de gráfico usarías para comunicar esta información a un responsable de área y justificá por qué, pensando en qué pregunta necesita responder esa persona.'},
+    quiz:[
+      {q:'¿Qué mide la tasa de reincidencia?', options:['Cuántos tickets nuevos entran por día','El porcentaje de tickets que se vuelven a abrir sobre el mismo problema','El tiempo que tarda en resolverse un ticket','La cantidad de usuarios activos'], correct:1, explain:'La reincidencia indica si las soluciones aplicadas son realmente efectivas o solo temporales.'},
+      {q:'¿Cuál es el orden correcto para construir un dashboard confiable?', options:['Visualizar, limpiar y después agregar los datos','Limpiar los datos, agregarlos y recién después visualizarlos','Agregar los datos sin limpiarlos, para ganar tiempo','El orden no afecta el resultado final'], correct:1, explain:'Visualizar datos sucios o sin agregar produce gráficos que ocultan errores de base.'},
+      {q:'Para comparar la cantidad de tickets entre distintas categorías, ¿qué tipo de gráfico es generalmente el más claro?', options:['Un gráfico de líneas','Un gráfico de barras','Un mapa geográfico','Una nube de palabras'], correct:1, explain:'Las barras son el estándar más legible para comparar valores entre categorías discretas.'}
+    ]
+  },
+  {
+    id:10, track:'it', title:'Herramientas remotas y documentación', duration:'1 h',
+    objective:'Usar herramientas de acceso remoto de forma responsable y documentar incidentes y soluciones en una base de conocimiento.',
+    content:[
+      {type:'p', text:'El acceso remoto permite resolver problemas sin desplazarse hasta el equipo del usuario, pero exige responsabilidad: siempre debe solicitarse consentimiento explícito antes de conectarse, explicar brevemente qué se va a hacer, y evitar acceder a información personal del usuario que no sea relevante para el caso. Al finalizar, hay que cerrar la sesión de forma explícita, nunca dejarla abierta.'},
+      {type:'p', text:'Documentar cada incidente de forma clara tiene un valor que va más allá del caso puntual: permite que otro analista retome el ticket sin perder contexto, sirve como historial ante casos repetidos del mismo equipo o usuario, y es la base de la base de conocimiento (KB). Una buena documentación incluye el síntoma reportado, la causa identificada, la solución aplicada y el tiempo que llevó resolverlo.'},
+      {type:'table', caption:'Qué registrar en cada ticket', columns:['Campo','Contenido'], rows:[
+        ['Síntoma','Descripción del problema en palabras del usuario y observado por el N1'],
+        ['Causa','Qué originó el problema, si se pudo determinar'],
+        ['Solución aplicada','Pasos concretos que resolvieron el caso'],
+        ['Tiempo de resolución','Desde que se registró hasta que se cerró']
+      ]},
+      {type:'p', text:'La base de conocimiento es el repositorio de artículos con soluciones a problemas frecuentes. Buscar en la KB antes de escalar un caso ahorra tiempo propio y ajeno, y cuando un N1 resuelve algo que no estaba documentado, contribuir con un artículo nuevo mejora la eficiencia de todo el equipo hacia adelante.'}
+    ],
+    exercise:{title:'Redactar un artículo de base de conocimiento', body:'Tomando el caso resuelto en el Módulo 3 ("la PC está muy lenta"), redactá un artículo breve de base de conocimiento con cuatro partes: síntoma, causa probable, pasos de solución y tiempo estimado de resolución.'},
+    quiz:[
+      {q:'Antes de iniciar una sesión de acceso remoto, ¿qué es obligatorio?', options:['Nada, se puede conectar directamente','Solicitar el consentimiento explícito del usuario','Pedir la contraseña de administrador','Avisar únicamente al supervisor'], correct:1, explain:'El consentimiento explícito del usuario es un requisito básico de buenas prácticas y privacidad.'},
+      {q:'¿Qué debería incluir la documentación de un incidente resuelto?', options:['Solo la fecha de cierre','Síntoma, causa, solución aplicada y tiempo de resolución','Únicamente el nombre del analista','El modelo de la PC nada más'], correct:1, explain:'Esos cuatro elementos permiten que cualquier persona entienda el caso sin contexto adicional.'},
+      {q:'¿Por qué conviene buscar en la base de conocimiento antes de escalar un caso?', options:['Porque es obligatorio por reglamento en todas las empresas','Porque puede ahorrar tiempo si el problema ya fue resuelto y documentado antes','Porque así se evita cerrar el ticket','Porque la KB reemplaza al usuario'], correct:1, explain:'Muchos casos ya tienen solución documentada; buscar primero evita reinventar el diagnóstico.'}
+    ]
+  },
+  {
+    id:11, track:'core', title:'Caso integrador final y evaluación', duration:'1.5 h',
+    objective:'Aplicar en un solo caso las competencias de soporte técnico y de datos desarrolladas en el curso, y repasar los conceptos clave mediante una evaluación final.',
+    content:[
+      {type:'p', text:'Este módulo cierra el programa con un caso que combina deliberadamente los dos ejes del curso. No hay una única respuesta correcta: lo importante es el método, el mismo que se practicó módulo a módulo.'},
+      {type:'p', text:'Caso: "Varios usuarios del sector Ventas reportan, a lo largo de la mañana, que el sistema de facturación responde muy lento. El supervisor del sector pide un resumen de cuántos tickets de este tipo se abrieron en la última semana antes de decidir si escala el reclamo a proveedores." Un analista N1 completo debería, en este orden: registrar y priorizar los tickets entrantes usando la matriz de impacto y urgencia; aplicar el método de troubleshooting para descartar causas locales (red, equipo) antes de asumir que el problema es del sistema central; y, en paralelo, consultar el histórico de tickets (con una fórmula en Excel o una consulta SQL simple) para dimensionar si el problema es nuevo o recurrente, y comunicar ese resumen con claridad a quien tiene que tomar la decisión.'},
+      {type:'p', text:'Repasá, si lo necesitás, los módulos de Redes (4), Atención al usuario (5) y Excel o SQL (7-8) antes de responder la evaluación final, que integra preguntas de todo el programa.'}
+    ],
+    exercise:{title:'Resolución del caso integrador', body:'Redactá, en no más de un párrafo por punto: (1) cómo priorizarías estos tickets, (2) qué pasos de troubleshooting aplicarías antes de escalar a proveedores, y (3) qué consulta (Excel o SQL) usarías para saber cuántos tickets similares hubo en la última semana.'},
+    quiz:[
+      {q:'En el caso del módulo, ¿qué se debería descartar antes de asumir que la lentitud es del sistema central de facturación?', options:['Nada, se escala directo a proveedores','Causas locales de red o de equipo mediante el método de troubleshooting','El nombre del usuario que reportó el caso','El color de la interfaz del sistema'], correct:1, explain:'Antes de responsabilizar al sistema central, hay que descartar causas locales con el método visto en el Módulo 3 y 4.'},
+      {q:'¿Qué herramienta usarías para dimensionar si el problema de lentitud es nuevo o recurrente?', options:['El Administrador de dispositivos','Una fórmula en Excel o una consulta SQL sobre el histórico de tickets','El visor de fotos del equipo','Una llamada telefónica sin registrar nada'], correct:1, explain:'El histórico de tickets, consultado con Excel o SQL, es la fuente para saber si el problema es recurrente.'},
+      {q:'¿Qué matriz se usa para decidir la prioridad de los tickets entrantes?', options:['Impacto x Urgencia','Antigüedad x Presupuesto','Nombre x Departamento','Color x Categoría'], correct:0, explain:'La matriz de Impacto x Urgencia, vista en el Módulo 5, es la base para priorizar tickets.'},
+      {q:'¿Cuál es el paso final del ciclo de vida de un ticket, frecuentemente olvidado?', options:['Registrar el ticket','El cierre confirmado con el usuario','Asignar una categoría','Elegir el color del estado'], correct:1, explain:'Confirmar el cierre con el usuario evita que el problema se considere resuelto sin estarlo realmente.'},
+      {q:'¿Qué caracteriza al rol de analista N1 según lo visto en todo el curso?', options:['Resolver todo sin nunca escalar nada','Combinar resolución técnica de primer nivel con manejo básico de datos, comunicación clara y documentación', 'Trabajar exclusivamente con bases de datos', 'Encargarse solo de la infraestructura de servidores'], correct:1, explain:'El hilo conductor del curso es esa combinación: técnica, datos, comunicación y documentación.'}
+    ]
+  }
+];
+
+var STORAGE_KEY = 'n1-course-progress-v1';
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return {completed:[]};
+    var parsed = JSON.parse(raw);
+    if(!parsed || !Array.isArray(parsed.completed)) return {completed:[]};
+    return parsed;
+  }catch(e){
+    return {completed:[]};
+  }
+}
+function saveProgress(p){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }catch(e){}
+}
+
+var progress = loadProgress();
+var currentId = 0; // 0 = landing
+
+var trackLabel = {it:'IT', data:'Datos', core:'Base'};
+
+function isDone(id){ return progress.completed.indexOf(id) !== -1; }
+
+function totalDuration(){ return '~13 h'; }
+
+function renderSidebar(){
+  var list = document.getElementById('nav-list');
+  list.innerHTML = '';
+  MODULES.forEach(function(m){
+    var li = document.createElement('li');
+    li.className = 'nav-item';
+    var btn = document.createElement('button');
+    btn.className = 'nav-btn track-' + m.track + (m.id === currentId ? ' active' : '') + (isDone(m.id) ? ' done' : '');
+    btn.setAttribute('data-id', m.id);
+    btn.innerHTML =
+      '<span class="nav-num">' + (isDone(m.id) ? '&#10003;' : m.id) + '</span>' +
+      '<span class="nav-text"><span class="nav-title">' + m.title + '</span><span class="nav-dur">' + m.duration + '</span></span>';
+    btn.addEventListener('click', function(){ goTo(m.id); document.getElementById('nav-list').classList.remove('open'); });
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+  var doneCount = progress.completed.length;
+  var pct = Math.round((doneCount / MODULES.length) * 100);
+  document.getElementById('progress-text').textContent = doneCount + ' / ' + MODULES.length + ' módulos';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function blockToHtml(block){
+  if(block.type === 'p'){
+    return '<p>' + block.text + '</p>';
+  }
+  if(block.type === 'table'){
+    var thead = '<tr>' + block.columns.map(function(c){ return '<th>' + c + '</th>'; }).join('') + '</tr>';
+    var rows = block.rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + c + '</td>'; }).join('') + '</tr>'; }).join('');
+    return '<div class="ref-table-wrap"><table class="ref-table"><thead>' + thead + '</thead><tbody>' + rows + '</tbody></table></div>' +
+      (block.caption ? '<p class="ref-caption">' + block.caption + '</p>' : '');
+  }
+  if(block.type === 'steps'){
+    var items = block.items.map(function(it){ return '<li>' + it + '</li>'; }).join('');
+    return (block.caption ? '<p class="ref-caption" style="margin:14px 0 0;">' + block.caption + '</p>' : '') + '<ol class="steps-list">' + items + '</ol>';
+  }
+  if(block.type === 'code'){
+    return '<div class="code-block">' + (block.label ? '<div class="code-label">' + block.label + '</div>' : '') + '<pre>' + escapeHtml(block.code) + '</pre></div>';
+  }
+  return '';
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderLanding(){
+  var el = document.getElementById('view-landing');
+  var roadmap = MODULES.map(function(m){
+    return '<div class="road-row ' + m.track + '" data-id="' + m.id + '">' +
+      '<span class="road-badge">' + (isDone(m.id) ? '&#10003;' : m.id) + '</span>' +
+      '<span class="road-title">' + m.title + '</span>' +
+      '<span class="road-dur">' + m.duration + '</span></div>';
+  }).join('');
+
+  el.innerHTML =
+    '<p class="hero-kicker">Programa de capacitación &middot; Nivel 1</p>' +
+    '<h2>Analista de Soporte Técnico IT y Datos</h2>' +
+    '<p class="lead">Un recorrido de nivel inicial para atender la mesa de ayuda con criterio técnico y, en paralelo, leer y manejar los datos que esa mesa de ayuda genera: tickets, inventario y métricas de servicio.</p>' +
+    '<div class="stat-row">' +
+      '<div class="stat-card"><div class="num">11</div><div class="lbl">Módulos</div></div>' +
+      '<div class="stat-card"><div class="num">' + totalDuration() + '</div><div class="lbl">Duración total</div></div>' +
+      '<div class="stat-card"><div class="num">33</div><div class="lbl">Preguntas de repaso</div></div>' +
+      '<div class="stat-card"><div class="num" id="landing-pct">0%</div><div class="lbl">Tu avance</div></div>' +
+    '</div>' +
+    '<button class="start-btn" id="start-btn">Comenzar el curso &#8594;</button>' +
+    '<div class="track-legend-cards">' +
+      '<div class="track-card it"><h3>Soporte IT</h3><p>Hardware, sistemas operativos, redes, atención al usuario y seguridad. Cinco módulos.</p></div>' +
+      '<div class="track-card data"><h3>Datos</h3><p>Excel aplicado a soporte, SQL básico y reportes. Tres módulos.</p></div>' +
+      '<div class="track-card core"><h3>Base y cierre</h3><p>Introducción al rol y caso integrador final con evaluación. Tres módulos.</p></div>' +
+    '</div>' +
+    '<h3 style="font-size:16px;margin-bottom:2px;">Recorrido completo</h3>' +
+    '<div class="roadmap">' + roadmap + '</div>';
+
+  document.getElementById('start-btn').addEventListener('click', function(){ goTo(1); });
+  Array.prototype.forEach.call(el.querySelectorAll('.road-row'), function(row){
+    row.addEventListener('click', function(){ goTo(parseInt(row.getAttribute('data-id'), 10)); });
+  });
+  var doneCount = progress.completed.length;
+  document.getElementById('landing-pct').textContent = Math.round((doneCount / MODULES.length) * 100) + '%';
+}
+
+function renderModule(id){
+  var idx = MODULES.findIndex(function(m){ return m.id === id; });
+  var m = MODULES[idx];
+  var el = document.getElementById('view-module');
+  el.className = 'view active track-' + m.track;
+
+  var contentHtml = m.content.map(function(section){
+    if(section.type === 'p' || section.type === 'table' || section.type === 'steps' || section.type === 'code'){
+      return blockToHtml(section);
+    }
+    return '';
+  }).join('');
+
+  var quizHtml = m.quiz.map(function(q, qi){
+    var opts = q.options.map(function(opt, oi){
+      return '<button class="q-opt" data-mod="' + m.id + '" data-q="' + qi + '" data-opt="' + oi + '">' + opt + '</button>';
+    }).join('');
+    return '<div class="q-block">' +
+      '<p class="q-text">' + (qi+1) + '. ' + q.q + '</p>' +
+      '<div class="q-options">' + opts + '</div>' +
+      '<p class="q-explain" id="explain-' + m.id + '-' + qi + '">' + q.explain + '</p>' +
+      '</div>';
+  }).join('');
+
+  el.innerHTML =
+    '<div class="mod-kicker">' +
+      '<span class="track-pill ' + m.track + '">' + trackLabel[m.track] + '</span>' +
+      '<span class="dur-pill">' + m.duration + '</span>' +
+    '</div>' +
+    '<h2 class="mod-title">' + m.title + '</h2>' +
+    '<div class="objective-box"><b>Objetivo del módulo</b>' + m.objective + '</div>' +
+    contentHtml +
+    '<div class="exercise-box"><p class="tag">Ejercicio práctico</p><h4>' + m.exercise.title + '</h4><p>' + m.exercise.body + '</p></div>' +
+    '<div class="quiz"><h3>Autoevaluación</h3><p class="quiz-sub">Elegí una opción por pregunta para ver si es correcta.</p>' + quizHtml + '</div>' +
+    '<div class="mod-footer">' +
+      '<button class="complete-btn' + (isDone(m.id) ? ' done' : '') + '" id="complete-btn">' + (isDone(m.id) ? '✓ Módulo completado' : 'Marcar módulo como completado') + '</button>' +
+      '<div class="nav-arrows">' +
+        '<button class="arrow-btn" id="prev-btn"' + (idx === 0 ? ' disabled' : '') + '>&#8592; Anterior</button>' +
+        '<button class="arrow-btn" id="next-btn"' + (idx === MODULES.length - 1 ? ' disabled' : '') + '>Siguiente &#8594;</button>' +
+      '</div>' +
+    '</div>';
+
+  Array.prototype.forEach.call(el.querySelectorAll('.q-opt'), function(btn){
+    btn.addEventListener('click', function(){
+      var qi = parseInt(btn.getAttribute('data-q'), 10);
+      var oi = parseInt(btn.getAttribute('data-opt'), 10);
+      var q = m.quiz[qi];
+      var group = el.querySelectorAll('.q-opt[data-q="' + qi + '"]');
+      Array.prototype.forEach.call(group, function(b, i){
+        b.disabled = true;
+        if(i === q.correct) b.classList.add('correct');
+        else if(i === oi) b.classList.add('incorrect');
+      });
+      document.getElementById('explain-' + m.id + '-' + qi).classList.add('show');
+    });
+  });
+
+  document.getElementById('complete-btn').addEventListener('click', function(){
+    if(!isDone(m.id)){
+      progress.completed.push(m.id);
+      saveProgress(progress);
+      renderSidebar();
+      renderModule(m.id);
+    }
+  });
+  var prevBtn = document.getElementById('prev-btn');
+  var nextBtn = document.getElementById('next-btn');
+  if(prevBtn) prevBtn.addEventListener('click', function(){ if(idx > 0) goTo(MODULES[idx-1].id); });
+  if(nextBtn) nextBtn.addEventListener('click', function(){ if(idx < MODULES.length-1) goTo(MODULES[idx+1].id); });
+
+  window.scrollTo(0,0);
+}
+
+function goTo(id){
+  currentId = id;
+  var landing = document.getElementById('view-landing');
+  var modView = document.getElementById('view-module');
+  if(id === 0){
+    landing.classList.add('active');
+    modView.classList.remove('active');
+  }else{
+    landing.classList.remove('active');
+    modView.classList.add('active');
+    renderModule(id);
+  }
+  renderSidebar();
+}
+
+document.getElementById('sidebar-title').addEventListener('click', function(){ goTo(0); });
+document.getElementById('menu-toggle').addEventListener('click', function(){
+  document.getElementById('nav-list').classList.toggle('open');
+});
+
+renderSidebar();
+renderLanding();
+
+})();
+</script>
+</body>
+</html>
