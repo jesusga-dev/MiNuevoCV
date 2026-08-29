@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Soporte N1 IT y Datos</title>
-<meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 11 módulos, ejercicios y autoevaluación." />
+<meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 12 módulos (incluye AWS), ejercicios y autoevaluación gamificada con intentos limitados y preguntas aleatorias." />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -20,6 +20,8 @@
   --accent-data-soft:#F1EBFA;
   --accent-core:#A9782B;
   --accent-core-soft:#F5EEDF;
+  --accent-cloud:#C2680A;
+  --accent-cloud-soft:#FBEEDD;
   --success:#2F9E5B;
   --success-soft:#E4F5EB;
   --danger:#C4453B;
@@ -40,6 +42,8 @@
     --accent-data-soft:rgba(181,146,227,0.16);
     --accent-core:#D6AD57;
     --accent-core-soft:rgba(214,173,87,0.14);
+    --accent-cloud:#F0A868;
+    --accent-cloud-soft:rgba(240,168,104,0.14);
     --success:#4FBE81;
     --success-soft:rgba(79,190,129,0.14);
     --danger:#E1837A;
@@ -60,6 +64,8 @@
   --accent-data-soft:rgba(181,146,227,0.16);
   --accent-core:#D6AD57;
   --accent-core-soft:rgba(214,173,87,0.14);
+  --accent-cloud:#F0A868;
+  --accent-cloud-soft:rgba(240,168,104,0.14);
   --success:#4FBE81;
   --success-soft:rgba(79,190,129,0.14);
   --danger:#E1837A;
@@ -170,6 +176,7 @@ button{font-family:inherit;}
 .dot.it{background:var(--accent-it);}
 .dot.data{background:var(--accent-data);}
 .dot.core{background:var(--accent-core);}
+.dot.cloud{background:var(--accent-cloud);}
 
 .nav-list{
   list-style:none;
@@ -208,6 +215,7 @@ button{font-family:inherit;}
 .nav-btn.track-it .nav-num{color:var(--accent-it);border-color:var(--accent-it-soft);}
 .nav-btn.track-data .nav-num{color:var(--accent-data);border-color:var(--accent-data-soft);}
 .nav-btn.track-core .nav-num{color:var(--accent-core);border-color:var(--accent-core-soft);}
+.nav-btn.track-cloud .nav-num{color:var(--accent-cloud);border-color:var(--accent-cloud-soft);}
 .nav-btn.done .nav-num{background:var(--success-soft);color:var(--success);border-color:transparent;}
 .nav-text{flex:1;min-width:0;}
 .nav-title{font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -279,6 +287,8 @@ button{font-family:inherit;}
 .track-card.data h3{color:var(--accent-data);}
 .track-card.core{background:var(--accent-core-soft);}
 .track-card.core h3{color:var(--accent-core);}
+.track-card.cloud{background:var(--accent-cloud-soft);}
+.track-card.cloud h3{color:var(--accent-cloud);}
 
 .roadmap{border-top:1px solid var(--border);margin-top:10px;}
 .road-row{
@@ -303,6 +313,7 @@ button{font-family:inherit;}
 .road-row.it .road-badge{color:var(--accent-it);border-color:var(--accent-it-soft);}
 .road-row.data .road-badge{color:var(--accent-data);border-color:var(--accent-data-soft);}
 .road-row.core .road-badge{color:var(--accent-core);border-color:var(--accent-core-soft);}
+.road-row.cloud .road-badge{color:var(--accent-cloud);border-color:var(--accent-cloud-soft);}
 .road-title{font-size:14px;flex:1;}
 .road-dur{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--text-muted);}
 
@@ -324,6 +335,7 @@ button{font-family:inherit;}
 .track-pill.it{background:var(--accent-it-soft);color:var(--accent-it);}
 .track-pill.data{background:var(--accent-data-soft);color:var(--accent-data);}
 .track-pill.core{background:var(--accent-core-soft);color:var(--accent-core);}
+.track-pill.cloud{background:var(--accent-cloud-soft);color:var(--accent-cloud);}
 .dur-pill{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--text-muted);}
 .mod-title{font-size:28px;margin:0 0 16px;}
 .objective-box{
@@ -339,6 +351,7 @@ button{font-family:inherit;}
 .track-it .objective-box{border-left-color:var(--accent-it);}
 .track-data .objective-box{border-left-color:var(--accent-data);}
 .track-core .objective-box{border-left-color:var(--accent-core);}
+.track-cloud .objective-box{border-left-color:var(--accent-cloud);}
 
 .section-block{margin-bottom:26px;}
 .section-block h3{font-size:17px;margin:0 0 8px;}
@@ -406,6 +419,15 @@ table.ref-table td{color:var(--text);}
 .code-block .code-label{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-family:"IBM Plex Mono";}
 .code-block pre{margin:0;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;}
 
+.challenge-block{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:14px 0;}
+.challenge-block .challenge-num{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.challenge-block .challenge-prompt{margin:0 0 10px;font-size:13.5px;}
+.challenge-reveal-btn{font-family:"IBM Plex Mono";font-size:11.5px;padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;}
+.challenge-reveal-btn:hover{border-color:var(--accent-cloud);color:var(--accent-cloud);}
+.challenge-answer{display:none;margin-top:10px;}
+.challenge-answer.show{display:block;}
+.challenge-answer pre{margin:0;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+
 .exercise-box{
   background:var(--accent-core-soft);
   border:1px solid var(--border);
@@ -427,6 +449,9 @@ table.ref-table td{color:var(--text);}
 .quiz{border-top:1px solid var(--border);padding-top:22px;margin-top:30px;}
 .quiz h3{font-size:16px;margin:0 0 4px;}
 .quiz > .quiz-sub{font-size:12.5px;color:var(--text-muted);margin:0 0 18px;}
+.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.quiz-head h3{margin:0;}
+.attempt-pill{font-family:"IBM Plex Mono";font-size:11px;color:var(--text-muted);border:1px solid var(--border);border-radius:99px;padding:4px 11px;white-space:nowrap;}
 .q-block{margin-bottom:22px;}
 .q-text{font-size:13.5px;font-weight:600;margin:0 0 10px;}
 .q-options{display:flex;flex-direction:column;gap:7px;}
@@ -447,6 +472,17 @@ table.ref-table td{color:var(--text);}
 .q-explain{font-size:12.5px;color:var(--text-muted);margin:8px 0 0;padding-left:2px;display:none;}
 .q-explain.show{display:block;}
 
+.lock-box, .pass-box{border-radius:12px;padding:18px 20px;margin-top:6px;border:1px solid var(--border);}
+.lock-box{background:var(--danger-soft);}
+.lock-box .tag{font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:0.07em;color:var(--danger);margin:0 0 8px;}
+.lock-box h4{margin:0 0 8px;font-size:15px;font-family:"Sora";color:var(--danger);}
+.lock-box p{margin:0 0 14px;font-size:13.5px;}
+.pass-box{background:var(--success-soft);}
+.pass-box .tag{font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:0.07em;color:var(--success);margin:0 0 8px;}
+.pass-box h4{margin:0 0 8px;font-size:15px;font-family:"Sora";color:var(--success);}
+.pass-box p{margin:0;font-size:13.5px;}
+.course-complete-banner{background:var(--success-soft);border:1px solid var(--success);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;}
+
 .mod-footer{
   display:flex;
   justify-content:space-between;
@@ -457,18 +493,8 @@ table.ref-table td{color:var(--text);}
   gap:12px;
   flex-wrap:wrap;
 }
-.complete-btn{
-  font-family:"IBM Plex Sans";
-  font-weight:600;
-  font-size:13.5px;
-  padding:10px 18px;
-  border-radius:9px;
-  border:1px solid var(--success);
-  background:var(--success-soft);
-  color:var(--success);
-  cursor:pointer;
-}
-.complete-btn.done{background:var(--success);color:#fff;}
+.status-pill{font-family:"IBM Plex Mono";font-size:11.5px;padding:6px 13px;border-radius:99px;border:1px solid var(--border);color:var(--text-muted);}
+.status-pill.done{background:var(--success-soft);color:var(--success);border-color:transparent;}
 .nav-arrows{display:flex;gap:8px;}
 .arrow-btn{
   font-family:"IBM Plex Sans";
@@ -526,17 +552,18 @@ table.ref-table td{color:var(--text);}
     <div class="sidebar-head">
       <p class="eyebrow">Programa de capacitación &middot; Nivel 1</p>
       <h1 id="sidebar-title">Analista de Soporte<br>IT y Datos (N1)</h1>
-      <p class="sub">11 módulos &middot; ~13 horas</p>
+      <p class="sub" id="sidebar-sub">12 módulos &middot; ~15 horas</p>
     </div>
     <div class="progress-wrap">
       <div class="progress-label">
-        <span id="progress-text">0 / 11 módulos</span>
+        <span id="progress-text">0 / 12 módulos</span>
         <span id="progress-pct">0%</span>
       </div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
       <div class="legend">
         <span class="legend-item"><span class="dot it"></span>IT</span>
         <span class="legend-item"><span class="dot data"></span>Datos</span>
+        <span class="legend-item"><span class="dot cloud"></span>AWS</span>
         <span class="legend-item"><span class="dot core"></span>Base</span>
       </div>
     </div>
@@ -788,6 +815,57 @@ var MODULES = [
       {q:'¿Cuál es el paso final del ciclo de vida de un ticket, frecuentemente olvidado?', options:['Registrar el ticket','El cierre confirmado con el usuario','Asignar una categoría','Elegir el color del estado'], correct:1, explain:'Confirmar el cierre con el usuario evita que el problema se considere resuelto sin estarlo realmente.'},
       {q:'¿Qué caracteriza al rol de analista N1 según lo visto en todo el curso?', options:['Resolver todo sin nunca escalar nada','Combinar resolución técnica de primer nivel con manejo básico de datos, comunicación clara y documentación', 'Trabajar exclusivamente con bases de datos', 'Encargarse solo de la infraestructura de servidores'], correct:1, explain:'El hilo conductor del curso es esa combinación: técnica, datos, comunicación y documentación.'}
     ]
+  },
+  {
+    id:12, track:'cloud', title:'Fundamentos de AWS para soporte N1', duration:'2 h',
+    objective:'Conocer los servicios de AWS más relevantes para un analista N1 (IAM, EC2, S3, CloudWatch, VPC y Systems Manager) y practicar los comandos de AWS CLI y los diagnósticos más probables en una prueba técnica.',
+    content:[
+      {type:'p', text:'Cuando la mesa de ayuda da soporte sobre recursos en AWS, el N1 deja de tratar solo con PCs de escritorio: también recibe pedidos como "no puedo entrar al bucket de reportes", "la instancia no responde" o "se disparó una alarma de CPU". No hace falta administrar la cuenta de AWS a fondo, pero sí reconocer los servicios básicos, saber leer un mensaje de error de permisos y usar algunos comandos de consola para diagnosticar antes de escalar.'},
+      {type:'table', caption:'Servicios de AWS que un N1 debería reconocer', columns:['Servicio','Qué es','Tarea típica de un N1'], rows:[
+        ['IAM','Gestión de identidades, permisos y accesos','Revisar por qué un usuario recibe "Access Denied"'],
+        ['EC2','Servidores virtuales (instancias)','Ver el estado de una instancia, reiniciarla, revisar su Security Group'],
+        ['S3','Almacenamiento de archivos en buckets','Verificar permisos de un bucket, listar o subir un archivo'],
+        ['CloudWatch','Métricas, logs y alarmas','Revisar el uso de CPU o una alarma disparada'],
+        ['VPC','Red privada de la cuenta (subredes, rutas)','Diagnosticar por qué una instancia no tiene conectividad'],
+        ['Systems Manager (SSM)','Gestión remota de instancias','Conectarse a una instancia sin abrir puertos SSH/RDP']
+      ]},
+      {type:'p', text:'En IAM, los permisos se organizan en usuarios, grupos y roles, a los que se les adjuntan políticas (documentos JSON que dicen qué acciones están permitidas sobre qué recursos). El principio de menor privilegio dice que cada usuario o rol debe tener solo los permisos que necesita para su tarea, ni uno más. Un rol se diferencia de un usuario en que no tiene credenciales permanentes: se "asume" temporalmente, algo típico cuando una aplicación o un servicio necesita acceso a otro recurso de AWS.'},
+      {type:'code', label:'Ejemplo: política IAM de solo lectura sobre un bucket S3', code:'{\n  "Version": "2012-10-17",\n  "Statement": [\n    {\n      "Effect": "Allow",\n      "Action": ["s3:GetObject", "s3:ListBucket"],\n      "Resource": [\n        "arn:aws:s3:::reportes-mensuales",\n        "arn:aws:s3:::reportes-mensuales/*"\n      ]\n    }\n  ]\n}'},
+      {type:'p', text:'Un caso frecuente de prueba técnica es leer una política como esta y responder qué puede y qué no puede hacer el usuario: en el ejemplo, puede listar el bucket y leer objetos, pero no puede subir, borrar ni modificar nada, porque esas acciones (PutObject, DeleteObject) no están en la lista de Action.'},
+      {type:'p', text:'Para EC2, lo esencial es reconocer los estados de una instancia (pending, running, stopping, stopped, terminated) y saber que el acceso de red se controla en dos capas: el Security Group, que funciona a nivel de instancia y es stateful (si permite la entrada, la respuesta de salida se permite automáticamente), y la NACL, que funciona a nivel de subred y es stateless (hay que permitir explícitamente el tráfico de ida y de vuelta).'},
+      {type:'table', caption:'Comandos de AWS CLI más probables en una prueba técnica de N1', columns:['Comando','Qué hace'], rows:[
+        ['aws ec2 describe-instances','Muestra el detalle y estado de las instancias EC2'],
+        ['aws ec2 start-instances --instance-ids i-xxxx','Enciende una instancia detenida'],
+        ['aws ec2 stop-instances --instance-ids i-xxxx','Detiene una instancia en ejecución'],
+        ['aws s3 ls s3://nombre-bucket/','Lista el contenido de un bucket S3'],
+        ['aws s3 cp archivo.txt s3://nombre-bucket/','Sube un archivo a un bucket S3'],
+        ['aws iam list-attached-user-policies --user-name juan','Lista las políticas IAM adjuntas a un usuario'],
+        ['aws ec2 describe-security-groups','Muestra las reglas de entrada/salida de los Security Groups'],
+        ['aws cloudwatch describe-alarms','Lista las alarmas configuradas y su estado actual']
+      ]},
+      {type:'p', text:'CloudWatch centraliza la observabilidad: métricas (como CPUUtilization de una instancia), logs (por ejemplo, de una aplicación) y alarmas, que notifican o disparan una acción cuando una métrica supera un umbral. Ante un ticket de "la instancia va lenta", revisar la métrica de CPU y memoria en CloudWatch suele ser más rápido y confiable que conectarse a adivinar.'},
+      {type:'p', text:'En VPC, si una instancia en una subred privada no responde desde internet, el orden de diagnóstico es: revisar las reglas del Security Group, después la NACL de la subred, y por último la tabla de rutas (¿la subred tiene salida a través de un Internet Gateway o un NAT Gateway, según corresponda?). La mayoría de los "no puedo conectarme" de red en AWS se resuelven en una de estas tres capas.'},
+      {type:'p', text:'Por último, AWS Systems Manager, y en particular Session Manager, permite conectarse a una instancia EC2 sin necesidad de abrir el puerto 22 (SSH) o 3389 (RDP) ni asignarle una IP pública, lo que lo convierte en la forma recomendada de dar soporte remoto sobre instancias en un entorno con buenas prácticas de seguridad.'},
+      {type:'p', text:'La mejor forma de no trabarse con la sintaxis de la AWS CLI en una prueba técnica es practicarla de memoria. Intentá escribir el comando antes de revelar la respuesta en cada uno de estos casos:'},
+      {type:'challenge', prompt:'Un usuario dice que no encuentra el archivo "informe-julio.pdf". Escribí el comando para listar el contenido del bucket "reportes-mensuales".', answer:'aws s3 ls s3://reportes-mensuales/'},
+      {type:'challenge', prompt:'Necesitás subir el archivo "informe-julio.pdf" (que está en tu carpeta actual) al bucket "reportes-mensuales".', answer:'aws s3 cp informe-julio.pdf s3://reportes-mensuales/'},
+      {type:'challenge', prompt:'Te piden encender la instancia con id "i-0abc123456789", que aparece como "stopped".', answer:'aws ec2 start-instances --instance-ids i-0abc123456789'},
+      {type:'challenge', prompt:'Antes de escalar un ticket de "no puedo conectarme por SSH", querés revisar las reglas de entrada/salida de los Security Groups de la cuenta.', answer:'aws ec2 describe-security-groups'},
+      {type:'challenge', prompt:'Un usuario llamado "juan" reporta "Access Denied" en S3. Escribí el comando para ver qué políticas IAM tiene adjuntas.', answer:'aws iam list-attached-user-policies --user-name juan'},
+      {type:'challenge', prompt:'Llegó una alerta de CPU alta. Escribí el comando para ver el estado actual de las alarmas configuradas en CloudWatch.', answer:'aws cloudwatch describe-alarms'}
+    ],
+    exercise:{title:'Diagnóstico técnico estilo prueba de N1 en AWS', body:'Resolvé estos tres escenarios cortos, como si fueran parte de una prueba técnica: (1) Un usuario reporta "Access Denied" al intentar leer un archivo del bucket "reportes-mensuales". Indicá qué comando de AWS CLI usarías para revisar las políticas del usuario y qué mirarías dentro del JSON de la política. (2) Una instancia EC2 en una subred privada no responde. Enumerá, en orden, las tres capas de red que revisarías antes de escalar. (3) Escribí el comando de AWS CLI para verificar el estado actual de una instancia con id "i-0abc123456789".'},
+    quiz:[
+      {q:'¿Qué principio de seguridad establece que un usuario o rol de IAM debe tener solo los permisos estrictamente necesarios para su tarea?', options:['Alta disponibilidad','Principio de menor privilegio','Elasticidad automática','Failover multi-región'], correct:1, explain:'El principio de menor privilegio reduce el riesgo limitando los accesos a lo imprescindible.'},
+      {q:'Un usuario reporta "Access Denied" al leer un archivo en S3. ¿Qué deberías revisar primero como N1?', options:['Reiniciar la instancia EC2 más cercana','Las políticas IAM asociadas al usuario o rol y la política del bucket','El estado del Security Group','La configuración DNS de Route 53'], correct:1, explain:'Los errores de Access Denied en S3 casi siempre se deben a permisos IAM o a la política del bucket, no a red ni a cómputo.'},
+      {q:'¿Qué comando de AWS CLI usarías para ver el estado actual de una instancia EC2?', options:['aws ec2 describe-instances','aws s3 ls','aws iam list-users','aws logs tail'], correct:0, explain:'describe-instances devuelve el detalle y el estado de las instancias EC2 de la cuenta.'},
+      {q:'¿Cuál es la diferencia clave entre un Security Group y una NACL en una VPC?', options:['No hay diferencia, son lo mismo','El Security Group es stateful y actúa a nivel de instancia; la NACL es stateless y actúa a nivel de subred','La NACL solo aplica a buckets de S3','El Security Group solo permite tráfico saliente'], correct:1, explain:'Los Security Groups son stateful y operan a nivel de instancia; las NACL son stateless y actúan a nivel de subred.'},
+      {q:'¿Para qué sirve AWS Systems Manager Session Manager en el trabajo de un N1?', options:['Para facturar los servicios de AWS', 'Para conectarse a una instancia EC2 sin abrir puertos SSH/RDP ni usar una IP pública', 'Para crear buckets de S3', 'Para configurar zonas DNS'], correct:1, explain:'Session Manager permite acceso remoto seguro sin exponer puertos de administración ni requerir IP pública.'},
+      {q:'¿Qué servicio usarías para revisar métricas como el uso de CPU de una instancia EC2 y configurar una alarma?', options:['IAM','CloudWatch','Route 53','VPC'], correct:1, explain:'CloudWatch centraliza métricas, logs y alarmas de los recursos de AWS.'},
+      {q:'¿Qué comando de AWS CLI lista el contenido de un bucket S3?', options:['aws s3 ls s3://nombre-bucket/','aws ec2 describe-instances','aws iam list-roles','aws cloudwatch describe-alarms'], correct:0, explain:'aws s3 ls apuntando a la ruta del bucket lista sus objetos.'},
+      {q:'En IAM, ¿qué es un rol (role) a diferencia de un usuario?', options:['Una identidad temporal sin credenciales permanentes, que puede "asumir" un usuario, servicio o cuenta externa','Es idéntico a un usuario, solo cambia el nombre','Existe únicamente para tareas de facturación','Reemplaza a los grupos de usuarios'], correct:0, explain:'Los roles otorgan permisos temporales que se asumen, a diferencia de los usuarios con credenciales de larga duración.'},
+      {q:'Una instancia EC2 en una subred privada no puede recibir conexiones esperadas. Antes de escalar, ¿qué deberías revisar como N1?', options:['El nombre asignado a la instancia','Las reglas del Security Group, la NACL de la subred y la tabla de rutas hacia el gateway correspondiente','El idioma configurado en la consola de AWS','El plan de soporte contratado con AWS'], correct:1, explain:'La conectividad en una VPC depende de Security Groups, NACLs y la tabla de rutas hacia el Internet Gateway o NAT Gateway.'}
+    ]
   }
 ];
 
@@ -796,12 +874,13 @@ var STORAGE_KEY = 'n1-course-progress-v1';
 function loadProgress(){
   try{
     var raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return {completed:[]};
+    if(!raw) return {completed:[], attempts:{}};
     var parsed = JSON.parse(raw);
-    if(!parsed || !Array.isArray(parsed.completed)) return {completed:[]};
+    if(!parsed || !Array.isArray(parsed.completed)) return {completed:[], attempts:{}};
+    if(!parsed.attempts || typeof parsed.attempts !== 'object') parsed.attempts = {};
     return parsed;
   }catch(e){
-    return {completed:[]};
+    return {completed:[], attempts:{}};
   }
 }
 function saveProgress(p){
@@ -811,11 +890,64 @@ function saveProgress(p){
 var progress = loadProgress();
 var currentId = 0; // 0 = landing
 
-var trackLabel = {it:'IT', data:'Datos', core:'Base'};
+var trackLabel = {it:'IT', data:'Datos', core:'Base', cloud:'Cloud'};
+
+var MAX_ATTEMPTS = 3;
+var ROUND_SIZE = 5;
+var roundStates = {};
 
 function isDone(id){ return progress.completed.indexOf(id) !== -1; }
 
-function totalDuration(){ return '~13 h'; }
+function attemptsUsed(id){ return progress.attempts[id] || 0; }
+function attemptsLeft(id){ return Math.max(0, MAX_ATTEMPTS - attemptsUsed(id)); }
+function isLocked(id){ return !isDone(id) && attemptsLeft(id) <= 0; }
+
+function shuffleArray(arr){
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function shuffleOptions(q){
+  var order = shuffleArray(q.options.map(function(opt, i){ return i; }));
+  var options = order.map(function(i){ return q.options[i]; });
+  var correct = order.indexOf(q.correct);
+  return {q:q.q, options:options, correct:correct, explain:q.explain};
+}
+
+function buildRound(m){
+  var size = Math.min(ROUND_SIZE, m.quiz.length);
+  var picked = shuffleArray(m.quiz).slice(0, size);
+  return picked.map(shuffleOptions);
+}
+
+function getRound(id, m){
+  if(!roundStates[id]) roundStates[id] = {round: buildRound(m), step: 0};
+  return roundStates[id];
+}
+
+function resetRound(id, m){
+  roundStates[id] = {round: buildRound(m), step: 0};
+  return roundStates[id];
+}
+
+function totalDuration(){
+  var totalHours = MODULES.reduce(function(sum, m){
+    var match = /([\d.]+)\s*(h|min)/.exec(m.duration);
+    if(!match) return sum;
+    var value = parseFloat(match[1]);
+    return sum + (match[2] === 'min' ? value / 60 : value);
+  }, 0);
+  var rounded = Math.round(totalHours * 10) / 10;
+  return '~' + (rounded % 1 === 0 ? rounded.toFixed(0) : rounded) + ' h';
+}
+
+function totalQuestions(){
+  return MODULES.reduce(function(sum, m){ return sum + m.quiz.length; }, 0);
+}
 
 function renderSidebar(){
   var list = document.getElementById('nav-list');
@@ -838,6 +970,8 @@ function renderSidebar(){
   document.getElementById('progress-text').textContent = doneCount + ' / ' + MODULES.length + ' módulos';
   document.getElementById('progress-pct').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
+  var sub = document.getElementById('sidebar-sub');
+  if(sub) sub.textContent = MODULES.length + ' módulos · ' + totalDuration();
 }
 
 function blockToHtml(block){
@@ -857,6 +991,12 @@ function blockToHtml(block){
   if(block.type === 'code'){
     return '<div class="code-block">' + (block.label ? '<div class="code-label">' + block.label + '</div>' : '') + '<pre>' + escapeHtml(block.code) + '</pre></div>';
   }
+  if(block.type === 'challenge'){
+    return '<div class="challenge-block challenge-item"><p class="challenge-num">Practica de consola</p>' +
+      '<p class="challenge-prompt">' + block.prompt + '</p>' +
+      '<button class="challenge-reveal-btn" type="button">Ver comando</button>' +
+      '<div class="challenge-answer"><pre>' + escapeHtml(block.answer) + '</pre></div></div>';
+  }
   return '';
 }
 
@@ -873,21 +1013,28 @@ function renderLanding(){
       '<span class="road-dur">' + m.duration + '</span></div>';
   }).join('');
 
+  var doneCount = progress.completed.length;
+  var allDone = doneCount === MODULES.length;
+  var banner = allDone ?
+    '<div class="course-complete-banner">&#127881; <b>¡Curso completado!</b> Superaste los ' + MODULES.length + ' módulos y sus autoevaluaciones. Repasá cualquier módulo en modo práctica cuando quieras.</div>' : '';
+
   el.innerHTML =
     '<p class="hero-kicker">Programa de capacitación &middot; Nivel 1</p>' +
     '<h2>Analista de Soporte Técnico IT y Datos</h2>' +
     '<p class="lead">Un recorrido de nivel inicial para atender la mesa de ayuda con criterio técnico y, en paralelo, leer y manejar los datos que esa mesa de ayuda genera: tickets, inventario y métricas de servicio.</p>' +
+    banner +
     '<div class="stat-row">' +
-      '<div class="stat-card"><div class="num">11</div><div class="lbl">Módulos</div></div>' +
+      '<div class="stat-card"><div class="num">' + MODULES.length + '</div><div class="lbl">Módulos</div></div>' +
       '<div class="stat-card"><div class="num">' + totalDuration() + '</div><div class="lbl">Duración total</div></div>' +
-      '<div class="stat-card"><div class="num">33</div><div class="lbl">Preguntas de repaso</div></div>' +
+      '<div class="stat-card"><div class="num">' + totalQuestions() + '</div><div class="lbl">Preguntas de repaso</div></div>' +
       '<div class="stat-card"><div class="num" id="landing-pct">0%</div><div class="lbl">Tu avance</div></div>' +
     '</div>' +
     '<button class="start-btn" id="start-btn">Comenzar el curso &#8594;</button>' +
     '<div class="track-legend-cards">' +
-      '<div class="track-card it"><h3>Soporte IT</h3><p>Hardware, sistemas operativos, redes, atención al usuario y seguridad. Cinco módulos.</p></div>' +
+      '<div class="track-card it"><h3>Soporte IT</h3><p>Hardware, sistemas operativos, redes, atención al usuario y seguridad. Seis módulos.</p></div>' +
       '<div class="track-card data"><h3>Datos</h3><p>Excel aplicado a soporte, SQL básico y reportes. Tres módulos.</p></div>' +
-      '<div class="track-card core"><h3>Base y cierre</h3><p>Introducción al rol y caso integrador final con evaluación. Tres módulos.</p></div>' +
+      '<div class="track-card core"><h3>Base y cierre</h3><p>Introducción al rol y caso integrador final con evaluación. Dos módulos.</p></div>' +
+      '<div class="track-card cloud"><h3>Cloud (AWS)</h3><p>Servicios clave de AWS y diagnósticos frecuentes en pruebas técnicas. Un módulo.</p></div>' +
     '</div>' +
     '<h3 style="font-size:16px;margin-bottom:2px;">Recorrido completo</h3>' +
     '<div class="roadmap">' + roadmap + '</div>';
@@ -896,8 +1043,119 @@ function renderLanding(){
   Array.prototype.forEach.call(el.querySelectorAll('.road-row'), function(row){
     row.addEventListener('click', function(){ goTo(parseInt(row.getAttribute('data-id'), 10)); });
   });
-  var doneCount = progress.completed.length;
   document.getElementById('landing-pct').textContent = Math.round((doneCount / MODULES.length) * 100) + '%';
+}
+
+function renderQuiz(m, mount){
+  if(isDone(m.id)){ renderPracticeQuiz(m, mount); return; }
+  if(isLocked(m.id)){ renderLockedQuiz(m, mount); return; }
+  renderGauntletQuiz(m, mount);
+}
+
+function renderPracticeQuiz(m, mount){
+  var round = buildRound(m);
+  var itemsHtml = round.map(function(q, qi){
+    var opts = q.options.map(function(opt, oi){
+      return '<button class="q-opt" data-q="' + qi + '" data-opt="' + oi + '">' + opt + '</button>';
+    }).join('');
+    return '<div class="q-block">' +
+      '<p class="q-text">' + (qi+1) + '. ' + q.q + '</p>' +
+      '<div class="q-options">' + opts + '</div>' +
+      '<p class="q-explain" id="practice-explain-' + qi + '">' + q.explain + '</p>' +
+      '</div>';
+  }).join('');
+
+  mount.innerHTML =
+    '<div class="quiz-head"><h3>Autoevaluación</h3><span class="attempt-pill">Modo práctica &middot; sin límite de intentos</span></div>' +
+    '<p class="quiz-sub">Ya completaste este módulo. Repasá con preguntas aleatorias; elegí una opción para ver si es correcta.</p>' +
+    itemsHtml;
+
+  Array.prototype.forEach.call(mount.querySelectorAll('.q-opt'), function(btn){
+    btn.addEventListener('click', function(){
+      var qi = parseInt(btn.getAttribute('data-q'), 10);
+      var oi = parseInt(btn.getAttribute('data-opt'), 10);
+      var q = round[qi];
+      var group = mount.querySelectorAll('.q-opt[data-q="' + qi + '"]');
+      Array.prototype.forEach.call(group, function(b, i){
+        b.disabled = true;
+        if(i === q.correct) b.classList.add('correct');
+        else if(i === oi) b.classList.add('incorrect');
+      });
+      document.getElementById('practice-explain-' + qi).classList.add('show');
+    });
+  });
+}
+
+function renderLockedQuiz(m, mount){
+  mount.innerHTML =
+    '<div class="quiz-head"><h3>Autoevaluación</h3><span class="attempt-pill">0 intentos restantes</span></div>' +
+    '<div class="lock-box">' +
+      '<p class="tag">Intentos agotados</p>' +
+      '<h4>Repasá el contenido antes de volver a intentar</h4>' +
+      '<p>Usaste los ' + MAX_ATTEMPTS + ' intentos disponibles para este módulo sin completarlo. Volvé a leer la teoría y el ejercicio, y reiniciá los intentos cuando estés listo/a.</p>' +
+      '<button class="start-btn" id="reset-attempts-btn" style="padding:10px 18px;font-size:13.5px;">Repasar contenido y reiniciar intentos</button>' +
+    '</div>';
+
+  document.getElementById('reset-attempts-btn').addEventListener('click', function(){
+    delete progress.attempts[m.id];
+    saveProgress(progress);
+    delete roundStates[m.id];
+    window.scrollTo(0,0);
+    renderModule(m.id);
+  });
+}
+
+function renderGauntletQuiz(m, mount){
+  var state = getRound(m.id, m);
+  var q = state.round[state.step];
+  var opts = q.options.map(function(opt, oi){
+    return '<button class="q-opt" data-opt="' + oi + '">' + opt + '</button>';
+  }).join('');
+
+  mount.innerHTML =
+    '<div class="quiz-head"><h3>Autoevaluación</h3><span class="attempt-pill">Intento ' + (attemptsUsed(m.id)+1) + ' / ' + MAX_ATTEMPTS + ' &middot; pregunta ' + (state.step+1) + ' / ' + state.round.length + '</span></div>' +
+    '<p class="quiz-sub">Respondé todas las preguntas de la ronda sin fallar para completar el módulo. Un error reinicia la ronda con preguntas nuevas.</p>' +
+    '<div class="q-block">' +
+      '<p class="q-text">' + q.q + '</p>' +
+      '<div class="q-options">' + opts + '</div>' +
+      '<p class="q-explain">' + q.explain + '</p>' +
+    '</div>';
+
+  var explainEl = mount.querySelector('.q-explain');
+
+  Array.prototype.forEach.call(mount.querySelectorAll('.q-opt'), function(btn){
+    btn.addEventListener('click', function(){
+      var oi = parseInt(btn.getAttribute('data-opt'), 10);
+      var correct = oi === q.correct;
+      Array.prototype.forEach.call(mount.querySelectorAll('.q-opt'), function(b, i){
+        b.disabled = true;
+        if(i === q.correct) b.classList.add('correct');
+        else if(i === oi) b.classList.add('incorrect');
+      });
+      explainEl.classList.add('show');
+
+      setTimeout(function(){
+        if(correct){
+          if(state.step === state.round.length - 1){
+            if(!isDone(m.id)) progress.completed.push(m.id);
+            delete progress.attempts[m.id];
+            saveProgress(progress);
+            delete roundStates[m.id];
+            renderSidebar();
+            renderModule(m.id);
+          } else {
+            state.step += 1;
+            renderGauntletQuiz(m, mount);
+          }
+        } else {
+          progress.attempts[m.id] = attemptsUsed(m.id) + 1;
+          saveProgress(progress);
+          delete roundStates[m.id];
+          renderQuiz(m, mount);
+        }
+      }, 900);
+    });
+  });
 }
 
 function renderModule(id){
@@ -907,21 +1165,10 @@ function renderModule(id){
   el.className = 'view active track-' + m.track;
 
   var contentHtml = m.content.map(function(section){
-    if(section.type === 'p' || section.type === 'table' || section.type === 'steps' || section.type === 'code'){
+    if(section.type === 'p' || section.type === 'table' || section.type === 'steps' || section.type === 'code' || section.type === 'challenge'){
       return blockToHtml(section);
     }
     return '';
-  }).join('');
-
-  var quizHtml = m.quiz.map(function(q, qi){
-    var opts = q.options.map(function(opt, oi){
-      return '<button class="q-opt" data-mod="' + m.id + '" data-q="' + qi + '" data-opt="' + oi + '">' + opt + '</button>';
-    }).join('');
-    return '<div class="q-block">' +
-      '<p class="q-text">' + (qi+1) + '. ' + q.q + '</p>' +
-      '<div class="q-options">' + opts + '</div>' +
-      '<p class="q-explain" id="explain-' + m.id + '-' + qi + '">' + q.explain + '</p>' +
-      '</div>';
   }).join('');
 
   el.innerHTML =
@@ -933,38 +1180,25 @@ function renderModule(id){
     '<div class="objective-box"><b>Objetivo del módulo</b>' + m.objective + '</div>' +
     contentHtml +
     '<div class="exercise-box"><p class="tag">Ejercicio práctico</p><h4>' + m.exercise.title + '</h4><p>' + m.exercise.body + '</p></div>' +
-    '<div class="quiz"><h3>Autoevaluación</h3><p class="quiz-sub">Elegí una opción por pregunta para ver si es correcta.</p>' + quizHtml + '</div>' +
+    '<div class="quiz" id="quiz-mount"></div>' +
     '<div class="mod-footer">' +
-      '<button class="complete-btn' + (isDone(m.id) ? ' done' : '') + '" id="complete-btn">' + (isDone(m.id) ? '✓ Módulo completado' : 'Marcar módulo como completado') + '</button>' +
+      '<span class="status-pill' + (isDone(m.id) ? ' done' : '') + '">' + (isDone(m.id) ? '✓ Módulo completado' : 'Módulo pendiente') + '</span>' +
       '<div class="nav-arrows">' +
         '<button class="arrow-btn" id="prev-btn"' + (idx === 0 ? ' disabled' : '') + '>&#8592; Anterior</button>' +
         '<button class="arrow-btn" id="next-btn"' + (idx === MODULES.length - 1 ? ' disabled' : '') + '>Siguiente &#8594;</button>' +
       '</div>' +
     '</div>';
 
-  Array.prototype.forEach.call(el.querySelectorAll('.q-opt'), function(btn){
+  renderQuiz(m, document.getElementById('quiz-mount'));
+
+  Array.prototype.forEach.call(el.querySelectorAll('.challenge-reveal-btn'), function(btn){
     btn.addEventListener('click', function(){
-      var qi = parseInt(btn.getAttribute('data-q'), 10);
-      var oi = parseInt(btn.getAttribute('data-opt'), 10);
-      var q = m.quiz[qi];
-      var group = el.querySelectorAll('.q-opt[data-q="' + qi + '"]');
-      Array.prototype.forEach.call(group, function(b, i){
-        b.disabled = true;
-        if(i === q.correct) b.classList.add('correct');
-        else if(i === oi) b.classList.add('incorrect');
-      });
-      document.getElementById('explain-' + m.id + '-' + qi).classList.add('show');
+      var answer = btn.nextElementSibling;
+      var showing = answer.classList.toggle('show');
+      btn.textContent = showing ? 'Ocultar comando' : 'Ver comando';
     });
   });
 
-  document.getElementById('complete-btn').addEventListener('click', function(){
-    if(!isDone(m.id)){
-      progress.completed.push(m.id);
-      saveProgress(progress);
-      renderSidebar();
-      renderModule(m.id);
-    }
-  });
   var prevBtn = document.getElementById('prev-btn');
   var nextBtn = document.getElementById('next-btn');
   if(prevBtn) prevBtn.addEventListener('click', function(){ if(idx > 0) goTo(MODULES[idx-1].id); });
