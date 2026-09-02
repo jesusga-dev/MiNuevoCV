@@ -8,3 +8,6 @@ Thumbs.db
 
 # Dependencias (por si más adelante añades build)
 node_modules/
+
+# Caché local de Wrangler (incluye el account_id de Cloudflare)
+.wrangler/
