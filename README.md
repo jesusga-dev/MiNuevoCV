@@ -4,7 +4,7 @@ Sitio web personal (CV + portafolio) de **Jesús García**, desarrollador Fullst
 Una sola página, estática, con diseño dark minimalista. Sin framework ni paso de
 build: **HTML, CSS y JavaScript puro**, lista para desplegar en cualquier hosting estático.
 
-🔗 **Portafolio previo:** https://portafolio-react-93df.onrender.com
+🔗 **Sitio en vivo:** https://cv-jesus-garcia.pages.dev
 
 ---
 
