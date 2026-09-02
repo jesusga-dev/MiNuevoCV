@@ -35,6 +35,8 @@
   --success-soft:#E4F5EB;
   --danger:#C4453B;
   --danger-soft:#FBEAE8;
+  --warn:#B07407;
+  --warn-soft:#FBF1DF;
   --shadow: 0 1px 2px rgba(20,26,38,0.04), 0 8px 24px -12px rgba(20,26,38,0.18);
 }
 @media (prefers-color-scheme: dark){
@@ -57,6 +59,8 @@
     --success-soft:rgba(79,190,129,0.14);
     --danger:#E1837A;
     --danger-soft:rgba(225,131,122,0.14);
+    --warn:#E0B052;
+    --warn-soft:rgba(224,176,82,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
   }
 }
@@ -79,6 +83,8 @@
   --success-soft:rgba(79,190,129,0.14);
   --danger:#E1837A;
   --danger-soft:rgba(225,131,122,0.14);
+  --warn:#E0B052;
+  --warn-soft:rgba(224,176,82,0.14);
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
 }
 *{box-sizing:border-box;}
@@ -459,8 +465,27 @@ table.ref-table td{color:var(--text);}
 .challenge-block{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:14px 0;}
 .challenge-block .challenge-num{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
 .challenge-block .challenge-prompt{margin:0 0 10px;font-size:13.5px;}
-.challenge-reveal-btn{font-family:"IBM Plex Mono";font-size:11.5px;padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;}
+.challenge-input-row{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:10px;transition:border-color .15s;}
+.challenge-input-row:focus-within{border-color:var(--accent-cloud);}
+.challenge-input-row.ok{border-color:var(--success);background:var(--success-soft);}
+.challenge-input-row.close{border-color:var(--warn);background:var(--warn-soft);}
+.challenge-input-row.no{border-color:var(--danger);background:var(--danger-soft);}
+.challenge-caret{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--text-muted);flex:none;user-select:none;}
+.challenge-input{flex:1;min-width:0;font-family:"IBM Plex Mono";font-size:12.5px;border:0;background:transparent;color:var(--text);padding:2px 0;outline:none;}
+.challenge-input::placeholder{color:var(--text-muted);opacity:.7;}
+.challenge-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.challenge-check-btn,.challenge-reveal-btn{font-family:"IBM Plex Mono";font-size:11.5px;padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;}
+.challenge-check-btn{border-color:var(--accent-cloud);color:var(--accent-cloud);}
+.challenge-check-btn:hover{background:var(--accent-cloud-soft);}
 .challenge-reveal-btn:hover{border-color:var(--accent-cloud);color:var(--accent-cloud);}
+.challenge-check-btn:focus-visible,.challenge-reveal-btn:focus-visible,.challenge-input:focus-visible{outline:2px solid var(--accent-cloud);outline-offset:2px;}
+.challenge-feedback{margin:10px 0 0;font-size:12.5px;line-height:1.5;display:none;}
+.challenge-feedback.show{display:block;}
+.challenge-feedback.ok{color:var(--success);}
+.challenge-feedback.close{color:var(--warn);}
+.challenge-feedback.no{color:var(--danger);}
+.challenge-feedback code{font-family:"IBM Plex Mono";font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1px 5px;color:var(--text);}
+.challenge-block.solved .challenge-num::after{content:" \2713 resuelto";color:var(--success);}
 .challenge-answer{display:none;margin-top:10px;}
 .challenge-answer.show{display:block;}
 .challenge-answer pre{margin:0;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
@@ -767,7 +792,13 @@ var MODULES = [
         'Hacer ping a una IP externa conocida para descartar problema de salida a internet',
         'Ejecutar nslookup a un dominio conocido para descartar un problema de DNS',
         'Preguntar si otros usuarios del mismo sector están afectados, para distinguir un caso puntual de una caída general'
-      ]}
+      ]},
+      {type:'p', text:'Leer la tabla no alcanza: en una guardia vas a tener que tipear estos comandos sin pensarlos. Escribí cada uno abajo antes de seguir. Si te trabás, el botón te muestra la respuesta, pero intentá primero de memoria: el objetivo es que el comando te salga solo cuando lo necesites de verdad.'},
+      {type:'challenge', prompt:'Mostrá la configuración IP completa del equipo en Windows: dirección, máscara, gateway y DNS.', answer:'ipconfig /all', hint:'Es ipconfig con el modificador que pide el detalle completo.'},
+      {type:'challenge', prompt:'Verificá si hay comunicación con el gateway, cuya dirección es 192.168.1.1.', answer:'ping 192.168.1.1', hint:'El comando que envía paquetes de prueba a una dirección, seguido de la IP.'},
+      {type:'challenge', prompt:'Comprobá si el DNS está resolviendo correctamente el dominio empresa.com.', answer:'nslookup empresa.com', hint:'Es la herramienta de consulta de DNS, seguida del dominio.'},
+      {type:'challenge', prompt:'Mostrá el recorrido de saltos hasta google.com desde un equipo Windows, para ubicar dónde se corta la conexión.', answer:'tracert google.com', accept:['traceroute google.com'], hint:'En Windows el comando se abrevia; en Linux se escribe completo.'},
+      {type:'challenge', prompt:'El equipo quedó con una IP 169.254.x.x. Escribí el comando que vuelve a solicitar una dirección al servidor DHCP.', answer:'ipconfig /renew', hint:'Primero se libera con /release y despues se renueva. Se pide el comando de renovacion.'}
     ],
     exercise:{title:'Diagnóstico de conectividad', body:'Un usuario reporta que no puede acceder a ningún sitio web, pero otro compañero en el mismo sector sí tiene internet. Usando el flujo de diagnóstico, indicá qué comandos ejecutarías y en qué orden, y qué resultado esperarías ver en cada uno si el problema fuera específico de ese equipo.'},
     quiz:[
@@ -830,7 +861,12 @@ var MODULES = [
         ['SI / IF','Devolver un valor u otro según se cumpla una condición','=SI(E2>24;"Fuera de SLA";"En SLA")']
       ]},
       {type:'p', text:'Los filtros permiten ver solo los registros que interesan en un momento dado, por ejemplo los tickets abiertos de prioridad alta. Las tablas dinámicas van un paso más allá: resumen automáticamente grandes volúmenes de datos, por ejemplo mostrando cuántos tickets hay por categoría y por estado, sin necesidad de contar manualmente ni escribir fórmulas para cada combinación.'},
-      {type:'p', text:'Para un N1, dominar estas herramientas significa poder responder preguntas simples de gestión ("¿cuántos tickets de red tuvimos esta semana?") sin depender de otra persona, y preparar la información de base que después se convierte en reportes o dashboards, tema del módulo 10.'}
+      {type:'p', text:'Para un N1, dominar estas herramientas significa poder responder preguntas simples de gestión ("¿cuántos tickets de red tuvimos esta semana?") sin depender de otra persona, y preparar la información de base que después se convierte en reportes o dashboards, tema del módulo 10.'},
+      {type:'p', text:'Escribí vos las fórmulas sobre esta planilla: columna C = Prioridad, columna D = Estado, columna E = Horas de resolución. Se aceptan tanto el punto y coma como la coma para separar argumentos, y tanto el nombre en español como en inglés.'},
+      {type:'challenge', label:'Practica de formulas', caret:'fx', prompt:'Contá cuántos tickets están en estado Abierto, usando toda la columna D.', answer:'=CONTAR.SI(D:D;"Abierto")', accept:['=CONTAR.SI(D:D,"Abierto")','=COUNTIF(D:D;"Abierto")','=COUNTIF(D:D,"Abierto")'], hint:'Es la formula que cuenta segun una condicion: primero el rango, despues el criterio entre comillas.'},
+      {type:'challenge', label:'Practica de formulas', caret:'fx', prompt:'Calculá el promedio de horas de resolución (columna E) solo de los tickets de prioridad Alta (columna C).', answer:'=PROMEDIO.SI(C:C;"Alta";E:E)', accept:['=PROMEDIO.SI(C:C,"Alta",E:E)','=AVERAGEIF(C:C;"Alta";E:E)','=AVERAGEIF(C:C,"Alta",E:E)'], hint:'El orden es rango donde se evalua la condicion, criterio, y rango de los valores a promediar.'},
+      {type:'challenge', label:'Practica de formulas', caret:'fx', prompt:'Traé el sector del usuario desde la hoja Usuarios (rango A:C, el sector está en la tercera columna) usando como clave el valor de A2, con coincidencia exacta.', answer:'=BUSCARV(A2;Usuarios!A:C;3;FALSO)', accept:['=BUSCARV(A2,Usuarios!A:C,3,FALSO)','=VLOOKUP(A2;Usuarios!A:C;3;FALSO)','=VLOOKUP(A2,Usuarios!A:C,3,FALSO)','=BUSCARV(A2;Usuarios!A:C;3;0)','=VLOOKUP(A2,Usuarios!A:C,3,0)'], hint:'Cuatro argumentos: valor buscado, rango de la otra hoja, numero de columna a devolver y FALSO para coincidencia exacta.'},
+      {type:'challenge', label:'Practica de formulas', caret:'fx', prompt:'Marcá el ticket de la fila 2 como Fuera de SLA si sus horas de resolución (E2) superan 24, y como En SLA en caso contrario.', answer:'=SI(E2>24;"Fuera de SLA";"En SLA")', accept:['=SI(E2>24,"Fuera de SLA","En SLA")','=IF(E2>24;"Fuera de SLA";"En SLA")','=IF(E2>24,"Fuera de SLA","En SLA")'], hint:'Tres argumentos: la condicion, el valor si se cumple y el valor si no se cumple.'}
     ],
     exercise:{title:'Cálculo sobre datos simulados', body:'Imaginá una planilla con columnas Fecha, Categoría, Prioridad, Estado (Abierto/Cerrado) y Horas de resolución, con 40 tickets cargados. Escribí la fórmula que usarías para contar cuántos tickets están "Abiertos" y la fórmula que usarías para calcular el promedio de horas de resolución solo de los tickets de prioridad "Alta".'},
     quiz:[
@@ -848,7 +884,15 @@ var MODULES = [
       {type:'code', label:'Ejemplo: tickets abiertos de prioridad alta', code:'SELECT id_ticket, asunto, fecha_creacion, prioridad\nFROM tickets\nWHERE estado = \'Abierto\'\n  AND prioridad = \'Alta\'\nORDER BY fecha_creacion ASC\nLIMIT 20;'},
       {type:'p', text:'Cuando la información necesaria está repartida en dos tablas, se usa JOIN para combinarlas a través del campo que las relaciona. Por ejemplo, para mostrar el nombre del usuario junto a cada ticket, es necesario unir la tabla de tickets con la de usuarios.'},
       {type:'code', label:'Ejemplo: tickets con el nombre del usuario', code:'SELECT t.id_ticket, t.asunto, u.nombre, u.sector\nFROM tickets t\nJOIN usuarios u ON t.id_usuario = u.id_usuario\nWHERE t.estado = \'Abierto\';'},
-      {type:'p', text:'Un N1 no suele escribir consultas complejas, pero sí necesita poder leer y adaptar consultas existentes para responder preguntas puntuales, como cuántos tickets tiene abiertos un sector, o cuál es el historial de casos de un usuario, sin depender siempre de otra persona para obtener esa información.'}
+      {type:'p', text:'Un N1 no suele escribir consultas complejas, pero sí necesita poder leer y adaptar consultas existentes para responder preguntas puntuales, como cuántos tickets tiene abiertos un sector, o cuál es el historial de casos de un usuario, sin depender siempre de otra persona para obtener esa información.'},
+      {type:'p', text:'Hay dos piezas más que aparecen todo el tiempo en las preguntas de reporte. COUNT() cuenta filas en lugar de listarlas, y GROUP BY agrupa el resultado por el valor de una columna, de modo que la cuenta se hace por grupo. Con esas dos se responde la mayoría de los "¿cuántos tickets hubo por prioridad esta semana?" sin molestar a nadie del equipo de datos.'},
+      {type:'code', label:'Ejemplo: cantidad de tickets por prioridad', code:'SELECT prioridad, COUNT(*) AS total\nFROM tickets\nWHERE estado = \'Abierto\'\nGROUP BY prioridad\nORDER BY total DESC;'},
+      {type:'p', text:'Ahora escribí vos las consultas. Trabajá sobre dos tablas: "tickets" (id_ticket, asunto, fecha_creacion, estado, prioridad, id_usuario) y "usuarios" (id_usuario, nombre, sector). No hace falta el punto y coma final ni respetar las mayúsculas de las palabras clave.'},
+      {type:'challenge', label:'Practica de SQL', caret:'sql&gt;', prompt:'Contá cuántos tickets hay con estado Abierto.', answer:'SELECT COUNT(*) FROM tickets WHERE estado = \'Abierto\'', accept:['SELECT COUNT(id_ticket) FROM tickets WHERE estado = \'Abierto\''], hint:'Se cuenta con COUNT(*) y se filtra con WHERE sobre la columna estado.'},
+      {type:'challenge', label:'Practica de SQL', caret:'sql&gt;', prompt:'Traé los 10 tickets más recientes, del más nuevo al más viejo, con todas sus columnas.', answer:'SELECT * FROM tickets ORDER BY fecha_creacion DESC LIMIT 10', hint:'ORDER BY con DESC ordena de mayor a menor, y LIMIT recorta la cantidad de filas.'},
+      {type:'challenge', label:'Practica de SQL', caret:'sql&gt;', prompt:'Mostrá solo el asunto y la prioridad de los tickets del usuario con id_usuario igual a 42.', answer:'SELECT asunto, prioridad FROM tickets WHERE id_usuario = 42', hint:'En lugar de *, nombra las dos columnas separadas por coma.'},
+      {type:'challenge', label:'Practica de SQL', caret:'sql&gt;', prompt:'Contá cuántos tickets abiertos hay por cada prioridad, ordenados de mayor a menor cantidad. Usá el alias total para la cuenta.', answer:'SELECT prioridad, COUNT(*) AS total FROM tickets WHERE estado = \'Abierto\' GROUP BY prioridad ORDER BY total DESC', hint:'Agrupa por prioridad con GROUP BY y ordena por el alias de la cuenta.'},
+      {type:'challenge', label:'Practica de SQL', caret:'sql&gt;', prompt:'Mostrá el nombre del usuario y el asunto de cada ticket abierto, uniendo tickets (alias t) con usuarios (alias u).', answer:'SELECT u.nombre, t.asunto FROM tickets t JOIN usuarios u ON t.id_usuario = u.id_usuario WHERE t.estado = \'Abierto\'', hint:'La union va con JOIN ... ON y el campo que relaciona las dos tablas es id_usuario.'}
     ],
     exercise:{title:'Escribir una consulta guiada', body:'Usando el ejemplo de la tabla "tickets" (columnas: id_ticket, asunto, fecha_creacion, estado, prioridad), escribí la consulta SQL que devuelva los tickets con estado "Abierto" y prioridad "Alta" creados en los últimos 7 días, ordenados del más reciente al más antiguo.'},
     quiz:[
@@ -1154,16 +1198,123 @@ function blockToHtml(block){
     return '<div class="code-block">' + (block.label ? '<div class="code-label">' + block.label + '</div>' : '') + '<pre>' + escapeHtml(block.code) + '</pre></div>';
   }
   if(block.type === 'challenge'){
-    return '<div class="challenge-block challenge-item"><p class="challenge-num">Practica de consola</p>' +
+    var accept = [block.answer].concat(block.accept || []);
+    return '<div class="challenge-block challenge-item" data-accept="' + escapeAttr(JSON.stringify(accept)) + '"' +
+      (block.hint ? ' data-hint="' + escapeAttr(block.hint) + '"' : '') + '>' +
+      '<p class="challenge-num">' + (block.label || 'Practica de consola') + '</p>' +
       '<p class="challenge-prompt">' + block.prompt + '</p>' +
-      '<button class="challenge-reveal-btn" type="button">Ver comando</button>' +
+      '<div class="challenge-input-row"><span class="challenge-caret" aria-hidden="true">' + (block.caret || '$') + '</span>' +
+      '<input class="challenge-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" ' +
+      'placeholder="Escribi el comando y presiona Enter" aria-label="Escribi tu respuesta" /></div>' +
+      '<div class="challenge-actions">' +
+      '<button class="challenge-check-btn" type="button">Comprobar</button>' +
+      '<button class="challenge-reveal-btn" type="button">Ver respuesta</button></div>' +
+      '<p class="challenge-feedback" role="status" aria-live="polite"></p>' +
       '<div class="challenge-answer"><pre>' + escapeHtml(block.answer) + '</pre></div></div>';
   }
   return '';
 }
 
 function escapeHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escapeAttr(s){
+  return escapeHtml(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Normaliza lo tipeado para que la correccion no castigue diferencias que la
+// terminal real tampoco castiga: espacios de mas, el prompt copiado por error,
+// comillas tipograficas o un punto y coma final.
+function normCmd(s){
+  return String(s)
+    .replace(/ /g, ' ')
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/^\s*[$#>]+\s*/, '')
+    .replace(/\s*\|\s*/g, ' | ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[;\s]+$/, '');
+}
+
+// Comparacion mas laxa: ignora mayusculas, comillas, espacios alrededor de
+// operadores y la barra final de una ruta. Sirve para aceptar como validas
+// escrituras equivalentes sin dejar pasar un comando distinto.
+function looseCmd(s){
+  return normCmd(s)
+    .toLowerCase()
+    .replace(/["']/g, '')
+    .replace(/\s*([=(),])\s*/g, '$1')
+    .replace(/\/+$/, '');
+}
+
+function baseCmd(s){
+  var t = looseCmd(s).split(' ');
+  if(t[0] === 'aws' || t[0] === 'sudo' || t[0] === 'git') return t.slice(0, 2).join(' ');
+  return t[0];
+}
+
+function gradeChallenge(input, accepted){
+  if(!normCmd(input)) return {state:'empty'};
+  var i;
+  for(i = 0; i < accepted.length; i++){
+    if(normCmd(input) === normCmd(accepted[i])) return {state:'ok'};
+  }
+  for(i = 0; i < accepted.length; i++){
+    if(looseCmd(input) === looseCmd(accepted[i])) return {state:'ok', canonical:accepted[i]};
+  }
+  for(i = 0; i < accepted.length; i++){
+    if(baseCmd(input) === baseCmd(accepted[i])) return {state:'close'};
+  }
+  return {state:'no'};
+}
+
+function wireChallenge(box){
+  var accepted;
+  try{ accepted = JSON.parse(box.getAttribute('data-accept')); }catch(e){ accepted = []; }
+  var hint = box.getAttribute('data-hint') || '';
+  var row = box.querySelector('.challenge-input-row');
+  var input = box.querySelector('.challenge-input');
+  var feedback = box.querySelector('.challenge-feedback');
+  var answer = box.querySelector('.challenge-answer');
+  var revealBtn = box.querySelector('.challenge-reveal-btn');
+
+  function paint(state, html){
+    row.className = 'challenge-input-row ' + state;
+    feedback.className = 'challenge-feedback show ' + state;
+    feedback.innerHTML = html;
+  }
+
+  function check(){
+    var res = gradeChallenge(input.value, accepted);
+    if(res.state === 'empty'){
+      row.className = 'challenge-input-row';
+      feedback.className = 'challenge-feedback';
+      return;
+    }
+    if(res.state === 'ok'){
+      box.classList.add('solved');
+      paint('ok', res.canonical
+        ? '&#10003; Correcto. La forma exacta es <code>' + escapeHtml(res.canonical) + '</code>.'
+        : '&#10003; Correcto.');
+      return;
+    }
+    if(res.state === 'close'){
+      paint('close', 'Casi. El comando base esta bien, revisa los argumentos.' + (hint ? ' ' + hint : ''));
+      return;
+    }
+    paint('no', 'Todavia no. ' + (hint || 'Repasa la tabla de arriba y volve a intentarlo.'));
+  }
+
+  input.addEventListener('keydown', function(ev){
+    if(ev.key === 'Enter'){ ev.preventDefault(); check(); }
+  });
+  box.querySelector('.challenge-check-btn').addEventListener('click', check);
+  revealBtn.addEventListener('click', function(){
+    var showing = answer.classList.toggle('show');
+    revealBtn.textContent = showing ? 'Ocultar respuesta' : 'Ver respuesta';
+  });
 }
 
 function renderLanding(){
@@ -1353,13 +1504,7 @@ function renderModule(id){
 
   renderQuiz(m, document.getElementById('quiz-mount'));
 
-  Array.prototype.forEach.call(el.querySelectorAll('.challenge-reveal-btn'), function(btn){
-    btn.addEventListener('click', function(){
-      var answer = btn.nextElementSibling;
-      var showing = answer.classList.toggle('show');
-      btn.textContent = showing ? 'Ocultar comando' : 'Ver comando';
-    });
-  });
+  Array.prototype.forEach.call(el.querySelectorAll('.challenge-item'), wireChallenge);
 
   var prevBtn = document.getElementById('prev-btn');
   var nextBtn = document.getElementById('next-btn');
