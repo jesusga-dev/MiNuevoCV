@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hasselhoff — Tienda departamental y panel de soporte N1</title>
+<meta name="description" content="Entorno de demostración: tienda departamental de ropa de hombre, carteras y relojes, con un panel de soporte N1 que incluye mesa de tickets, consola SQL funcional, visor de logs y tablero de métricas." />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script>
+// Se aplica antes del primer render para evitar un parpadeo del tema incorrecto.
+(function(){
+  try{
+    var t = localStorage.getItem('hasselhoff-theme-v1');
+    if(t === 'light' || t === 'dark'){ document.documentElement.setAttribute('data-theme', t); }
+  }catch(e){}
+})();
+</script>
+<style>
+:root{
+  --bg:#F5F6F8;
+  --surface:#FFFFFF;
+  --surface-2:#ECEFF4;
+  --text:#171C26;
+  --text-muted:#5B6472;
+  --border:#DBE0E7;
+  --accent:#8A6A3B;
+  --accent-soft:#F3EDE2;
+  --success:#2F9E5B;
+  --success-soft:#E4F5EB;
+  --warn:#B07407;
+  --warn-soft:#FBF1DF;
+  --danger:#C4453B;
+  --danger-soft:#FBEAE8;
+  --info:#2E86AB;
+  --info-soft:#E6F1F8;
+  --shadow: 0 1px 2px rgba(20,26,38,0.04), 0 8px 24px -12px rgba(20,26,38,0.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F141C;
+    --surface:#161D29;
+    --surface-2:#1B2431;
+    --text:#E6EAF1;
+    --text-muted:#98A2B5;
+    --border:#2A3345;
+    --accent:#C9A876;
+    --accent-soft:rgba(201,168,118,0.14);
+    --success:#4FBE81;
+    --success-soft:rgba(79,190,129,0.14);
+    --warn:#E0B052;
+    --warn-soft:rgba(224,176,82,0.14);
+    --danger:#E1837A;
+    --danger-soft:rgba(225,131,122,0.14);
+    --info:#63B4DC;
+    --info-soft:rgba(99,180,220,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F141C;
+  --surface:#161D29;
+  --surface-2:#1B2431;
+  --text:#E6EAF1;
+  --text-muted:#98A2B5;
+  --border:#2A3345;
+  --accent:#C9A876;
+  --accent-soft:rgba(201,168,118,0.14);
+  --success:#4FBE81;
+  --success-soft:rgba(79,190,129,0.14);
+  --warn:#E0B052;
+  --warn-soft:rgba(224,176,82,0.14);
+  --danger:#E1837A;
+  --danger-soft:rgba(225,131,122,0.14);
+  --info:#63B4DC;
+  --info-soft:rgba(99,180,220,0.14);
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+h1,h2,h3,h4{font-family:"Sora",sans-serif;margin:0;line-height:1.25;}
+button{font-family:inherit;}
+
+/* Cabecera */
+.top{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);}
+.top-inner{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.brand{display:flex;flex-direction:column;gap:1px;text-decoration:none;flex:none;}
+.brand b{font-family:"Sora";font-size:17px;letter-spacing:0.14em;font-weight:700;}
+.brand span{font-family:"IBM Plex Mono";font-size:10px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;}
+.top-nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
+.tab{font-family:"IBM Plex Mono";font-size:11.5px;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;white-space:nowrap;}
+.tab:hover{border-color:var(--accent);color:var(--accent);}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+:root[data-theme="dark"] .tab.active{color:#12161F;}
+.icon-btn{font-family:"IBM Plex Mono";font-size:11.5px;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);color:var(--text-muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
+.tab:focus-visible,.icon-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 64px;}
+.demo-note{background:var(--info-soft);border:1px solid var(--info);border-radius:10px;padding:12px 16px;font-size:12.5px;margin-bottom:22px;}
+.demo-note b{color:var(--info);}
+.view{display:none;}
+.view.active{display:block;}
+.view-head{margin-bottom:18px;}
+.view-head h2{font-size:20px;margin-bottom:4px;}
+.view-head p{margin:0;color:var(--text-muted);font-size:13px;max-width:74ch;}
+
+/* Controles */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0;}
+.field{font-family:"IBM Plex Sans";font-size:12.5px;padding:7px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);outline:none;}
+.field:focus{border-color:var(--accent);}
+.field--search{min-width:210px;flex:1;max-width:320px;}
+.chip{font-family:"IBM Plex Mono";font-size:11px;padding:5px 11px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.count-note{font-family:"IBM Plex Mono";font-size:11px;color:var(--text-muted);margin-left:auto;}
+
+/* Tienda */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:14px;}
+.prod{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow);}
+.prod-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.prod-cat{font-family:"IBM Plex Mono";font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent);}
+.prod-sku{font-family:"IBM Plex Mono";font-size:10px;color:var(--text-muted);}
+.prod h3{font-size:14.5px;font-family:"IBM Plex Sans";font-weight:600;}
+.prod-price{font-family:"Sora";font-size:17px;font-weight:600;}
+.prod-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:6px;}
+.badge{font-family:"IBM Plex Mono";font-size:10px;padding:3px 8px;border-radius:999px;border:1px solid transparent;white-space:nowrap;}
+.badge.ok{background:var(--success-soft);color:var(--success);}
+.badge.low{background:var(--warn-soft);color:var(--warn);}
+.badge.out{background:var(--danger-soft);color:var(--danger);}
+.badge.info{background:var(--info-soft);color:var(--info);}
+.badge.neutral{background:var(--surface-2);color:var(--text-muted);}
+.empty{padding:26px;text-align:center;color:var(--text-muted);font-size:13px;border:1px dashed var(--border);border-radius:10px;}
+</style>
+<style>
+/* Tablas */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+table.data{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.data th{text-align:left;font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface-2);}
+table.data td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+table.data tr:last-child td{border-bottom:0;}
+table.data tbody tr.clickable{cursor:pointer;}
+table.data tbody tr.clickable:hover{background:var(--surface-2);}
+table.data tr.selected{background:var(--accent-soft);}
+.mono{font-family:"IBM Plex Mono";font-size:12px;}
+.num{text-align:right;font-family:"IBM Plex Mono";}
+
+/* Panel de soporte */
+.subnav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+.pane{display:none;}
+.pane.active{display:block;}
+.split{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:900px){.split{grid-template-columns:1.35fr 1fr;align-items:start;}}
+
+/* Detalle de ticket */
+.detail{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow);position:sticky;top:76px;}
+.detail h3{font-size:15px;margin-bottom:2px;}
+.detail-id{font-family:"IBM Plex Mono";font-size:11px;color:var(--text-muted);margin-bottom:12px;}
+.detail dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0 0 14px;font-size:12.5px;}
+.detail dt{color:var(--text-muted);font-family:"IBM Plex Mono";font-size:11px;padding-top:2px;}
+.detail dd{margin:0;}
+.detail-actions{display:flex;gap:7px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border);}
+.btn{font-family:"IBM Plex Mono";font-size:11.5px;padding:7px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;}
+.btn:hover{border-color:var(--accent);color:var(--accent);}
+.btn--primary{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+.btn--danger:hover{border-color:var(--danger);color:var(--danger);}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.log-trail{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.log-trail h4{font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:8px;font-weight:500;}
+.trail-line{font-family:"IBM Plex Mono";font-size:11px;padding:5px 8px;border-radius:6px;background:var(--surface-2);margin-bottom:5px;word-break:break-word;}
+
+/* Consola SQL */
+.sql-editor{position:relative;}
+.sql-input{width:100%;min-height:104px;font-family:"IBM Plex Mono";font-size:13px;line-height:1.6;padding:13px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);outline:none;resize:vertical;tab-size:2;}
+.sql-input:focus{border-color:var(--accent);}
+.sql-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
+.sql-hint{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--text-muted);}
+.sql-error{margin-top:14px;background:var(--danger-soft);border:1px solid var(--danger);border-radius:10px;padding:11px 14px;font-family:"IBM Plex Mono";font-size:12px;color:var(--danger);display:none;white-space:pre-wrap;}
+.sql-error.show{display:block;}
+.sql-result{margin-top:14px;display:none;}
+.sql-result.show{display:block;}
+.sql-meta{font-family:"IBM Plex Mono";font-size:11px;color:var(--text-muted);margin-bottom:8px;}
+.examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.schema-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:18px;}
+.schema-box h4{font-size:13px;margin-bottom:10px;}
+.schema-tbl{font-family:"IBM Plex Mono";font-size:11.5px;margin-bottom:9px;}
+.schema-tbl b{color:var(--accent);}
+.schema-tbl span{color:var(--text-muted);}
+
+/* Logs */
+.log-view{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;max-height:520px;overflow:auto;}
+.log-row{display:grid;grid-template-columns:118px 66px 118px 1fr;gap:10px;font-family:"IBM Plex Mono";font-size:11.5px;padding:6px 9px;border-radius:6px;align-items:start;}
+.log-row:hover{background:var(--surface-2);}
+.log-row .lvl{font-weight:600;}
+.log-row.ERROR .lvl{color:var(--danger);}
+.log-row.WARN .lvl{color:var(--warn);}
+.log-row.INFO .lvl{color:var(--info);}
+.log-row .ts,.log-row .svc{color:var(--text-muted);}
+.log-row mark{background:var(--warn-soft);color:var(--warn);border-radius:3px;padding:0 2px;}
+@media(max-width:700px){.log-row{grid-template-columns:1fr;gap:2px;}}
+
+/* Métricas */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:22px;}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);}
+.kpi .val{font-family:"Sora";font-size:26px;font-weight:600;line-height:1.1;}
+.kpi .lbl{font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:5px;}
+.kpi .foot{font-size:11.5px;color:var(--text-muted);margin-top:6px;}
+.kpi.alert .val{color:var(--danger);}
+.kpi.warn .val{color:var(--warn);}
+.kpi.good .val{color:var(--success);}
+.charts{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:820px){.charts{grid-template-columns:1fr 1fr;}}
+.chart{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow);}
+.chart h4{font-size:13px;margin-bottom:14px;}
+.bar-row{display:grid;grid-template-columns:120px 1fr 42px;gap:10px;align-items:center;margin-bottom:9px;font-size:12px;}
+.bar-track{background:var(--surface-2);border-radius:999px;height:9px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;background:var(--accent);}
+.bar-fill.d{background:var(--danger);}
+.bar-fill.w{background:var(--warn);}
+.bar-fill.s{background:var(--success);}
+.bar-fill.i{background:var(--info);}
+.bar-val{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--text-muted);text-align:right;}
+
+.foot-note{margin-top:38px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);}
+.foot-note a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="index.html">
+      <b>HASSELHOFF</b>
+      <span>Tienda departamental</span>
+    </a>
+    <nav class="top-nav" aria-label="Secciones">
+      <button class="tab active" data-view="tienda" type="button">Tienda</button>
+      <button class="tab" data-view="panel" type="button">Panel de soporte N1</button>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-pressed="false">
+        <span id="theme-icon" aria-hidden="true">&#9789;</span><span id="theme-label">Modo noche</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="view active" id="view-tienda">
+    <div class="demo-note">
+      <b>Entorno de demostración.</b> Hasselhoff es una tienda ficticia creada para ejercitar tareas reales de
+      soporte N1. El catálogo alimenta los mismos datos que consulta el panel: si cambiás un ticket, las métricas
+      se recalculan. Nada se envía a un servidor; todo corre en tu navegador.
+    </div>
+    <div class="view-head">
+      <h2>Catálogo</h2>
+      <p>Ropa de hombre, carteras y relojes. El estado de stock que ves acá es el que devuelve la tabla
+        <code class="mono">productos</code> en la consola SQL del panel.</p>
+    </div>
+    <div class="toolbar">
+      <input class="field field--search" id="prod-search" type="search" placeholder="Buscar por nombre o SKU" aria-label="Buscar productos" />
+      <div id="cat-chips"></div>
+      <span class="count-note" id="prod-count"></span>
+    </div>
+    <div class="grid" id="prod-grid"></div>
+  </section>
+
+  <section class="view" id="view-panel">
+    <div class="view-head">
+      <h2>Panel de soporte N1</h2>
+      <p>Las cuatro tareas que ocupan el día de un analista de primer nivel: atender la cola de tickets,
+        consultar la base para entender qué pasó, leer los logs del servicio y vigilar las métricas.</p>
+    </div>
+    <div class="subnav">
+      <button class="tab active" data-pane="tickets" type="button">Tickets</button>
+      <button class="tab" data-pane="sql" type="button">Consola SQL</button>
+      <button class="tab" data-pane="logs" type="button">Logs</button>
+      <button class="tab" data-pane="metricas" type="button">Métricas</button>
+    </div>
+
+    <div class="pane active" id="pane-tickets"></div>
+    <div class="pane" id="pane-sql"></div>
+    <div class="pane" id="pane-logs"></div>
+    <div class="pane" id="pane-metricas"></div>
+  </section>
+
+  <p class="foot-note">
+    Hasselhoff — entorno de práctica construido con HTML, CSS y JavaScript, sin dependencias ni backend.
+    <a href="index.html">Volver al CV</a> &middot; <a href="curso-soporte-n1.html">Curso de Soporte N1</a>
+  </p>
+</main>
+<script>
+var PRODUCTOS = [
+  {id:1, sku:'HH-ROP-001', nombre:'Camisa Oxford Azul', categoria:'Ropa', precio:749, stock:42},
+  {id:2, sku:'HH-ROP-002', nombre:'Camisa de Lino Blanca', categoria:'Ropa', precio:899, stock:18},
+  {id:3, sku:'HH-ROP-003', nombre:'Saco Slim Fit Gris', categoria:'Ropa', precio:3290, stock:7},
+  {id:4, sku:'HH-ROP-004', nombre:'Pantalon Chino Beige', categoria:'Ropa', precio:1150, stock:31},
+  {id:5, sku:'HH-ROP-005', nombre:'Pantalon de Vestir Negro', categoria:'Ropa', precio:1390, stock:24},
+  {id:6, sku:'HH-ROP-006', nombre:'Sueter Merino Marino', categoria:'Ropa', precio:1690, stock:0},
+  {id:7, sku:'HH-ROP-007', nombre:'Playera Pique Blanca', categoria:'Ropa', precio:590, stock:65},
+  {id:8, sku:'HH-ROP-008', nombre:'Abrigo de Lana Camel', categoria:'Ropa', precio:4890, stock:4},
+  {id:9, sku:'HH-ROP-009', nombre:'Jeans Slim Indigo', categoria:'Ropa', precio:1290, stock:37},
+  {id:10, sku:'HH-ROP-010', nombre:'Chaleco Acolchado Verde', categoria:'Ropa', precio:1780, stock:12},
+  {id:11, sku:'HH-CAR-001', nombre:'Cartera Bifold Cafe', categoria:'Carteras', precio:690, stock:54},
+  {id:12, sku:'HH-CAR-002', nombre:'Cartera Vertical Negra', categoria:'Carteras', precio:720, stock:29},
+  {id:13, sku:'HH-CAR-003', nombre:'Portafolio Ejecutivo Cafe', categoria:'Carteras', precio:3450, stock:6},
+  {id:14, sku:'HH-CAR-004', nombre:'Bandolera Urbana Negra', categoria:'Carteras', precio:1590, stock:0},
+  {id:15, sku:'HH-CAR-005', nombre:'Mochila Ejecutiva Gris', categoria:'Carteras', precio:2190, stock:15},
+  {id:16, sku:'HH-CAR-006', nombre:'Portadocumentos de Piel', categoria:'Carteras', precio:1290, stock:22},
+  {id:17, sku:'HH-CAR-007', nombre:'Tarjetero Minimalista', categoria:'Carteras', precio:390, stock:88},
+  {id:18, sku:'HH-REL-001', nombre:'Cronografo de Acero', categoria:'Relojes', precio:5490, stock:9},
+  {id:19, sku:'HH-REL-002', nombre:'Automatico Esfera Azul', categoria:'Relojes', precio:8900, stock:3},
+  {id:20, sku:'HH-REL-003', nombre:'Reloj Piel Cafe Clasico', categoria:'Relojes', precio:2390, stock:26},
+  {id:21, sku:'HH-REL-004', nombre:'Reloj Deportivo Silicona', categoria:'Relojes', precio:1490, stock:41},
+  {id:22, sku:'HH-REL-005', nombre:'Reloj Minimalista Blanco', categoria:'Relojes', precio:1890, stock:0},
+  {id:23, sku:'HH-REL-006', nombre:'Reloj Digital Titanio', categoria:'Relojes', precio:3990, stock:11},
+  {id:24, sku:'HH-REL-007', nombre:'Reloj Oro Rosa Edicion', categoria:'Relojes', precio:12500, stock:2}
+];
+
+var CLIENTES = [
+  {id:1, nombre:'Ricardo Mendoza', email:'r.mendoza@correo.mx', ciudad:'Puebla', plan:'Premium'},
+  {id:2, nombre:'Luis Arreola', email:'luis.arreola@correo.mx', ciudad:'CDMX', plan:'Basico'},
+  {id:3, nombre:'Andres Villalobos', email:'a.villalobos@correo.mx', ciudad:'Monterrey', plan:'Premium'},
+  {id:4, nombre:'Fernando Ruiz', email:'fer.ruiz@correo.mx', ciudad:'Guadalajara', plan:'Basico'},
+  {id:5, nombre:'Emilio Cardenas', email:'e.cardenas@correo.mx', ciudad:'Puebla', plan:'Basico'},
+  {id:6, nombre:'Hector Salgado', email:'h.salgado@correo.mx', ciudad:'Queretaro', plan:'Premium'},
+  {id:7, nombre:'Mauricio Trevino', email:'m.trevino@correo.mx', ciudad:'Monterrey', plan:'Basico'},
+  {id:8, nombre:'Ivan Delgado', email:'ivan.delgado@correo.mx', ciudad:'CDMX', plan:'Premium'},
+  {id:9, nombre:'Rodrigo Paredes', email:'r.paredes@correo.mx', ciudad:'Merida', plan:'Basico'},
+  {id:10, nombre:'Sergio Bautista', email:'s.bautista@correo.mx', ciudad:'Puebla', plan:'Basico'},
+  {id:11, nombre:'Alonso Rivera', email:'a.rivera@correo.mx', ciudad:'Tijuana', plan:'Premium'},
+  {id:12, nombre:'Gabriel Ortiz', email:'g.ortiz@correo.mx', ciudad:'Guadalajara', plan:'Basico'}
+];
+
+var PEDIDOS = [
+  {id:'PD-4801', cliente_id:1, producto_id:18, cantidad:1, total:5490, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-24'},
+  {id:'PD-4802', cliente_id:2, producto_id:1, cantidad:2, total:1498, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-24'},
+  {id:'PD-4803', cliente_id:3, producto_id:24, cantidad:1, total:12500, estado:'Procesando', metodo_pago:'Transferencia', fecha:'2026-08-25'},
+  {id:'PD-4804', cliente_id:4, producto_id:11, cantidad:1, total:690, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-25'},
+  {id:'PD-4805', cliente_id:5, producto_id:6, cantidad:1, total:1690, estado:'Cancelado', metodo_pago:'Tarjeta', fecha:'2026-08-26'},
+  {id:'PD-4806', cliente_id:6, producto_id:13, cantidad:1, total:3450, estado:'En camino', metodo_pago:'Tarjeta', fecha:'2026-08-26'},
+  {id:'PD-4807', cliente_id:1, producto_id:9, cantidad:2, total:2580, estado:'Entregado', metodo_pago:'Efectivo', fecha:'2026-08-27'},
+  {id:'PD-4808', cliente_id:7, producto_id:21, cantidad:1, total:1490, estado:'Devuelto', metodo_pago:'Tarjeta', fecha:'2026-08-27'},
+  {id:'PD-4809', cliente_id:8, producto_id:19, cantidad:1, total:8900, estado:'Procesando', metodo_pago:'Tarjeta', fecha:'2026-08-28'},
+  {id:'PD-4810', cliente_id:9, producto_id:17, cantidad:3, total:1170, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-28'},
+  {id:'PD-4811', cliente_id:10, producto_id:14, cantidad:1, total:1590, estado:'Cancelado', metodo_pago:'Tarjeta', fecha:'2026-08-29'},
+  {id:'PD-4812', cliente_id:11, producto_id:8, cantidad:1, total:4890, estado:'En camino', metodo_pago:'Transferencia', fecha:'2026-08-29'},
+  {id:'PD-4813', cliente_id:12, producto_id:4, cantidad:2, total:2300, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-30'},
+  {id:'PD-4814', cliente_id:3, producto_id:20, cantidad:1, total:2390, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-08-30'},
+  {id:'PD-4815', cliente_id:2, producto_id:22, cantidad:1, total:1890, estado:'Cancelado', metodo_pago:'Tarjeta', fecha:'2026-08-31'},
+  {id:'PD-4816', cliente_id:5, producto_id:7, cantidad:4, total:2360, estado:'En camino', metodo_pago:'Efectivo', fecha:'2026-08-31'},
+  {id:'PD-4817', cliente_id:6, producto_id:23, cantidad:1, total:3990, estado:'Procesando', metodo_pago:'Tarjeta', fecha:'2026-09-01'},
+  {id:'PD-4818', cliente_id:8, producto_id:15, cantidad:1, total:2190, estado:'Procesando', metodo_pago:'Tarjeta', fecha:'2026-09-01'},
+  {id:'PD-4819', cliente_id:9, producto_id:3, cantidad:1, total:3290, estado:'Devuelto', metodo_pago:'Tarjeta', fecha:'2026-09-01'},
+  {id:'PD-4820', cliente_id:4, producto_id:12, cantidad:2, total:1440, estado:'Entregado', metodo_pago:'Tarjeta', fecha:'2026-09-02'},
+  {id:'PD-4821', cliente_id:11, producto_id:24, cantidad:1, total:12500, estado:'Procesando', metodo_pago:'Transferencia', fecha:'2026-09-02'},
+  {id:'PD-4822', cliente_id:7, producto_id:2, cantidad:1, total:899, estado:'Procesando', metodo_pago:'Tarjeta', fecha:'2026-09-02'}
+];
+
+var TICKETS_BASE = [
+  {id:'TK-1041', cliente_id:2, pedido_id:'PD-4815', asunto:'El cobro se duplico en mi tarjeta', categoria:'Pago', prioridad:'Alta', estado:'Abierto', horas_abierto:5, sla_horas:8, canal:'Telefono', asignado:'N1'},
+  {id:'TK-1042', cliente_id:5, pedido_id:'PD-4805', asunto:'Pague pero el pedido figura como cancelado', categoria:'Pago', prioridad:'Alta', estado:'Abierto', horas_abierto:7, sla_horas:8, canal:'Chat', asignado:'N1'},
+  {id:'TK-1043', cliente_id:10, pedido_id:'PD-4811', asunto:'No pude completar el pago con tarjeta', categoria:'Pago', prioridad:'Alta', estado:'Escalado', horas_abierto:9, sla_horas:8, canal:'Chat', asignado:'N2'},
+  {id:'TK-1044', cliente_id:6, pedido_id:'PD-4806', asunto:'El paquete no avanza desde hace tres dias', categoria:'Envio', prioridad:'Media', estado:'En curso', horas_abierto:14, sla_horas:24, canal:'Correo', asignado:'N1'},
+  {id:'TK-1045', cliente_id:11, pedido_id:'PD-4812', asunto:'Quiero cambiar la direccion de entrega', categoria:'Envio', prioridad:'Media', estado:'Abierto', horas_abierto:3, sla_horas:24, canal:'Chat', asignado:'N1'},
+  {id:'TK-1046', cliente_id:7, pedido_id:'PD-4808', asunto:'Solicito reembolso por reloj devuelto', categoria:'Devolucion', prioridad:'Media', estado:'En curso', horas_abierto:20, sla_horas:24, canal:'Correo', asignado:'N1'},
+  {id:'TK-1047', cliente_id:9, pedido_id:'PD-4819', asunto:'El saco llego con una costura abierta', categoria:'Devolucion', prioridad:'Media', estado:'Abierto', horas_abierto:26, sla_horas:24, canal:'Correo', asignado:'N1'},
+  {id:'TK-1048', cliente_id:1, pedido_id:'', asunto:'No puedo iniciar sesion en mi cuenta', categoria:'Cuenta', prioridad:'Alta', estado:'Resuelto', horas_abierto:2, sla_horas:8, canal:'Chat', asignado:'N1'},
+  {id:'TK-1049', cliente_id:8, pedido_id:'', asunto:'No llega el correo de recuperacion de contrasena', categoria:'Cuenta', prioridad:'Media', estado:'Abierto', horas_abierto:11, sla_horas:24, canal:'Correo', asignado:'N1'},
+  {id:'TK-1050', cliente_id:3, pedido_id:'PD-4803', asunto:'La pagina del reloj de oro rosa carga muy lenta', categoria:'Sitio web', prioridad:'Media', estado:'Escalado', horas_abierto:16, sla_horas:24, canal:'Chat', asignado:'N2'},
+  {id:'TK-1051', cliente_id:4, pedido_id:'', asunto:'El sitio muestra error 500 al abrir el carrito', categoria:'Sitio web', prioridad:'Alta', estado:'Escalado', horas_abierto:4, sla_horas:8, canal:'Chat', asignado:'N2'},
+  {id:'TK-1052', cliente_id:12, pedido_id:'', asunto:'El sueter marino aparece disponible pero no deja comprar', categoria:'Inventario', prioridad:'Baja', estado:'Abierto', horas_abierto:38, sla_horas:72, canal:'Correo', asignado:'N1'},
+  {id:'TK-1053', cliente_id:2, pedido_id:'', asunto:'La bandolera negra no se puede agregar al carrito', categoria:'Inventario', prioridad:'Baja', estado:'En curso', horas_abierto:45, sla_horas:72, canal:'Chat', asignado:'N1'},
+  {id:'TK-1054', cliente_id:6, pedido_id:'PD-4817', asunto:'Quiero factura del pedido PD-4817', categoria:'Facturacion', prioridad:'Baja', estado:'Resuelto', horas_abierto:6, sla_horas:72, canal:'Correo', asignado:'N1'},
+  {id:'TK-1055', cliente_id:8, pedido_id:'PD-4818', asunto:'Consulta sobre tiempo de entrega a CDMX', categoria:'Envio', prioridad:'Baja', estado:'Resuelto', horas_abierto:1, sla_horas:72, canal:'Chat', asignado:'N1'},
+  {id:'TK-1056', cliente_id:11, pedido_id:'PD-4821', asunto:'La transferencia no se refleja en mi pedido', categoria:'Pago', prioridad:'Alta', estado:'Abierto', horas_abierto:6, sla_horas:8, canal:'Telefono', asignado:'N1'}
+];
+
+var LOGS = [
+  {ts:'2026-09-02 02:58:11', nivel:'INFO', servicio:'api-pedidos', mensaje:'Despliegue v2.14.0 completado, 3 instancias reiniciadas'},
+  {ts:'2026-09-02 03:04:02', nivel:'WARN', servicio:'pasarela-pago', mensaje:'Latencia del proveedor por encima del umbral: 2480 ms'},
+  {ts:'2026-09-02 03:07:45', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Timeout al confirmar cargo, pedido PD-4815, reintento 1 de 3'},
+  {ts:'2026-09-02 03:07:52', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Timeout al confirmar cargo, pedido PD-4815, reintento 2 de 3'},
+  {ts:'2026-09-02 03:08:01', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Cargo duplicado detectado para pedido PD-4815, cliente 2'},
+  {ts:'2026-09-02 03:09:30', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Timeout al confirmar cargo, pedido PD-4805, cliente 5'},
+  {ts:'2026-09-02 03:09:44', nivel:'WARN', servicio:'api-pedidos', mensaje:'Pedido PD-4805 marcado como Cancelado por falta de confirmacion de pago'},
+  {ts:'2026-09-02 03:11:18', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Conexion rechazada hacia gateway externo puerto 8443'},
+  {ts:'2026-09-02 03:12:00', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Tasa de error 5xx supera 50 por minuto, alarma prod-pagos-5xx activada'},
+  {ts:'2026-09-02 03:12:40', nivel:'ERROR', servicio:'pasarela-pago', mensaje:'Fallo de cobro para pedido PD-4811, cliente 10, codigo GW-504'},
+  {ts:'2026-09-02 03:18:22', nivel:'INFO', servicio:'pasarela-pago', mensaje:'Proveedor de pagos responde de nuevo dentro del umbral'},
+  {ts:'2026-09-02 03:20:05', nivel:'INFO', servicio:'pasarela-pago', mensaje:'Alarma prod-pagos-5xx vuelve a estado OK'},
+  {ts:'2026-09-02 06:41:12', nivel:'INFO', servicio:'auth', mensaje:'Inicio de sesion correcto, cliente 1'},
+  {ts:'2026-09-02 06:52:31', nivel:'WARN', servicio:'auth', mensaje:'Cinco intentos fallidos de inicio de sesion, cliente 1, cuenta bloqueada 15 min'},
+  {ts:'2026-09-02 07:10:09', nivel:'INFO', servicio:'auth', mensaje:'Bloqueo liberado para cliente 1'},
+  {ts:'2026-09-02 07:44:50', nivel:'ERROR', servicio:'correo', mensaje:'Rebote permanente al enviar recuperacion de contrasena a cliente 8'},
+  {ts:'2026-09-02 07:45:02', nivel:'WARN', servicio:'correo', mensaje:'Cola de salida con 214 mensajes pendientes'},
+  {ts:'2026-09-02 08:02:18', nivel:'INFO', servicio:'web', mensaje:'Pico de trafico: 1240 sesiones activas'},
+  {ts:'2026-09-02 08:15:37', nivel:'ERROR', servicio:'web', mensaje:'HTTP 500 en /carrito, excepcion no controlada en modulo de cupones'},
+  {ts:'2026-09-02 08:15:41', nivel:'ERROR', servicio:'web', mensaje:'HTTP 500 en /carrito, cliente 4, sesion abortada'},
+  {ts:'2026-09-02 08:16:55', nivel:'ERROR', servicio:'web', mensaje:'HTTP 500 en /carrito, tasa de error 12 por minuto'},
+  {ts:'2026-09-02 08:22:14', nivel:'WARN', servicio:'web', mensaje:'Tiempo de respuesta de /producto/24 en 4.8 s, umbral 2 s'},
+  {ts:'2026-09-02 08:23:40', nivel:'WARN', servicio:'web', mensaje:'Consulta lenta detectada en catalogo, 4210 ms, producto 24'},
+  {ts:'2026-09-02 08:40:11', nivel:'ERROR', servicio:'inventario', mensaje:'Desincronizacion de stock: producto 6 figura 0 en almacen y 3 en catalogo'},
+  {ts:'2026-09-02 08:41:03', nivel:'ERROR', servicio:'inventario', mensaje:'Desincronizacion de stock: producto 14 figura 0 en almacen y 2 en catalogo'},
+  {ts:'2026-09-02 08:41:20', nivel:'WARN', servicio:'inventario', mensaje:'Sincronizacion nocturna omitida, ultima ejecucion hace 31 h'},
+  {ts:'2026-09-02 09:05:44', nivel:'INFO', servicio:'api-pedidos', mensaje:'Pedido PD-4820 confirmado y enviado a preparacion'},
+  {ts:'2026-09-02 09:18:02', nivel:'INFO', servicio:'api-pedidos', mensaje:'Pedido PD-4821 registrado, pago por transferencia pendiente de conciliacion'},
+  {ts:'2026-09-02 09:33:27', nivel:'WARN', servicio:'api-pedidos', mensaje:'Transferencia del pedido PD-4821 sin conciliar tras 6 h'},
+  {ts:'2026-09-02 09:47:55', nivel:'INFO', servicio:'web', mensaje:'Despliegue de correccion en modulo de cupones programado para 11:00'},
+  {ts:'2026-09-02 10:02:31', nivel:'ERROR', servicio:'web', mensaje:'HTTP 500 en /carrito, incidencia sigue activa tras 105 min'},
+  {ts:'2026-09-02 10:15:19', nivel:'INFO', servicio:'inventario', mensaje:'Sincronizacion manual de stock lanzada por operaciones'}
+];
+</script>
+<script>
+var DB = {productos:PRODUCTOS, clientes:CLIENTES, pedidos:PEDIDOS, tickets:null};
+
+var AGREGADAS = /^(count|sum|avg|min|max)\s*\(\s*(.+?)\s*\)$/i;
+
+// El alias de tabla es opcional, asi que sin este lookahead la palabra que sigue
+// (WHERE, GROUP, LIMIT...) se toma como alias y la clausula se pierde en silencio.
+var RESERVADAS = '(?:where|join|inner|left|right|group|order|limit|having|on)\\b';
+var RE_CABECERA = new RegExp('^select\\s+([\\s\\S]+?)\\s+from\\s+([a-z_]+)(?:\\s+(?:as\\s+)?(?!' + RESERVADAS + ')([a-z_]+))?([\\s\\S]*)$', 'i');
+var RE_JOIN = new RegExp('\\bjoin\\s+([a-z_]+)(?:\\s+(?:as\\s+)?(?!' + RESERVADAS + ')([a-z_]+))?\\s+on\\s+([a-z_][a-z0-9_.]*)\\s*=\\s*([a-z_][a-z0-9_.]*)', 'i');
+
+function splitTop(str, sep){
+  var out = [], depth = 0, cur = '', q = null;
+  for(var i = 0; i < str.length; i++){
+    var c = str[i];
+    if(q){ cur += c; if(c === q) q = null; continue; }
+    if(c === '"' || c === "'"){ q = c; cur += c; continue; }
+    if(c === '(') depth++;
+    if(c === ')') depth--;
+    if(c === sep && depth === 0){ out.push(cur); cur = ''; continue; }
+    cur += c;
+  }
+  out.push(cur);
+  return out.map(function(s){ return s.trim(); }).filter(function(s){ return s.length; });
+}
+
+function getVal(row, col){
+  if(Object.prototype.hasOwnProperty.call(row, col)) return row[col];
+  throw new Error('La columna "' + col + '" no existe. Revisa el esquema de abajo.');
+}
+
+function parseLiteral(raw, row){
+  var t = raw.trim();
+  var m = t.match(/^'([\s\S]*)'$/) || t.match(/^"([\s\S]*)"$/);
+  if(m) return m[1];
+  if(/^-?\d+(\.\d+)?$/.test(t)) return parseFloat(t);
+  if(/^null$/i.test(t)) return null;
+  return getVal(row, t);
+}
+
+function likeToRegex(pat){
+  var esc = pat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('^' + esc.replace(/%/g, '[\\s\\S]*').replace(/_/g, '[\\s\\S]') + '$', 'i');
+}
+
+function compara(izq, op, der){
+  if(op === 'like') return likeToRegex(String(der)).test(String(izq));
+  var ambosNum = typeof izq === 'number' && typeof der === 'number';
+  var a = ambosNum ? izq : String(izq).toLowerCase();
+  var b = ambosNum ? der : String(der).toLowerCase();
+  if(op === '=') return a === b;
+  if(op === '!=' || op === '<>') return a !== b;
+  if(op === '>') return a > b;
+  if(op === '<') return a < b;
+  if(op === '>=') return a >= b;
+  if(op === '<=') return a <= b;
+  throw new Error('Operador no soportado: ' + op);
+}
+
+function evalCond(row, cond){
+  var m = cond.match(/^\s*([a-z_][a-z0-9_.]*)\s*(>=|<=|!=|<>|=|>|<|\blike\b)\s*([\s\S]+?)\s*$/i);
+  if(!m) throw new Error('No entiendo la condicion: ' + cond.trim());
+  return compara(getVal(row, m[1]), m[2].toLowerCase(), parseLiteral(m[3], row));
+}
+
+// Evaluacion de izquierda a derecha, sin parentesis: alcanza para el nivel N1
+// y mantiene los mensajes de error legibles.
+function evalWhere(row, expr){
+  var partes = expr.split(/\s+(and|or)\s+/i);
+  var res = evalCond(row, partes[0]);
+  for(var i = 1; i < partes.length; i += 2){
+    var sig = evalCond(row, partes[i + 1]);
+    res = partes[i].toLowerCase() === 'and' ? (res && sig) : (res || sig);
+  }
+  return res;
+}
+
+function filasDe(tabla, alias){
+  var datos = tabla === 'tickets' ? ESTADO.tickets : DB[tabla];
+  if(!datos) throw new Error('La tabla "' + tabla + '" no existe. Disponibles: productos, clientes, pedidos, tickets.');
+  return datos.map(function(r){
+    var o = {};
+    Object.keys(r).forEach(function(k){ o[k] = r[k]; o[alias + '.' + k] = r[k]; });
+    return o;
+  });
+}
+
+function columnasDe(tabla){
+  var datos = tabla === 'tickets' ? ESTADO.tickets : DB[tabla];
+  return Object.keys(datos[0]);
+}
+
+function agregar(fn, col, filas){
+  fn = fn.toLowerCase();
+  if(fn === 'count') return col === '*' ? filas.length : filas.filter(function(r){ return getVal(r, col) !== null && getVal(r, col) !== ''; }).length;
+  var nums = filas.map(function(r){ return Number(getVal(r, col)); }).filter(function(n){ return !isNaN(n); });
+  if(!nums.length) return 0;
+  if(fn === 'sum') return nums.reduce(function(a, b){ return a + b; }, 0);
+  if(fn === 'avg') return Math.round((nums.reduce(function(a, b){ return a + b; }, 0) / nums.length) * 100) / 100;
+  if(fn === 'min') return Math.min.apply(null, nums);
+  if(fn === 'max') return Math.max.apply(null, nums);
+  throw new Error('Funcion no soportada: ' + fn);
+}
+
+function sqlRun(consulta){
+  var q = String(consulta).replace(/\s+/g, ' ').trim().replace(/;+$/, '');
+  if(!q) throw new Error('Escribe una consulta.');
+  if(!/^select\b/i.test(q)){
+    throw new Error('Solo se permiten consultas SELECT. Este entorno es de lectura, igual que el acceso que recibe un N1.');
+  }
+
+  var cab = q.match(RE_CABECERA);
+  if(!cab) throw new Error('No pude leer la consulta. La forma esperada es: SELECT columnas FROM tabla ...');
+
+  var selRaw = cab[1], tabla = cab[2].toLowerCase(), alias = (cab[3] || tabla).toLowerCase(), cola = cab[4] || '';
+
+  var joinM = cola.match(RE_JOIN);
+  var whereM = cola.match(/\bwhere\s+([\s\S]+?)(?=\s+group\s+by\b|\s+order\s+by\b|\s+limit\b|$)/i);
+  var groupM = cola.match(/\bgroup\s+by\s+([a-z_][a-z0-9_.]*)/i);
+  var orderM = cola.match(/\border\s+by\s+([a-z_][a-z0-9_.()*]*)\s*(asc|desc)?/i);
+  var limitM = cola.match(/\blimit\s+(\d+)/i);
+
+  // Sin esto, una clausula mal escrita se descarta en silencio y la consulta
+  // devuelve resultados de mas sin avisar, que es peor que fallar.
+  var resto = cola;
+  [joinM, whereM, groupM, orderM, limitM].forEach(function(m){ if(m) resto = resto.replace(m[0], ' '); });
+  resto = resto.trim();
+  if(resto) throw new Error('No entiendo esta parte de la consulta: "' + resto + '"');
+
+  var filas = filasDe(tabla, alias);
+  var colsIzq = columnasDe(tabla);
+  var colsDer = [], aliasDer = null;
+
+  if(joinM){
+    var tablaDer = joinM[1].toLowerCase();
+    aliasDer = (joinM[2] || tablaDer).toLowerCase();
+    if(/^on$/i.test(aliasDer)) aliasDer = tablaDer;
+    var derechas = filasDe(tablaDer, aliasDer);
+    colsDer = columnasDe(tablaDer);
+    var unidas = [];
+    filas.forEach(function(a){
+      derechas.forEach(function(b){
+        var mezcla = {};
+        Object.keys(b).forEach(function(k){ if(k.indexOf('.') !== -1) mezcla[k] = b[k]; });
+        Object.keys(a).forEach(function(k){ mezcla[k] = a[k]; });
+        colsDer.forEach(function(k){ if(!Object.prototype.hasOwnProperty.call(mezcla, k)) mezcla[k] = b[k]; });
+        try{
+          if(compara(getVal(mezcla, joinM[3]), '=', getVal(mezcla, joinM[4]))) unidas.push(mezcla);
+        }catch(e){ throw new Error('En el JOIN: ' + e.message); }
+      });
+    });
+    filas = unidas;
+  }
+
+  if(whereM){
+    var cond = whereM[1];
+    filas = filas.filter(function(r){ return evalWhere(r, cond); });
+  }
+
+  var items = splitTop(selRaw, ',').map(function(txt){
+    var alias2 = null;
+    var am = txt.match(/^([\s\S]+?)\s+as\s+([a-z_][a-z0-9_]*)$/i);
+    if(am){ txt = am[1].trim(); alias2 = am[2]; }
+    var ag = txt.match(AGREGADAS);
+    return {expr:txt, nombre:alias2 || txt, ag:ag ? {fn:ag[1], col:ag[2]} : null};
+  });
+
+  var expandido = [];
+  items.forEach(function(it){
+    if(it.expr === '*'){
+      colsIzq.forEach(function(c){ expandido.push({expr:c, nombre:c, ag:null}); });
+      if(aliasDer) colsDer.forEach(function(c){ expandido.push({expr:aliasDer + '.' + c, nombre:aliasDer + '.' + c, ag:null}); });
+    }else{
+      expandido.push(it);
+    }
+  });
+  items = expandido;
+
+  var hayAg = items.some(function(it){ return it.ag; });
+  var salida = [];
+
+  if(hayAg || groupM){
+    var grupos = {}, orden = [];
+    filas.forEach(function(r){
+      var clave = groupM ? String(getVal(r, groupM[1])) : '__todo__';
+      if(!grupos[clave]){ grupos[clave] = []; orden.push(clave); }
+      grupos[clave].push(r);
+    });
+    if(!groupM && !orden.length){ grupos.__todo__ = []; orden.push('__todo__'); }
+    orden.forEach(function(clave){
+      var g = grupos[clave], fila = {};
+      items.forEach(function(it){
+        fila[it.nombre] = it.ag ? agregar(it.ag.fn, it.ag.col, g) : (g.length ? getVal(g[0], it.expr) : null);
+      });
+      salida.push({vals:fila, src:g[0] || {}});
+    });
+  }else{
+    filas.forEach(function(r){
+      var fila = {};
+      items.forEach(function(it){ fila[it.nombre] = getVal(r, it.expr); });
+      salida.push({vals:fila, src:r});
+    });
+  }
+
+  if(orderM){
+    var oc = orderM[1], desc = (orderM[2] || '').toLowerCase() === 'desc';
+    salida.sort(function(x, y){
+      var a = Object.prototype.hasOwnProperty.call(x.vals, oc) ? x.vals[oc] : (Object.prototype.hasOwnProperty.call(x.src, oc) ? x.src[oc] : null);
+      var b = Object.prototype.hasOwnProperty.call(y.vals, oc) ? y.vals[oc] : (Object.prototype.hasOwnProperty.call(y.src, oc) ? y.src[oc] : null);
+      if(a === null && b === null) return 0;
+      var cmp = (typeof a === 'number' && typeof b === 'number') ? a - b : String(a).localeCompare(String(b), 'es');
+      return desc ? -cmp : cmp;
+    });
+  }
+
+  if(limitM) salida = salida.slice(0, parseInt(limitM[1], 10));
+
+  return {
+    columnas: items.map(function(it){ return it.nombre; }),
+    filas: salida.map(function(s){ return items.map(function(it){ return s.vals[it.nombre]; }); })
+  };
+}
+</script>
+<script>
+var ESTADO = {
+  tickets: TICKETS_BASE.map(function(t){ var c = {}; Object.keys(t).forEach(function(k){ c[k] = t[k]; }); return c; }),
+  ticketSel: null,
+  catFiltro: 'Todas',
+  logNivel: 'Todos',
+  logTexto: ''
+};
+
+function $(sel){ return document.querySelector(sel); }
+function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function money(n){ return '$' + Number(n).toLocaleString('es-MX'); }
+function cliente(id){ for(var i=0;i<CLIENTES.length;i++){ if(CLIENTES[i].id === id) return CLIENTES[i]; } return null; }
+
+/* ---------- Tienda ---------- */
+function estadoStock(s){
+  if(s === 0) return {cls:'out', txt:'Agotado'};
+  if(s <= 10) return {cls:'low', txt:'Stock bajo: ' + s};
+  return {cls:'ok', txt:'Disponible: ' + s};
+}
+
+function renderTienda(){
+  var cats = ['Todas','Ropa','Carteras','Relojes'];
+  $('#cat-chips').innerHTML = cats.map(function(c){
+    return '<button class="chip' + (ESTADO.catFiltro === c ? ' active' : '') + '" data-cat="' + c + '" type="button">' + c + '</button>';
+  }).join(' ');
+
+  var q = $('#prod-search').value.trim().toLowerCase();
+  var lista = PRODUCTOS.filter(function(p){
+    var okCat = ESTADO.catFiltro === 'Todas' || p.categoria === ESTADO.catFiltro;
+    var okQ = !q || p.nombre.toLowerCase().indexOf(q) !== -1 || p.sku.toLowerCase().indexOf(q) !== -1;
+    return okCat && okQ;
+  });
+
+  $('#prod-count').textContent = lista.length + ' de ' + PRODUCTOS.length + ' productos';
+  $('#prod-grid').innerHTML = lista.length ? lista.map(function(p){
+    var st = estadoStock(p.stock);
+    return '<article class="prod">' +
+      '<div class="prod-top"><span class="prod-cat">' + esc(p.categoria) + '</span><span class="prod-sku">' + esc(p.sku) + '</span></div>' +
+      '<h3>' + esc(p.nombre) + '</h3>' +
+      '<div class="prod-price">' + money(p.precio) + '</div>' +
+      '<div class="prod-foot"><span class="badge ' + st.cls + '">' + st.txt + '</span>' +
+      '<span class="prod-sku">id ' + p.id + '</span></div>' +
+      '</article>';
+  }).join('') : '<p class="empty">Ningun producto coincide con la busqueda.</p>';
+
+  Array.prototype.forEach.call(document.querySelectorAll('#cat-chips .chip'), function(b){
+    b.addEventListener('click', function(){ ESTADO.catFiltro = b.getAttribute('data-cat'); renderTienda(); });
+  });
+}
+
+/* ---------- Tickets ---------- */
+function slaEstado(t){
+  if(t.estado === 'Resuelto') return {cls:'neutral', txt:'Cerrado'};
+  if(t.horas_abierto >= t.sla_horas) return {cls:'out', txt:'SLA vencido'};
+  if(t.horas_abierto >= t.sla_horas * 0.8) return {cls:'low', txt:'SLA en riesgo'};
+  return {cls:'ok', txt:'En SLA'};
+}
+function badgePrioridad(p){
+  var cls = p === 'Alta' ? 'out' : (p === 'Media' ? 'low' : 'neutral');
+  return '<span class="badge ' + cls + '">' + esc(p) + '</span>';
+}
+function badgeEstado(e){
+  var cls = e === 'Resuelto' ? 'ok' : (e === 'Escalado' ? 'info' : (e === 'En curso' ? 'low' : 'neutral'));
+  return '<span class="badge ' + cls + '">' + esc(e) + '</span>';
+}
+
+function logsDeTicket(t){
+  return LOGS.filter(function(l){
+    if(t.pedido_id && l.mensaje.indexOf(t.pedido_id) !== -1) return true;
+    return l.nivel !== 'INFO' && l.mensaje.indexOf('cliente ' + t.cliente_id) !== -1;
+  });
+}
+
+function renderTickets(){
+  var ts = ESTADO.tickets;
+  var filas = ts.map(function(t){
+    var c = cliente(t.cliente_id), sla = slaEstado(t);
+    return '<tr class="clickable' + (ESTADO.ticketSel === t.id ? ' selected' : '') + '" data-tk="' + t.id + '">' +
+      '<td class="mono">' + t.id + '</td>' +
+      '<td>' + esc(t.asunto) + '<br><span class="prod-sku">' + esc(c ? c.nombre : '') + '</span></td>' +
+      '<td>' + badgePrioridad(t.prioridad) + '</td>' +
+      '<td>' + badgeEstado(t.estado) + '</td>' +
+      '<td><span class="badge ' + sla.cls + '">' + sla.txt + '</span></td>' +
+      '</tr>';
+  }).join('');
+
+  $('#pane-tickets').innerHTML =
+    '<div class="split">' +
+      '<div>' +
+        '<div class="toolbar"><span class="count-note" style="margin-left:0">' + ts.length + ' tickets en la cola &middot; toca una fila para abrirla</span></div>' +
+        '<div class="table-wrap"><table class="data"><thead><tr>' +
+        '<th>Ticket</th><th>Asunto y cliente</th><th>Prioridad</th><th>Estado</th><th>SLA</th>' +
+        '</tr></thead><tbody>' + filas + '</tbody></table></div>' +
+      '</div>' +
+      '<div id="tk-detail"></div>' +
+    '</div>';
+
+  Array.prototype.forEach.call(document.querySelectorAll('#pane-tickets tr[data-tk]'), function(tr){
+    tr.addEventListener('click', function(){ ESTADO.ticketSel = tr.getAttribute('data-tk'); renderTickets(); });
+  });
+  renderDetalle();
+}
+
+function renderDetalle(){
+  var caja = $('#tk-detail');
+  if(!caja) return;
+  var t = null;
+  for(var i = 0; i < ESTADO.tickets.length; i++){ if(ESTADO.tickets[i].id === ESTADO.ticketSel) t = ESTADO.tickets[i]; }
+  if(!t){
+    caja.innerHTML = '<div class="detail"><p class="empty" style="border:0;padding:8px 0">Selecciona un ticket de la cola para ver su detalle, su rastro en los logs y las acciones disponibles.</p></div>';
+    return;
+  }
+  var c = cliente(t.cliente_id), sla = slaEstado(t);
+  var rastro = logsDeTicket(t);
+  caja.innerHTML = '<div class="detail">' +
+    '<h3>' + esc(t.asunto) + '</h3>' +
+    '<p class="detail-id">' + t.id + ' &middot; abierto hace ' + t.horas_abierto + ' h &middot; SLA ' + t.sla_horas + ' h</p>' +
+    '<dl>' +
+      '<dt>Cliente</dt><dd>' + esc(c ? c.nombre : '-') + ' (' + esc(c ? c.plan : '-') + ', ' + esc(c ? c.ciudad : '-') + ')</dd>' +
+      '<dt>Pedido</dt><dd class="mono">' + (t.pedido_id ? esc(t.pedido_id) : 'sin pedido asociado') + '</dd>' +
+      '<dt>Categoria</dt><dd>' + esc(t.categoria) + '</dd>' +
+      '<dt>Canal</dt><dd>' + esc(t.canal) + '</dd>' +
+      '<dt>Prioridad</dt><dd>' + badgePrioridad(t.prioridad) + '</dd>' +
+      '<dt>Estado</dt><dd>' + badgeEstado(t.estado) + ' <span class="badge ' + sla.cls + '">' + sla.txt + '</span></dd>' +
+      '<dt>Asignado</dt><dd>' + esc(t.asignado) + '</dd>' +
+    '</dl>' +
+    '<div class="detail-actions">' +
+      '<button class="btn" data-acc="curso" type="button">Tomar el caso</button>' +
+      '<button class="btn btn--primary" data-acc="resolver" type="button">Resolver</button>' +
+      '<button class="btn btn--danger" data-acc="escalar" type="button">Escalar a N2</button>' +
+      '<button class="btn" data-acc="reabrir" type="button">Reabrir</button>' +
+    '</div>' +
+    '<div class="log-trail"><h4>Rastro en los logs (' + rastro.length + ')</h4>' +
+      (rastro.length ? rastro.map(function(l){
+        return '<div class="trail-line"><b>' + l.nivel + '</b> ' + esc(l.ts) + ' &middot; ' + esc(l.servicio) + '<br>' + esc(l.mensaje) + '</div>';
+      }).join('') : '<p class="prod-sku">Sin lineas de log asociadas. Es un caso funcional, no una falla del sistema.</p>') +
+    '</div></div>';
+
+  Array.prototype.forEach.call(caja.querySelectorAll('[data-acc]'), function(b){
+    b.addEventListener('click', function(){
+      var a = b.getAttribute('data-acc');
+      if(a === 'curso'){ t.estado = 'En curso'; t.asignado = 'N1'; }
+      if(a === 'resolver'){ t.estado = 'Resuelto'; }
+      if(a === 'escalar'){ t.estado = 'Escalado'; t.asignado = 'N2'; }
+      if(a === 'reabrir'){ t.estado = 'Abierto'; t.asignado = 'N1'; }
+      renderTickets();
+      renderMetricas();
+    });
+  });
+}
+</script>
+<script>
+/* ---------- Consola SQL ---------- */
+var EJEMPLOS = [
+  {t:'Stock agotado', q:'SELECT nombre, categoria, stock\nFROM productos\nWHERE stock = 0;'},
+  {t:'Tickets fuera de SLA', q:"SELECT id, asunto, prioridad, horas_abierto, sla_horas\nFROM tickets\nWHERE estado != 'Resuelto' AND horas_abierto >= 8\nORDER BY horas_abierto DESC;"},
+  {t:'Tickets por categoria', q:'SELECT categoria, COUNT(*) AS total\nFROM tickets\nGROUP BY categoria\nORDER BY total DESC;'},
+  {t:'Pedidos con cliente (JOIN)', q:"SELECT p.id, c.nombre, c.ciudad, p.total, p.estado\nFROM pedidos p\nJOIN clientes c ON p.cliente_id = c.id\nWHERE p.estado = 'Procesando'\nORDER BY p.total DESC;"},
+  {t:'Facturacion por estado', q:'SELECT estado, COUNT(*) AS pedidos, SUM(total) AS importe\nFROM pedidos\nGROUP BY estado\nORDER BY importe DESC;'},
+  {t:'Relojes mas caros', q:"SELECT nombre, precio, stock\nFROM productos\nWHERE categoria = 'Relojes'\nORDER BY precio DESC\nLIMIT 5;"},
+  {t:'Buscar por texto (LIKE)', q:"SELECT sku, nombre, precio\nFROM productos\nWHERE nombre LIKE '%piel%';"}
+];
+
+var ESQUEMA = [
+  {t:'productos', c:'id, sku, nombre, categoria, precio, stock'},
+  {t:'clientes', c:'id, nombre, email, ciudad, plan'},
+  {t:'pedidos', c:'id, cliente_id, producto_id, cantidad, total, estado, metodo_pago, fecha'},
+  {t:'tickets', c:'id, cliente_id, pedido_id, asunto, categoria, prioridad, estado, horas_abierto, sla_horas, canal, asignado'}
+];
+
+function renderSqlPane(){
+  $('#pane-sql').innerHTML =
+    '<div class="view-head"><h2 style="font-size:16px">Consola de consultas</h2>' +
+    '<p>Motor SQL real sobre los datos de la tienda. Soporta SELECT con WHERE, AND/OR, LIKE, JOIN, ' +
+    'GROUP BY, COUNT/SUM/AVG/MIN/MAX, ORDER BY y LIMIT. Es de solo lectura, igual que el acceso que suele recibir un N1.</p></div>' +
+    '<div class="sql-editor">' +
+    '<textarea class="sql-input" id="sql-input" spellcheck="false" aria-label="Consulta SQL">' + esc(EJEMPLOS[1].q) + '</textarea>' +
+    '<div class="sql-bar"><button class="btn btn--primary" id="sql-run" type="button">Ejecutar</button>' +
+    '<button class="btn" id="sql-clear" type="button">Limpiar</button>' +
+    '<span class="sql-hint">Ctrl + Enter para ejecutar</span></div>' +
+    '<div class="examples" id="sql-examples"></div>' +
+    '<div class="sql-error" id="sql-error"></div>' +
+    '<div class="sql-result" id="sql-result"></div>' +
+    '<div class="schema-box"><h4>Esquema disponible</h4>' +
+    ESQUEMA.map(function(e){ return '<div class="schema-tbl"><b>' + e.t + '</b> <span>(' + e.c + ')</span></div>'; }).join('') +
+    '</div></div>';
+
+  $('#sql-examples').innerHTML = EJEMPLOS.map(function(e, i){
+    return '<button class="chip" data-ej="' + i + '" type="button">' + esc(e.t) + '</button>';
+  }).join('');
+
+  Array.prototype.forEach.call(document.querySelectorAll('#sql-examples .chip'), function(b){
+    b.addEventListener('click', function(){
+      $('#sql-input').value = EJEMPLOS[parseInt(b.getAttribute('data-ej'), 10)].q;
+      ejecutarSql();
+    });
+  });
+  $('#sql-run').addEventListener('click', ejecutarSql);
+  $('#sql-clear').addEventListener('click', function(){
+    $('#sql-input').value = '';
+    $('#sql-error').className = 'sql-error';
+    $('#sql-result').className = 'sql-result';
+    $('#sql-input').focus();
+  });
+  $('#sql-input').addEventListener('keydown', function(ev){
+    if(ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)){ ev.preventDefault(); ejecutarSql(); }
+  });
+  ejecutarSql();
+}
+
+function ejecutarSql(){
+  var err = $('#sql-error'), res = $('#sql-result');
+  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+  try{
+    var r = sqlRun($('#sql-input').value);
+    var ms = ((window.performance && performance.now ? performance.now() : Date.now()) - t0).toFixed(1);
+    err.className = 'sql-error';
+    var cuerpo = r.filas.length
+      ? '<div class="table-wrap"><table class="data"><thead><tr>' +
+        r.columnas.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') +
+        '</tr></thead><tbody>' +
+        r.filas.map(function(f){
+          return '<tr>' + f.map(function(v){
+            var n = typeof v === 'number';
+            return '<td class="' + (n ? 'num' : 'mono') + '">' + esc(v === null ? 'NULL' : v) + '</td>';
+          }).join('') + '</tr>';
+        }).join('') + '</tbody></table></div>'
+      : '<p class="empty">La consulta es valida pero no devolvio filas.</p>';
+    res.className = 'sql-result show';
+    res.innerHTML = '<p class="sql-meta">' + r.filas.length + ' fila(s) &middot; ' + r.columnas.length + ' columna(s) &middot; ' + ms + ' ms</p>' + cuerpo;
+  }catch(e){
+    res.className = 'sql-result';
+    err.className = 'sql-error show';
+    err.textContent = 'Error: ' + e.message;
+  }
+}
+
+/* ---------- Logs ---------- */
+function renderLogsPane(){
+  $('#pane-logs').innerHTML =
+    '<div class="view-head"><h2 style="font-size:16px">Visor de logs</h2>' +
+    '<p>Las mismas lineas que leerias en una terminal con <span class="mono">tail -f</span> y <span class="mono">grep</span>. ' +
+    'Filtra por nivel o busca texto para reconstruir que paso antes de escalar.</p></div>' +
+    '<div class="toolbar">' +
+    '<input class="field field--search" id="log-search" type="search" placeholder="Buscar texto, por ejemplo: PD-4815 o timeout" aria-label="Buscar en los logs" />' +
+    '<select class="field" id="log-level" aria-label="Filtrar por nivel">' +
+    '<option>Todos</option><option>ERROR</option><option>WARN</option><option>INFO</option></select>' +
+    '<span class="count-note" id="log-count"></span></div>' +
+    '<div class="log-view" id="log-view"></div>';
+
+  $('#log-search').addEventListener('input', function(){ ESTADO.logTexto = this.value; pintarLogs(); });
+  $('#log-level').addEventListener('change', function(){ ESTADO.logNivel = this.value; pintarLogs(); });
+  pintarLogs();
+}
+
+function pintarLogs(){
+  var q = ESTADO.logTexto.trim().toLowerCase();
+  var lista = LOGS.filter(function(l){
+    var okN = ESTADO.logNivel === 'Todos' || l.nivel === ESTADO.logNivel;
+    var okQ = !q || (l.mensaje + ' ' + l.servicio + ' ' + l.ts).toLowerCase().indexOf(q) !== -1;
+    return okN && okQ;
+  });
+  $('#log-count').textContent = lista.length + ' de ' + LOGS.length + ' lineas';
+  $('#log-view').innerHTML = lista.length ? lista.map(function(l){
+    var msg = esc(l.mensaje);
+    if(q){
+      var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+      msg = msg.replace(rx, '<mark>$1</mark>');
+    }
+    return '<div class="log-row ' + l.nivel + '"><span class="ts">' + esc(l.ts) + '</span>' +
+      '<span class="lvl">' + l.nivel + '</span><span class="svc">' + esc(l.servicio) + '</span>' +
+      '<span>' + msg + '</span></div>';
+  }).join('') : '<p class="empty">Ninguna linea coincide con el filtro.</p>';
+}
+
+/* ---------- Metricas ---------- */
+function barras(titulo, datos, clase){
+  var max = Math.max.apply(null, datos.map(function(d){ return d.v; }).concat([1]));
+  return '<div class="chart"><h4>' + titulo + '</h4>' + datos.map(function(d){
+    return '<div class="bar-row"><span>' + esc(d.k) + '</span>' +
+      '<span class="bar-track"><span class="bar-fill ' + (d.c || clase || '') + '" style="width:' + Math.round(d.v / max * 100) + '%"></span></span>' +
+      '<span class="bar-val">' + d.v + '</span></div>';
+  }).join('') + '</div>';
+}
+
+function cuenta(arr, campo){
+  var m = {}, orden = [];
+  arr.forEach(function(x){ var k = x[campo]; if(!(k in m)){ m[k] = 0; orden.push(k); } m[k]++; });
+  return orden.map(function(k){ return {k:k, v:m[k]}; }).sort(function(a, b){ return b.v - a.v; });
+}
+
+function renderMetricas(){
+  var caja = $('#pane-metricas');
+  if(!caja) return;
+  var ts = ESTADO.tickets;
+  var abiertos = ts.filter(function(t){ return t.estado !== 'Resuelto'; });
+  var vencidos = abiertos.filter(function(t){ return t.horas_abierto >= t.sla_horas; });
+  var riesgo = abiertos.filter(function(t){ return t.horas_abierto < t.sla_horas && t.horas_abierto >= t.sla_horas * 0.8; });
+  var escalados = ts.filter(function(t){ return t.estado === 'Escalado'; });
+  var resueltos = ts.filter(function(t){ return t.estado === 'Resuelto'; });
+  var cumplimiento = ts.length ? Math.round((ts.length - vencidos.length) / ts.length * 100) : 100;
+  var errores = LOGS.filter(function(l){ return l.nivel === 'ERROR'; });
+  var ingresos = PEDIDOS.filter(function(p){ return p.estado !== 'Cancelado' && p.estado !== 'Devuelto'; })
+    .reduce(function(a, p){ return a + p.total; }, 0);
+  var agotados = PRODUCTOS.filter(function(p){ return p.stock === 0; });
+
+  caja.innerHTML =
+    '<div class="view-head"><h2 style="font-size:16px">Tablero de la mesa</h2>' +
+    '<p>Se recalcula con cada accion que hagas sobre un ticket. Es la vista que se revisa al iniciar y al cerrar el turno.</p></div>' +
+    '<div class="kpis">' +
+      '<div class="kpi' + (abiertos.length > 8 ? ' warn' : '') + '"><div class="val">' + abiertos.length + '</div><div class="lbl">Tickets abiertos</div><div class="foot">' + resueltos.length + ' resueltos hoy</div></div>' +
+      '<div class="kpi' + (vencidos.length ? ' alert' : ' good') + '"><div class="val">' + vencidos.length + '</div><div class="lbl">SLA vencido</div><div class="foot">' + riesgo.length + ' en riesgo</div></div>' +
+      '<div class="kpi' + (cumplimiento < 90 ? ' warn' : ' good') + '"><div class="val">' + cumplimiento + '%</div><div class="lbl">Cumplimiento SLA</div><div class="foot">objetivo 90%</div></div>' +
+      '<div class="kpi"><div class="val">' + escalados.length + '</div><div class="lbl">Escalados a N2</div><div class="foot">de ' + ts.length + ' totales</div></div>' +
+      '<div class="kpi' + (errores.length > 10 ? ' alert' : '') + '"><div class="val">' + errores.length + '</div><div class="lbl">Errores en logs</div><div class="foot">ventana de 8 h</div></div>' +
+      '<div class="kpi"><div class="val">' + money(ingresos) + '</div><div class="lbl">Ventas validas</div><div class="foot">' + agotados.length + ' productos agotados</div></div>' +
+    '</div>' +
+    '<div class="charts">' +
+      barras('Tickets por categoria', cuenta(ts, 'categoria'), 'i') +
+      barras('Tickets por estado', cuenta(ts, 'estado'), '') +
+      barras('Errores por servicio', cuenta(errores, 'servicio'), 'd') +
+      barras('Pedidos por estado', cuenta(PEDIDOS, 'estado'), 's') +
+    '</div>';
+}
+
+/* ---------- Tema y navegacion ---------- */
+var THEME_KEY = 'hasselhoff-theme-v1';
+function temaActual(){
+  var g = document.documentElement.getAttribute('data-theme');
+  if(g) return g;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function pintarBotonTema(t){
+  var oscuro = t === 'dark';
+  $('#theme-icon').innerHTML = oscuro ? '&#9788;' : '&#9789;';
+  $('#theme-label').textContent = oscuro ? 'Modo dia' : 'Modo noche';
+  $('#theme-toggle').setAttribute('aria-pressed', oscuro ? 'true' : 'false');
+  $('#theme-toggle').setAttribute('aria-label', oscuro ? 'Cambiar a modo dia' : 'Cambiar a modo noche');
+}
+$('#theme-toggle').addEventListener('click', function(){
+  var sig = temaActual() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', sig);
+  try{ localStorage.setItem(THEME_KEY, sig); }catch(e){}
+  pintarBotonTema(sig);
+});
+pintarBotonTema(temaActual());
+
+Array.prototype.forEach.call(document.querySelectorAll('.top-nav .tab'), function(b){
+  b.addEventListener('click', function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.top-nav .tab'), function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    Array.prototype.forEach.call(document.querySelectorAll('.view'), function(v){ v.classList.remove('active'); });
+    $('#view-' + b.getAttribute('data-view')).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+Array.prototype.forEach.call(document.querySelectorAll('.subnav .tab'), function(b){
+  b.addEventListener('click', function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.subnav .tab'), function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    Array.prototype.forEach.call(document.querySelectorAll('.pane'), function(p){ p.classList.remove('active'); });
+    $('#pane-' + b.getAttribute('data-pane')).classList.add('active');
+  });
+});
+
+$('#prod-search').addEventListener('input', renderTienda);
+
+renderTienda();
+renderTickets();
+renderSqlPane();
+renderLogsPane();
+renderMetricas();
+</script>
+</body>
+</html>
