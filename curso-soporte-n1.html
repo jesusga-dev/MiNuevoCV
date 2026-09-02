@@ -6,6 +6,15 @@
 <title>Soporte N1 IT y Datos</title>
 <meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 12 módulos (incluye AWS), ejercicios y autoevaluación gamificada con intentos limitados y preguntas aleatorias." />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script>
+// Se aplica antes del primer render para evitar un parpadeo del tema incorrecto.
+(function(){
+  try{
+    var t = localStorage.getItem('n1-course-theme-v1');
+    if(t === 'light' || t === 'dark'){ document.documentElement.setAttribute('data-theme', t); }
+  }catch(e){}
+})();
+</script>
 <style>
 :root{
   --bg:#F5F6F8;
@@ -134,6 +143,34 @@ button{font-family:inherit;}
   font-size:12.5px;
   color:var(--text-muted);
   margin:0;
+}
+.theme-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:12px;
+  padding:6px 11px;
+  font-family:"IBM Plex Sans", sans-serif;
+  font-size:12px;
+  font-weight:500;
+  color:var(--text-muted);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:999px;
+  cursor:pointer;
+  transition:color .15s ease, border-color .15s ease;
+}
+.theme-toggle:hover{
+  color:var(--text);
+  border-color:var(--accent-it);
+}
+.theme-toggle:focus-visible{
+  outline:2px solid var(--accent-it);
+  outline-offset:2px;
+}
+.theme-toggle .theme-icon{
+  font-size:13px;
+  line-height:1;
 }
 .progress-wrap{
   padding:16px 22px;
@@ -553,6 +590,10 @@ table.ref-table td{color:var(--text);}
       <p class="eyebrow">Programa de capacitación &middot; Nivel 1</p>
       <h1 id="sidebar-title">Analista de Soporte<br>IT y Datos (N1)</h1>
       <p class="sub" id="sidebar-sub">12 módulos &middot; ~15 horas</p>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+        <span class="theme-icon" id="theme-icon" aria-hidden="true">&#9789;</span>
+        <span id="theme-label">Modo noche</span>
+      </button>
     </div>
     <div class="progress-wrap">
       <div class="progress-label">
@@ -1227,6 +1268,31 @@ document.getElementById('menu-toggle').addEventListener('click', function(){
   document.getElementById('nav-list').classList.toggle('open');
 });
 
+var THEME_KEY = 'n1-course-theme-v1';
+var themeBtn = document.getElementById('theme-toggle');
+var themeIcon = document.getElementById('theme-icon');
+var themeLabel = document.getElementById('theme-label');
+
+function currentTheme(){
+  var saved = document.documentElement.getAttribute('data-theme');
+  if(saved) return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function paintThemeButton(theme){
+  var isDark = theme === 'dark';
+  themeIcon.innerHTML = isDark ? '&#9788;' : '&#9789;';
+  themeLabel.textContent = isDark ? 'Modo día' : 'Modo noche';
+  themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  themeBtn.setAttribute('aria-label', isDark ? 'Cambiar a modo día' : 'Cambiar a modo noche');
+}
+themeBtn.addEventListener('click', function(){
+  var next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+  paintThemeButton(next);
+});
+
+paintThemeButton(currentTheme());
 renderSidebar();
 renderLanding();
 
