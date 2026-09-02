@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Soporte N1 IT y Datos</title>
-<meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 12 módulos (incluye AWS), ejercicios y autoevaluación gamificada con intentos limitados y preguntas aleatorias." />
+<meta name="description" content="Programa interactivo de capacitación para Analista de Soporte Técnico IT y Datos (N1): 14 módulos (incluye Linux, AWS y monitoreo), ejercicios y autoevaluación gamificada con intentos limitados y preguntas aleatorias." />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script>
 // Se aplica antes del primer render para evitar un parpadeo del tema incorrecto.
@@ -589,7 +589,7 @@ table.ref-table td{color:var(--text);}
     <div class="sidebar-head">
       <p class="eyebrow">Programa de capacitación &middot; Nivel 1</p>
       <h1 id="sidebar-title">Analista de Soporte<br>IT y Datos (N1)</h1>
-      <p class="sub" id="sidebar-sub">12 módulos &middot; ~15 horas</p>
+      <p class="sub" id="sidebar-sub">14 módulos &middot; ~17.5 horas</p>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
         <span class="theme-icon" id="theme-icon" aria-hidden="true">&#9789;</span>
         <span id="theme-label">Modo noche</span>
@@ -597,7 +597,7 @@ table.ref-table td{color:var(--text);}
     </div>
     <div class="progress-wrap">
       <div class="progress-label">
-        <span id="progress-text">0 / 12 módulos</span>
+        <span id="progress-text">0 / 14 módulos</span>
         <span id="progress-pct">0%</span>
       </div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
@@ -633,21 +633,20 @@ var MODULES = [
         ['N2','Casos que requieren diagnóstico más profundo','Falla intermitente de red en un sector'],
         ['N3','Infraestructura, arquitectura, proveedores externos','Caída de un servidor o servicio crítico']
       ]},
-      {type:'p', text:'Un detalle propio de este puesto: cada vez más, el soporte N1 no solo resuelve incidentes técnicos, también consulta bases de datos e inventarios, arma reportes en Excel y lee dashboards para entender cómo está funcionando la mesa de ayuda en su conjunto. Por eso este programa desarrolla ambas competencias en paralelo: la mitad de los módulos son de soporte técnico y la otra mitad de datos, y el módulo final las combina en un caso único.'}
+      {type:'p', text:'Un detalle propio de este puesto: cada vez más, el soporte N1 no solo resuelve incidentes técnicos, también consulta bases de datos e inventarios, arma reportes en Excel y lee dashboards para entender cómo está funcionando la mesa de ayuda en su conjunto. Y a eso se suma una tercera pata cada vez más difícil de esquivar: buena parte de los servicios que la mesa soporta ya no viven en un servidor del sótano sino en la nube, sobre Linux, con alertas automáticas que avisan antes que el usuario. Por eso el programa recorre los cuatro terrenos: soporte IT (incluida la terminal de Linux), datos, nube y monitoreo, y el módulo final los combina en un caso único.'}
     ],
     exercise:{title:'Reflexión inicial', body:'Antes de avanzar, anotá (en un documento propio) tres tipos de consultas que creés que van a llegar con más frecuencia a un analista N1, pensando en tu propia experiencia como usuario de algún servicio de soporte. Vas a poder comparar esta lista con la realidad del rol a medida que avances en el curso.'},
     quiz:[
       {q:'¿Cuál es la función principal de un analista N1?', options:['Diseñar la arquitectura de red de la empresa','Ser el primer punto de contacto y resolver incidentes frecuentes con procedimientos conocidos','Aprobar las compras de hardware','Auditar la seguridad de los servidores'], correct:1, explain:'El N1 es la primera línea de atención: resuelve lo que ya tiene procedimiento y deriva el resto con contexto.'},
       {q:'¿Qué caracteriza a un caso que debería escalarse a N2?', options:['Que el usuario lo pida por las dudas','Que el N1 no tenga tiempo ese día','Que requiera un diagnóstico más profundo que excede los procedimientos de N1','Que el ticket lleve más de 5 minutos abierto'], correct:2, explain:'Se escala quo un caso supera el alcance o la profundidad técnica esperada de N1, no por plazo o comodidad.'},
-      {q:'¿Por qué este programa incluye módulos de datos además de soporte técnico?', options:['Porque es un curso genérico de oficina','Porque el rol N1 actual también consulta bases de datos, arma reportes y lee dashboards de la mesa de ayuda','Porque no hay suficiente contenido técnico para 13 horas','Porque los datos reemplazan al soporte técnico'], correct:1, explain:'El N1 moderno combina resolución técnica con lectura y manejo básico de datos operativos.'}
+      {q:'¿Por qué este programa incluye módulos de datos además de soporte técnico?', options:['Porque es un curso genérico de oficina','Porque el rol N1 actual también consulta bases de datos, arma reportes y lee dashboards de la mesa de ayuda','Porque no hay suficiente contenido técnico para llenar el programa','Porque los datos reemplazan al soporte técnico'], correct:1, explain:'El N1 moderno combina resolución técnica con lectura y manejo básico de datos operativos.'}
     ]
   },
   {
-    id:2, track:'it', title:'Hardware y componentes de una PC', duration:'1 h',
+    id:2, track:'it', title:'Hardware y componentes de una PC', duration:'30 min',
     objective:'Reconocer los componentes principales de una computadora y aplicar un primer diagnóstico visual ante fallas comunes de hardware.',
     content:[
-      {type:'p', text:'Para diagnosticar cualquier falla, primero hay que saber qué partes tiene el equipo y qué función cumple cada una. La placa madre conecta todos los componentes entre sí. El procesador (CPU) ejecuta las instrucciones. La memoria RAM guarda datos de uso temporal mientras el equipo está encendido. El almacenamiento (HDD o SSD) guarda el sistema operativo, los programas y los archivos de forma permanente. La fuente de poder convierte la corriente eléctrica en la energía que necesitan los demás componentes.'},
-      {type:'p', text:'Un analista N1 no repara hardware a nivel de placa, pero sí necesita identificar síntomas, aislar la causa probable y saber cuándo un reemplazo simple (un cable, una fuente, un módulo de RAM) puede resolver el problema o cuándo corresponde escalar el equipo a soporte especializado o garantía.'},
+      {type:'p', text:'Para diagnosticar cualquier falla conviene saber qué partes tiene el equipo: la placa madre conecta todo, el procesador (CPU) ejecuta las instrucciones, la memoria RAM guarda datos temporales mientras el equipo está encendido, el almacenamiento (HDD o SSD) conserva el sistema y los archivos de forma permanente, y la fuente de poder alimenta a los demás componentes. Un N1 no repara hardware a nivel de placa, pero sí identifica síntomas, aísla la causa probable y decide si corresponde un reemplazo simple o una escalación a soporte especializado o garantía.'},
       {type:'table', caption:'Síntomas comunes y primer chequeo', columns:['Síntoma','Primer chequeo'], rows:[
         ['El equipo no enciende','Cable de alimentación, tomacorriente, luz de la fuente, botón de encendido'],
         ['Se reinicia solo o se apaga de golpe','Temperatura, ventilación, fuente de poder, actualizaciones pendientes'],
@@ -655,7 +654,7 @@ var MODULES = [
         ['Pantalla azul (BSOD) o pantalla negra','Anotar el código de error, revisar cambios recientes de hardware o drivers'],
         ['No detecta un periférico (mouse, teclado)','Puerto USB alternativo, cable, otro equipo para descartar el periférico']
       ]},
-      {type:'p', text:'Además del diagnóstico, hay buenas prácticas que todo N1 debe respetar: manipular los equipos con cuidado para evitar descargas electrostáticas, no forzar conectores, y registrar siempre el número de serie o de inventario del equipo en el ticket. Esa trazabilidad es clave si el caso se escala o si el mismo equipo vuelve a fallar más adelante.'}
+      {type:'p', text:'Buenas prácticas que todo N1 debe respetar: manipular los equipos con cuidado para evitar descargas electrostáticas, no forzar conectores, y registrar siempre el número de serie o de inventario en el ticket. Esa trazabilidad es clave si el caso se escala o si el mismo equipo vuelve a fallar más adelante.'}
     ],
     exercise:{title:'Diagnóstico guiado', body:'Un usuario reporta: "prendo la PC y no pasa nada, ni siquiera se enciende la luz". Usando la tabla de síntomas y chequeos, escribí en orden los tres primeros pasos que seguirías antes de escalar el caso, y qué anotarías en el ticket en cada paso.'},
     quiz:[
@@ -688,7 +687,68 @@ var MODULES = [
     ]
   },
   {
-    id:4, track:'it', title:'Redes básicas para soporte', duration:'1.5 h',
+    id:4, track:'it', title:'Linux para soporte: terminal, logs y procesos', duration:'1.5 h',
+    objective:'Moverse con soltura en una terminal de Linux para diagnosticar incidencias: navegar el sistema de archivos, leer e interpretar logs, revisar procesos y consumo de recursos, entender permisos y consultar el estado de los servicios.',
+    content:[
+      {type:'p', text:'Casi todo lo que un usuario ve como "la aplicación" corre, del lado del servidor, sobre Linux. Los servidores web, las bases de datos, los contenedores y la enorme mayoría de las instancias en la nube usan Linux, así que en cuanto un ticket deja de ser "mi teclado no escribe" y pasa a ser "el sistema va lento" o "la app devuelve error 500", el diagnóstico ocurre en una terminal. No se espera que un N1 administre servidores, pero sí que sepa entrar, mirar y reportar con precisión lo que encontró.'},
+      {type:'p', text:'La diferencia entre un N1 que aporta y uno que solo reenvía el problema suele estar acá: escalar diciendo "la app falla" obliga al N2 a empezar de cero; escalar diciendo "la app devuelve 502, el log de nginx muestra connection refused hacia el puerto 8080 y el servicio de la aplicación figura como inactive desde las 14:03" le ahorra media hora. Los comandos de este módulo sirven exactamente para poder escribir esa segunda frase.'},
+      {type:'table', caption:'Navegación e inspección del sistema de archivos', columns:['Comando','Qué hace'], rows:[
+        ['pwd','Muestra en qué directorio estás parado'],
+        ['ls -lh','Lista archivos con permisos, dueño, tamaño legible y fecha'],
+        ['cd /var/log','Entra a un directorio (acá, el de logs del sistema)'],
+        ['find /etc -name "*.conf"','Busca archivos por nombre dentro de una ruta'],
+        ['du -sh carpeta/','Muestra cuánto pesa una carpeta en total'],
+        ['df -h','Muestra el espacio libre por disco y partición']
+      ]},
+      {type:'p', text:'Ese último comando, df -h, merece atención especial: el disco lleno es una de las causas más frecuentes y más silenciosas de fallas en un servidor. Una partición al 100% hace que la aplicación no pueda escribir logs, que la base de datos rechace transacciones y que el sistema se comporte de forma errática sin un mensaje de error obvio. Ante cualquier "el servidor está raro", df -h es de los primeros comandos que conviene correr.'},
+      {type:'p', text:'Los logs son el registro de lo que el sistema y las aplicaciones fueron haciendo, y son la fuente primaria de diagnóstico. En Linux viven principalmente en /var/log, y en los sistemas modernos también se consultan con journalctl, que centraliza los registros gestionados por systemd.'},
+      {type:'table', caption:'Dónde buscar según el síntoma', columns:['Ubicación o comando','Qué contiene'], rows:[
+        ['/var/log/syslog o /var/log/messages','Eventos generales del sistema'],
+        ['/var/log/auth.log','Autenticaciones, inicios de sesión y uso de sudo'],
+        ['journalctl -u nombre-servicio','Log de un servicio concreto gestionado por systemd'],
+        ['journalctl -xe','Últimos eventos del sistema con contexto extendido'],
+        ['/var/log/nginx/error.log','Errores del servidor web (ruta típica)'],
+        ['dmesg','Mensajes del kernel: hardware, discos, drivers']
+      ]},
+      {type:'p', text:'Leer un log entero es inviable: lo que se hace es filtrar y seguir. Con tail -f el archivo se muestra en vivo mientras se reproduce el problema, y con grep se aísla lo relevante. Combinarlos es la técnica de diagnóstico más usada del día a día.'},
+      {type:'code', label:'Filtrar y seguir logs en vivo', code:'# Ver las ultimas 50 lineas de un log\ntail -n 50 /var/log/syslog\n\n# Seguir el log en vivo mientras se reproduce el problema\ntail -f /var/log/nginx/error.log\n\n# Buscar solo los errores, sin distinguir mayusculas\ngrep -i error /var/log/syslog\n\n# Buscar errores y mostrar 3 lineas de contexto alrededor\ngrep -i -C 3 "connection refused" /var/log/nginx/error.log\n\n# Contar cuantas veces aparece un error\ngrep -c "500" /var/log/nginx/access.log'},
+      {type:'p', text:'Un detalle que ahorra confusiones: al reportar un error de log, copiá la línea completa con su marca de tiempo, no solo la palabra "error". La hora exacta es lo que le permite al N2 correlacionar el evento con un despliegue, un pico de tráfico o una alarma de monitoreo.'},
+      {type:'p', text:'Cuando el síntoma es lentitud, el diagnóstico pasa por los procesos y el consumo de recursos. Las tres preguntas a responder son: qué proceso está consumiendo, cuánta memoria queda libre y si el disco tiene espacio.'},
+      {type:'table', caption:'Procesos y recursos', columns:['Comando','Qué muestra'], rows:[
+        ['top o htop','Procesos ordenados por consumo de CPU y memoria, en vivo'],
+        ['ps aux | grep nginx','Busca si un proceso concreto está corriendo y con qué PID'],
+        ['free -h','Memoria RAM y swap disponibles'],
+        ['uptime','Hace cuánto arrancó el sistema y la carga promedio'],
+        ['kill -15 PID','Pide a un proceso que termine de forma ordenada'],
+        ['kill -9 PID','Fuerza la terminación de un proceso que no responde']
+      ]},
+      {type:'p', text:'Sobre kill conviene una advertencia: -15 (SIGTERM) le pide al proceso que cierre ordenadamente, guardando lo que tenga pendiente; -9 (SIGKILL) lo corta en seco, sin darle oportunidad de cerrar archivos ni terminar transacciones. Usar -9 como primera opción puede corromper datos. Se prueba primero con -15 y solo se recurre a -9 si el proceso quedó realmente colgado.'},
+      {type:'p', text:'Los permisos explican una gran proporción de los errores de "no tengo acceso" que llegan a la mesa de ayuda. En Linux cada archivo tiene un dueño, un grupo y tres ternas de permisos: lectura (r), escritura (w) y ejecución (x), para el dueño, el grupo y el resto del mundo.'},
+      {type:'code', label:'Cómo leer la salida de ls -l', code:'-rw-r--r--  1 jesus  desarrollo  2048  sep  2 13:40  reporte.csv\n│└┬┘└┬┘└┬┘     └─┬─┘  └───┬────┘\n│ │  │  │        │        └── grupo propietario\n│ │  │  │        └── usuario propietario\n│ │  │  └── otros: solo lectura (r--)\n│ │  └── grupo: solo lectura (r--)\n│ └── dueño: lectura y escritura (rw-)\n└── tipo: - archivo normal, d directorio, l enlace simbolico'},
+      {type:'p', text:'Los permisos también se expresan en números: r vale 4, w vale 2 y x vale 1, y se suman por cada terna. Así, 644 significa que el dueño puede leer y escribir (4+2), y que grupo y otros solo pueden leer (4). Un 755 agrega permiso de ejecución al dueño, lo habitual en directorios y scripts. Y 777, que da todos los permisos a todo el mundo, casi nunca es la solución correcta: suele ser un parche que deja un problema de seguridad abierto en lugar de corregir al dueño del archivo con chown.'},
+      {type:'p', text:'Por último, los servicios. En los sistemas actuales se gestionan con systemctl, y para un N1 lo importante es saber consultar el estado y leer por qué un servicio no levantó, antes de intentar reiniciarlo.'},
+      {type:'code', label:'Consultar y controlar servicios', code:'# Ver el estado de un servicio y sus ultimas lineas de log\nsystemctl status nginx\n\n# Ver solo si esta activo\nsystemctl is-active nginx\n\n# Reiniciar un servicio (requiere permisos)\nsudo systemctl restart nginx\n\n# Ver el log completo de ese servicio, del arranque actual\njournalctl -u nginx -b --no-pager'},
+      {type:'p', text:'Una recomendación de criterio: reiniciar un servicio suele "arreglar" el síntoma y borrar la evidencia de la causa. Antes de reiniciar, capturá el estado y las últimas líneas del log. Si el problema reaparece en dos horas, esa captura será lo único que permita entender qué pasó.'},
+      {type:'p', text:'Practicá la sintaxis antes de necesitarla. Escribí el comando de cada caso antes de revelar la respuesta:'},
+      {type:'challenge', prompt:'Un servidor "se comporta raro". Querés descartar primero que el disco esté lleno. Escribí el comando que muestra el espacio libre por partición, en formato legible.', answer:'df -h'},
+      {type:'challenge', prompt:'Te reportan que el sitio devuelve errores. Escribí el comando para seguir en vivo el log de errores de nginx mientras reproducís el problema.', answer:'tail -f /var/log/nginx/error.log'},
+      {type:'challenge', prompt:'Necesitás saber si el proceso "nginx" está corriendo y con qué PID.', answer:'ps aux | grep nginx'},
+      {type:'challenge', prompt:'Querés ver el estado del servicio "nginx" y las últimas líneas de su log, sin reiniciarlo.', answer:'systemctl status nginx'},
+      {type:'challenge', prompt:'Buscá todas las líneas que contengan la palabra "error" (sin importar mayúsculas) dentro de /var/log/syslog.', answer:'grep -i error /var/log/syslog'},
+      {type:'challenge', prompt:'Un usuario no puede escribir en "reporte.csv". Escribí el comando para ver sus permisos y su dueño.', answer:'ls -l reporte.csv'}
+    ],
+    exercise:{title:'Diagnóstico en terminal antes de escalar', body:'Te llega el ticket: "la aplicación web responde con error 500 desde hace 20 minutos". No tenés permisos para arreglarla, pero sí para diagnosticar, y tu escalamiento será mucho más útil si llega con evidencia. Escribí, en orden, los cinco comandos que correrías y qué esperás encontrar con cada uno. Después redactá el texto del escalamiento al N2 en un máximo de cuatro líneas, incluyendo: hora de inicio, síntoma exacto, evidencia del log (con marca de tiempo), estado del servicio y qué descartaste. Compará tu resultado con la idea del módulo: escalar no es reenviar, es entregar el problema ya acotado.'},
+    quiz:[
+      {q:'Un servidor presenta comportamiento errático y la aplicación no logra escribir. ¿Cuál es de los primeros comandos que conviene correr?', options:['kill -9 1','df -h para revisar si alguna partición está llena','shutdown -r now','passwd'], correct:1, explain:'El disco lleno provoca fallas silenciosas y erráticas; df -h lo descarta o lo confirma en segundos.'},
+      {q:'¿Cuál es la diferencia entre kill -15 y kill -9?', options:['No hay diferencia, son alias','-15 pide al proceso que termine de forma ordenada; -9 lo fuerza sin permitirle cerrar', '-9 es más lento','-15 solo funciona con servicios web'], correct:1, explain:'SIGTERM (-15) permite un cierre limpio; SIGKILL (-9) corta en seco y puede dejar datos corruptos.'},
+      {q:'Querés seguir en vivo lo que escribe un log mientras reproducís el problema. ¿Qué comando usás?', options:['cat archivo.log','tail -f archivo.log','ls -l archivo.log','rm archivo.log'], correct:1, explain:'tail -f mantiene el archivo abierto y muestra las líneas nuevas a medida que se escriben.'},
+      {q:'El permiso 644 sobre un archivo significa que:', options:['Todos pueden leer, escribir y ejecutar','El dueño puede leer y escribir; grupo y otros solo leer','Nadie tiene acceso','Solo se puede ejecutar'], correct:1, explain:'6 = lectura + escritura para el dueño; 4 = solo lectura para grupo y para otros.'},
+      {q:'Un usuario reporta "permiso denegado" al escribir un archivo. ¿Cuál es la respuesta correcta como N1?', options:['Aplicar chmod 777 al archivo para destrabarlo','Revisar dueño y permisos con ls -l, y corregir la propiedad o el grupo según corresponda','Reiniciar el servidor','Borrar el archivo y pedir que lo vuelvan a crear'], correct:1, explain:'chmod 777 abre el archivo a todo el mundo y deja un problema de seguridad; lo correcto es corregir dueño o grupo.'},
+      {q:'¿Por qué conviene capturar el estado y el log de un servicio antes de reiniciarlo?', options:['Porque el reinicio está prohibido','Porque reiniciar suele borrar la evidencia de la causa raíz','Porque acelera el reinicio','Porque el log se elimina automáticamente cada hora'], correct:1, explain:'El reinicio resuelve el síntoma pero destruye el rastro; sin esa captura, un problema recurrente queda sin explicación.'}
+    ]
+  },
+  {
+    id:5, track:'it', title:'Redes básicas para soporte', duration:'1.5 h',
     objective:'Comprender los conceptos de red esenciales para el rol y usar comandos básicos para diagnosticar problemas de conectividad.',
     content:[
       {type:'p', text:'Cada equipo en una red necesita una dirección IP para comunicarse. La máscara de subred define qué parte de esa dirección identifica a la red y qué parte al equipo. El gateway (puerta de enlace) es el punto por donde el tráfico sale hacia otras redes, como internet. El DNS traduce nombres (como "correo.empresa.com") a direcciones IP. El DHCP es el servicio que asigna direcciones IP automáticamente a los equipos que se conectan.'},
@@ -717,7 +777,7 @@ var MODULES = [
     ]
   },
   {
-    id:5, track:'it', title:'Atención al usuario y gestión de tickets', duration:'1 h',
+    id:6, track:'it', title:'Atención al usuario y gestión de tickets', duration:'1 h',
     objective:'Gestionar el ciclo de vida de un ticket de forma profesional y comunicarse con el usuario con claridad, usando los conceptos básicos de prioridad y SLA.',
     content:[
       {type:'p', text:'Todo ticket recorre un ciclo: se registra con la información que aporta el usuario, se clasifica según su categoría y prioridad, se diagnostica, se resuelve (o se escala) y finalmente se cierra confirmando con el usuario que el problema quedó resuelto. Saltar pasos de este ciclo, sobre todo el cierre confirmado, es una de las causas más comunes de que un mismo problema vuelva a abrirse.'},
@@ -737,7 +797,7 @@ var MODULES = [
     ]
   },
   {
-    id:6, track:'it', title:'Seguridad de la información', duration:'1 h',
+    id:7, track:'it', title:'Seguridad de la información', duration:'1 h',
     objective:'Aplicar buenas prácticas básicas de seguridad y reconocer señales de phishing e ingeniería social en el trabajo diario de soporte.',
     content:[
       {type:'p', text:'La seguridad de la información no es solo tarea del área especializada: el N1 es, muchas veces, quien primero detecta un correo sospechoso, un intento de acceso indebido o un pedido de información que no debería concederse. Reconocer estas señales y saber cómo reportarlas es parte central del rol.'},
@@ -759,7 +819,7 @@ var MODULES = [
     ]
   },
   {
-    id:7, track:'data', title:'Excel aplicado a soporte y datos', duration:'1.5 h',
+    id:8, track:'data', title:'Excel aplicado a soporte y datos', duration:'1.5 h',
     objective:'Organizar información de soporte en Excel y usar fórmulas, filtros y tablas dinámicas básicas para resumirla.',
     content:[
       {type:'p', text:'Una planilla de tickets bien estructurada sigue una regla simple: cada fila es un registro (un ticket) y cada columna es un dato de ese registro (fecha, categoría, prioridad, estado, tiempo de resolución). Mezclar formatos, combinar celdas o dejar filas vacías en medio de los datos rompe esta estructura y dificulta cualquier análisis posterior.'},
@@ -770,7 +830,7 @@ var MODULES = [
         ['SI / IF','Devolver un valor u otro según se cumpla una condición','=SI(E2>24;"Fuera de SLA";"En SLA")']
       ]},
       {type:'p', text:'Los filtros permiten ver solo los registros que interesan en un momento dado, por ejemplo los tickets abiertos de prioridad alta. Las tablas dinámicas van un paso más allá: resumen automáticamente grandes volúmenes de datos, por ejemplo mostrando cuántos tickets hay por categoría y por estado, sin necesidad de contar manualmente ni escribir fórmulas para cada combinación.'},
-      {type:'p', text:'Para un N1, dominar estas herramientas significa poder responder preguntas simples de gestión ("¿cuántos tickets de red tuvimos esta semana?") sin depender de otra persona, y preparar la información de base que después se convierte en reportes o dashboards, tema del módulo 9.'}
+      {type:'p', text:'Para un N1, dominar estas herramientas significa poder responder preguntas simples de gestión ("¿cuántos tickets de red tuvimos esta semana?") sin depender de otra persona, y preparar la información de base que después se convierte en reportes o dashboards, tema del módulo 10.'}
     ],
     exercise:{title:'Cálculo sobre datos simulados', body:'Imaginá una planilla con columnas Fecha, Categoría, Prioridad, Estado (Abierto/Cerrado) y Horas de resolución, con 40 tickets cargados. Escribí la fórmula que usarías para contar cuántos tickets están "Abiertos" y la fórmula que usarías para calcular el promedio de horas de resolución solo de los tickets de prioridad "Alta".'},
     quiz:[
@@ -780,7 +840,7 @@ var MODULES = [
     ]
   },
   {
-    id:8, track:'data', title:'SQL básico para consultas de soporte', duration:'1.5 h',
+    id:9, track:'data', title:'SQL básico para consultas de soporte', duration:'1.5 h',
     objective:'Escribir consultas SQL simples para leer información de tickets, usuarios o inventario desde una base de datos relacional.',
     content:[
       {type:'p', text:'Una base de datos relacional organiza la información en tablas, donde cada fila es un registro y cada columna un campo, igual que en Excel, pero con una diferencia clave: las tablas se relacionan entre sí mediante claves. Por ejemplo, una tabla de tickets puede relacionarse con una tabla de usuarios a través de un campo como "id_usuario", en lugar de repetir todos los datos del usuario en cada ticket.'},
@@ -798,7 +858,7 @@ var MODULES = [
     ]
   },
   {
-    id:9, track:'data', title:'Reportes, métricas y dashboards', duration:'1 h',
+    id:10, track:'data', title:'Reportes, métricas y dashboards', duration:'1 h',
     objective:'Identificar las métricas clave de una mesa de ayuda y elegir la forma adecuada de comunicarlas mediante reportes o dashboards simples.',
     content:[
       {type:'p', text:'Un dashboard de soporte no es más que un conjunto de métricas elegidas para responder, de un vistazo, cómo está funcionando la mesa de ayuda. Las métricas más comunes incluyen la cantidad de tickets abiertos y cerrados en un período, el tiempo promedio de resolución, la tasa de reincidencia (tickets que vuelven a abrirse sobre el mismo problema) y, cuando se mide, la satisfacción del usuario (CSAT).'},
@@ -820,7 +880,7 @@ var MODULES = [
     ]
   },
   {
-    id:10, track:'it', title:'Herramientas remotas y documentación', duration:'1 h',
+    id:11, track:'it', title:'Herramientas remotas y documentación', duration:'1 h',
     objective:'Usar herramientas de acceso remoto de forma responsable y documentar incidentes y soluciones en una base de conocimiento.',
     content:[
       {type:'p', text:'El acceso remoto permite resolver problemas sin desplazarse hasta el equipo del usuario, pero exige responsabilidad: siempre debe solicitarse consentimiento explícito antes de conectarse, explicar brevemente qué se va a hacer, y evitar acceder a información personal del usuario que no sea relevante para el caso. Al finalizar, hay que cerrar la sesión de forma explícita, nunca dejarla abierta.'},
@@ -838,23 +898,6 @@ var MODULES = [
       {q:'Antes de iniciar una sesión de acceso remoto, ¿qué es obligatorio?', options:['Nada, se puede conectar directamente','Solicitar el consentimiento explícito del usuario','Pedir la contraseña de administrador','Avisar únicamente al supervisor'], correct:1, explain:'El consentimiento explícito del usuario es un requisito básico de buenas prácticas y privacidad.'},
       {q:'¿Qué debería incluir la documentación de un incidente resuelto?', options:['Solo la fecha de cierre','Síntoma, causa, solución aplicada y tiempo de resolución','Únicamente el nombre del analista','El modelo de la PC nada más'], correct:1, explain:'Esos cuatro elementos permiten que cualquier persona entienda el caso sin contexto adicional.'},
       {q:'¿Por qué conviene buscar en la base de conocimiento antes de escalar un caso?', options:['Porque es obligatorio por reglamento en todas las empresas','Porque puede ahorrar tiempo si el problema ya fue resuelto y documentado antes','Porque así se evita cerrar el ticket','Porque la KB reemplaza al usuario'], correct:1, explain:'Muchos casos ya tienen solución documentada; buscar primero evita reinventar el diagnóstico.'}
-    ]
-  },
-  {
-    id:11, track:'core', title:'Caso integrador final y evaluación', duration:'1.5 h',
-    objective:'Aplicar en un solo caso las competencias de soporte técnico y de datos desarrolladas en el curso, y repasar los conceptos clave mediante una evaluación final.',
-    content:[
-      {type:'p', text:'Este módulo cierra el programa con un caso que combina deliberadamente los dos ejes del curso. No hay una única respuesta correcta: lo importante es el método, el mismo que se practicó módulo a módulo.'},
-      {type:'p', text:'Caso: "Varios usuarios del sector Ventas reportan, a lo largo de la mañana, que el sistema de facturación responde muy lento. El supervisor del sector pide un resumen de cuántos tickets de este tipo se abrieron en la última semana antes de decidir si escala el reclamo a proveedores." Un analista N1 completo debería, en este orden: registrar y priorizar los tickets entrantes usando la matriz de impacto y urgencia; aplicar el método de troubleshooting para descartar causas locales (red, equipo) antes de asumir que el problema es del sistema central; y, en paralelo, consultar el histórico de tickets (con una fórmula en Excel o una consulta SQL simple) para dimensionar si el problema es nuevo o recurrente, y comunicar ese resumen con claridad a quien tiene que tomar la decisión.'},
-      {type:'p', text:'Repasá, si lo necesitás, los módulos de Redes (4), Atención al usuario (5) y Excel o SQL (7-8) antes de responder la evaluación final, que integra preguntas de todo el programa.'}
-    ],
-    exercise:{title:'Resolución del caso integrador', body:'Redactá, en no más de un párrafo por punto: (1) cómo priorizarías estos tickets, (2) qué pasos de troubleshooting aplicarías antes de escalar a proveedores, y (3) qué consulta (Excel o SQL) usarías para saber cuántos tickets similares hubo en la última semana.'},
-    quiz:[
-      {q:'En el caso del módulo, ¿qué se debería descartar antes de asumir que la lentitud es del sistema central de facturación?', options:['Nada, se escala directo a proveedores','Causas locales de red o de equipo mediante el método de troubleshooting','El nombre del usuario que reportó el caso','El color de la interfaz del sistema'], correct:1, explain:'Antes de responsabilizar al sistema central, hay que descartar causas locales con el método visto en el Módulo 3 y 4.'},
-      {q:'¿Qué herramienta usarías para dimensionar si el problema de lentitud es nuevo o recurrente?', options:['El Administrador de dispositivos','Una fórmula en Excel o una consulta SQL sobre el histórico de tickets','El visor de fotos del equipo','Una llamada telefónica sin registrar nada'], correct:1, explain:'El histórico de tickets, consultado con Excel o SQL, es la fuente para saber si el problema es recurrente.'},
-      {q:'¿Qué matriz se usa para decidir la prioridad de los tickets entrantes?', options:['Impacto x Urgencia','Antigüedad x Presupuesto','Nombre x Departamento','Color x Categoría'], correct:0, explain:'La matriz de Impacto x Urgencia, vista en el Módulo 5, es la base para priorizar tickets.'},
-      {q:'¿Cuál es el paso final del ciclo de vida de un ticket, frecuentemente olvidado?', options:['Registrar el ticket','El cierre confirmado con el usuario','Asignar una categoría','Elegir el color del estado'], correct:1, explain:'Confirmar el cierre con el usuario evita que el problema se considere resuelto sin estarlo realmente.'},
-      {q:'¿Qué caracteriza al rol de analista N1 según lo visto en todo el curso?', options:['Resolver todo sin nunca escalar nada','Combinar resolución técnica de primer nivel con manejo básico de datos, comunicación clara y documentación', 'Trabajar exclusivamente con bases de datos', 'Encargarse solo de la infraestructura de servidores'], correct:1, explain:'El hilo conductor del curso es esa combinación: técnica, datos, comunicación y documentación.'}
     ]
   },
   {
@@ -907,10 +950,88 @@ var MODULES = [
       {q:'En IAM, ¿qué es un rol (role) a diferencia de un usuario?', options:['Una identidad temporal sin credenciales permanentes, que puede "asumir" un usuario, servicio o cuenta externa','Es idéntico a un usuario, solo cambia el nombre','Existe únicamente para tareas de facturación','Reemplaza a los grupos de usuarios'], correct:0, explain:'Los roles otorgan permisos temporales que se asumen, a diferencia de los usuarios con credenciales de larga duración.'},
       {q:'Una instancia EC2 en una subred privada no puede recibir conexiones esperadas. Antes de escalar, ¿qué deberías revisar como N1?', options:['El nombre asignado a la instancia','Las reglas del Security Group, la NACL de la subred y la tabla de rutas hacia el gateway correspondiente','El idioma configurado en la consola de AWS','El plan de soporte contratado con AWS'], correct:1, explain:'La conectividad en una VPC depende de Security Groups, NACLs y la tabla de rutas hacia el Internet Gateway o NAT Gateway.'}
     ]
-  }
+  },
+  {
+    id:13, track:'cloud', title:'Monitoreo y observabilidad en la nube', duration:'1.5 h',
+    objective:'Entender cómo se vigila un servicio en producción: los tres pilares de la observabilidad, métricas y umbrales, el ciclo de vida de una alerta, la clasificación por severidad y los acuerdos de nivel de servicio que enmarcan la respuesta del primer nivel.',
+    content:[
+      {type:'p', text:'En una mesa de ayuda tradicional, el trabajo empieza cuando un usuario reporta algo. En un equipo que opera servicios en la nube, la mayor parte del trabajo empieza antes: lo dispara una alerta automática. Ese cambio es más profundo de lo que parece, porque invierte el orden del oficio. Ya no se trata de esperar el reclamo, sino de detectar la degradación mientras todavía es pequeña. El objetivo real del monitoreo es que el equipo se entere antes que el cliente.'},
+      {type:'p', text:'La observabilidad se apoya en tres tipos de señales. Confundirlas es una fuente habitual de tiempo perdido: buscar en las métricas algo que solo está en los logs, o revisar logs cuando la pregunta era de tendencia.'},
+      {type:'table', caption:'Los tres pilares de la observabilidad', columns:['Señal','Qué es','Para qué pregunta sirve'], rows:[
+        ['Métrica','Un número medido a lo largo del tiempo (CPU, latencia, errores por minuto)','¿Está pasando algo raro, y desde cuándo?'],
+        ['Log','Un registro textual de eventos concretos con marca de tiempo','¿Qué pasó exactamente en ese momento?'],
+        ['Traza','El recorrido de una petición a través de los distintos servicios','¿En qué parte del sistema se perdió el tiempo?']
+      ]},
+      {type:'p', text:'La secuencia natural de diagnóstico va de lo general a lo particular: la métrica avisa que algo cambió y acota la ventana de tiempo, el log explica qué ocurrió dentro de esa ventana, y la traza señala qué componente es responsable cuando hay varios servicios encadenados.'},
+      {type:'p', text:'En AWS, la herramienta central es CloudWatch, que reúne los tres tipos de señal. Las métricas se agrupan por servicio, los logs se organizan en grupos (log groups) y las alarmas vigilan una métrica contra un umbral definido.'},
+      {type:'table', caption:'Métricas que un N1 debería reconocer', columns:['Servicio','Métrica','Qué indica cuando se dispara'], rows:[
+        ['EC2','CPUUtilization','Saturación de cómputo: proceso pesado, pico de carga o bucle'],
+        ['EC2','StatusCheckFailed','La instancia o su host subyacente no responde correctamente'],
+        ['RDS','FreeStorageSpace','La base de datos se está quedando sin disco'],
+        ['RDS','DatabaseConnections','Agotamiento del pool de conexiones'],
+        ['Lambda','Errors y Throttles','Fallas de ejecución o límite de concurrencia alcanzado'],
+        ['ALB','HTTPCode_Target_5XX_Count','La aplicación detrás del balanceador está devolviendo errores'],
+        ['ALB','TargetResponseTime','Degradación de latencia percibida por el usuario']
+      ]},
+      {type:'p', text:'Una alarma de CloudWatch tiene tres estados posibles, y conviene no confundir el tercero: OK significa que la métrica está dentro del umbral; ALARM que lo superó durante los períodos configurados; e INSUFFICIENT_DATA que no llegaron datos suficientes para evaluar. Ese último estado no es benigno: muchas veces significa que el agente dejó de reportar o que la instancia está caída, es decir, justamente el escenario que la alarma debía detectar.'},
+      {type:'p', text:'Definir el umbral es donde se juega la calidad del monitoreo. Un umbral demasiado sensible genera ruido, y el ruido tiene un costo concreto: la fatiga de alertas. Cuando un equipo recibe cincuenta notificaciones diarias que no requieren acción, deja de mirarlas, y el día que llega la que importa, pasa desapercibida. Por eso una alarma bien diseñada exige que la condición se sostenga varios períodos seguidos, en lugar de dispararse ante un pico aislado de un minuto.'},
+      {type:'p', text:'Cuando una alerta se dispara, el N1 es normalmente el primero en verla, y su trabajo sigue un ciclo bastante estable.'},
+      {type:'table', caption:'Ciclo de vida de una alerta', columns:['Etapa','Qué hace el N1'], rows:[
+        ['Detección','Recibe la alerta y registra la hora exacta de inicio'],
+        ['Triage','Determina severidad: qué servicio afecta y a cuántos usuarios'],
+        ['Diagnóstico','Revisa métrica, log y despliegues recientes para acotar la causa'],
+        ['Mitigación','Aplica el procedimiento documentado si existe (runbook)'],
+        ['Escalamiento','Si excede su alcance, deriva con la evidencia ya reunida'],
+        ['Cierre','Confirma normalización y documenta lo ocurrido']
+      ]},
+      {type:'p', text:'Durante el triage, una pregunta ahorra más tiempo que ninguna otra: ¿hubo un despliegue reciente? Una proporción muy alta de los incidentes empieza justo después de un cambio. Revisar si algo se desplegó en la ventana previa a la alerta suele acortar el diagnóstico de horas a minutos.'},
+      {type:'table', caption:'Severidades típicas y expectativa de respuesta', columns:['Severidad','Situación','Respuesta esperada'], rows:[
+        ['SEV1 / Crítica','Servicio caído o inutilizable para todos los usuarios','Inmediata, se escala y se notifica sin demora'],
+        ['SEV2 / Alta','Funcionalidad importante degradada o afectando a muchos usuarios','Atención prioritaria dentro del turno'],
+        ['SEV3 / Media','Problema acotado, con alternativa disponible','Se atiende en el flujo normal de tickets'],
+        ['SEV4 / Baja','Molestia menor o consulta sin impacto operativo','Se agenda sin urgencia']
+      ]},
+      {type:'p', text:'Esas expectativas no son arbitrarias: se derivan de acuerdos formales. El SLA es el compromiso contractual con el cliente (por ejemplo, 99.9% de disponibilidad mensual). El SLO es el objetivo interno que el equipo se fija, normalmente algo más exigente que el SLA para tener margen. Y el SLI es el indicador concreto que se mide para saber si se está cumpliendo.'},
+      {type:'p', text:'Conviene tener presente qué significan esos porcentajes en tiempo real de caída permitida al mes: un 99.9% habilita unas 43 minutos; un 99.99%, apenas 4 minutos. Esa diferencia explica por qué en algunos servicios una demora de diez minutos en responder una alerta es tolerable y en otros consume el presupuesto de error del mes entero.'},
+      {type:'p', text:'En el mercado conviven varias herramientas para esto. CloudWatch es la nativa de AWS y suele ser el punto de partida. Datadog y Grafana se usan cuando se necesita una vista unificada de infraestructura heterogénea, dashboards más ricos o correlación entre múltiples fuentes. Para un N1 el concepto es más importante que la marca: todas responden a las mismas preguntas y organizan la información de forma equivalente.'},
+      {type:'p', text:'Practicá los comandos de consulta que se usan para investigar una alerta:'},
+      {type:'challenge', prompt:'Llegó una alerta y querés ver el estado actual de todas las alarmas configuradas en la cuenta.', answer:'aws cloudwatch describe-alarms'},
+      {type:'challenge', prompt:'Querés ver solo las alarmas que están efectivamente disparadas en este momento.', answer:'aws cloudwatch describe-alarms --state-value ALARM'},
+      {type:'challenge', prompt:'Necesitás seguir en vivo los logs del grupo "/aws/lambda/procesar-pedidos" mientras se reproduce el problema.', answer:'aws logs tail /aws/lambda/procesar-pedidos --follow'},
+      {type:'challenge', prompt:'Querés listar los grupos de logs disponibles en la cuenta para ubicar el de la aplicación.', answer:'aws logs describe-log-groups'},
+      {type:'challenge', prompt:'Una alarma figura en INSUFFICIENT_DATA sobre una instancia. Escribí el comando para revisar el estado de esa instancia EC2.', answer:'aws ec2 describe-instances'}
+    ],
+    exercise:{title:'Triage de una alerta real', body:'A las 03:12 se dispara la alarma "prod-api-5xx-alta": la métrica HTTPCode_Target_5XX_Count del balanceador superó 50 errores por minuto durante tres períodos consecutivos. Sos el N1 de guardia. Resolvé: (1) ¿Qué severidad le asignás y con qué criterio? (2) Enumerá en orden las cuatro primeras cosas que revisarías, justificando por qué en ese orden. (3) ¿Qué pregunta harías sobre despliegues y por qué es tan determinante? (4) Si el SLA del servicio es 99.9% mensual, ¿cuánto tiempo de caída te queda de margen y cómo cambia eso tu urgencia? (5) Redactá el escalamiento al N2 en cuatro líneas, con la evidencia mínima necesaria. Contrastá tu respuesta con el ciclo de vida de alerta del módulo.'},
+    quiz:[
+      {q:'¿Cuál es la diferencia principal entre una métrica y un log?', options:['Son sinónimos','La métrica es un número medido en el tiempo que indica que algo cambió; el log es el registro textual que explica qué pasó','El log solo existe en la nube','La métrica solo se usa para facturación'], correct:1, explain:'La métrica detecta y acota la ventana temporal; el log explica el evento concreto dentro de esa ventana.'},
+      {q:'Una alarma de CloudWatch pasa a estado INSUFFICIENT_DATA. ¿Qué deberías considerar?', options:['Que todo está bien, porque no está en ALARM','Que puede que el agente dejó de reportar o la instancia está caída, y hay que verificarlo','Que la alarma se borró sola','Que el umbral es demasiado bajo'], correct:1, explain:'La ausencia de datos suele indicar que el recurso monitoreado dejó de responder, justo lo que la alarma debía detectar.'},
+      {q:'¿Qué es la fatiga de alertas y por qué importa?', options:['Un problema de hardware de los servidores','La pérdida de atención del equipo ante un exceso de alertas irrelevantes, que hace que se ignore la que sí importa','Un límite de la cuenta de AWS','El costo de almacenar métricas'], correct:1, explain:'El exceso de alertas sin acción entrena al equipo a ignorarlas, y ese es precisamente el riesgo operativo.'},
+      {q:'Durante el triage de un incidente, ¿qué pregunta suele acortar más el diagnóstico?', options:['¿Quién reportó el problema?','¿Hubo un despliegue o cambio reciente antes de la alerta?','¿Cuál es el color del dashboard?','¿Cuántos usuarios tiene la empresa?'], correct:1, explain:'Una alta proporción de incidentes se origina en un cambio reciente; verificarlo primero acota enormemente la búsqueda.'},
+      {q:'¿Qué distingue a un SLA de un SLO?', options:['Son lo mismo con distinto nombre','El SLA es el compromiso contractual con el cliente; el SLO es el objetivo interno, normalmente más exigente','El SLO es contractual y el SLA interno','Ambos miden únicamente el costo del servicio'], correct:1, explain:'El SLO se fija más estricto que el SLA para dejar margen antes de incumplir el contrato.'},
+      {q:'Un SLA de 99.9% mensual permite aproximadamente cuánto tiempo de caída al mes?', options:['Unas 43 minutos','Unas 12 horas','Unos 5 segundos','No permite ninguna caída'], correct:0, explain:'99.9% de un mes deja alrededor de 43 minutos de indisponibilidad permitida.'},
+      {q:'¿Por qué una alarma bien diseñada exige que la condición se sostenga varios períodos?', options:['Para ahorrar dinero en CloudWatch','Para evitar que un pico aislado de un minuto genere ruido innecesario','Porque AWS lo exige obligatoriamente','Para que la alarma tarde más en resolverse'], correct:1, explain:'Requerir persistencia distingue una degradación real de una fluctuación puntual, reduciendo el ruido.'}
+    ]
+  },
+  {
+    id:14, track:'core', title:'Caso integrador final y evaluación', duration:'1.5 h',
+    objective:'Aplicar en un solo caso las competencias de soporte técnico y de datos desarrolladas en el curso, y repasar los conceptos clave mediante una evaluación final.',
+    content:[
+      {type:'p', text:'Este módulo cierra el programa con un caso que combina deliberadamente los dos ejes del curso. No hay una única respuesta correcta: lo importante es el método, el mismo que se practicó módulo a módulo.'},
+      {type:'p', text:'Caso: "Varios usuarios del sector Ventas reportan, a lo largo de la mañana, que el sistema de facturación responde muy lento. El supervisor del sector pide un resumen de cuántos tickets de este tipo se abrieron en la última semana antes de decidir si escala el reclamo a proveedores." Un analista N1 completo debería, en este orden: registrar y priorizar los tickets entrantes usando la matriz de impacto y urgencia; aplicar el método de troubleshooting para descartar causas locales (red, equipo) antes de asumir que el problema es del sistema central; y, en paralelo, consultar el histórico de tickets (con una fórmula en Excel o una consulta SQL simple) para dimensionar si el problema es nuevo o recurrente, y comunicar ese resumen con claridad a quien tiene que tomar la decisión.'},
+      {type:'p', text:'Repasá, si lo necesitás, los módulos de Linux (4), Redes (5), Atención al usuario (6), Excel o SQL (8-9) y Monitoreo (13) antes de responder la evaluación final, que integra preguntas de todo el programa.'}
+    ],
+    exercise:{title:'Resolución del caso integrador', body:'Redactá, en no más de un párrafo por punto: (1) cómo priorizarías estos tickets, (2) qué pasos de troubleshooting aplicarías antes de escalar a proveedores, y (3) qué consulta (Excel o SQL) usarías para saber cuántos tickets similares hubo en la última semana.'},
+    quiz:[
+      {q:'En el caso del módulo, ¿qué se debería descartar antes de asumir que la lentitud es del sistema central de facturación?', options:['Nada, se escala directo a proveedores','Causas locales de red o de equipo mediante el método de troubleshooting','El nombre del usuario que reportó el caso','El color de la interfaz del sistema'], correct:1, explain:'Antes de responsabilizar al sistema central, hay que descartar causas locales con el método visto en los módulos 3 y 5.'},
+      {q:'¿Qué herramienta usarías para dimensionar si el problema de lentitud es nuevo o recurrente?', options:['El Administrador de dispositivos','Una fórmula en Excel o una consulta SQL sobre el histórico de tickets','El visor de fotos del equipo','Una llamada telefónica sin registrar nada'], correct:1, explain:'El histórico de tickets, consultado con Excel o SQL, es la fuente para saber si el problema es recurrente.'},
+      {q:'¿Qué matriz se usa para decidir la prioridad de los tickets entrantes?', options:['Impacto x Urgencia','Antigüedad x Presupuesto','Nombre x Departamento','Color x Categoría'], correct:0, explain:'La matriz de Impacto x Urgencia, vista en el Módulo 5, es la base para priorizar tickets.'},
+      {q:'¿Cuál es el paso final del ciclo de vida de un ticket, frecuentemente olvidado?', options:['Registrar el ticket','El cierre confirmado con el usuario','Asignar una categoría','Elegir el color del estado'], correct:1, explain:'Confirmar el cierre con el usuario evita que el problema se considere resuelto sin estarlo realmente.'},
+      {q:'¿Qué caracteriza al rol de analista N1 según lo visto en todo el curso?', options:['Resolver todo sin nunca escalar nada','Combinar resolución técnica de primer nivel con manejo básico de datos, comunicación clara y documentación', 'Trabajar exclusivamente con bases de datos', 'Encargarse solo de la infraestructura de servidores'], correct:1, explain:'El hilo conductor del curso es esa combinación: técnica, datos, comunicación y documentación.'}
+    ]
+  },
 ];
 
-var STORAGE_KEY = 'n1-course-progress-v1';
+var STORAGE_KEY = 'n1-course-progress-v2';
 
 function loadProgress(){
   try{
@@ -1072,10 +1193,10 @@ function renderLanding(){
     '</div>' +
     '<button class="start-btn" id="start-btn">Comenzar el curso &#8594;</button>' +
     '<div class="track-legend-cards">' +
-      '<div class="track-card it"><h3>Soporte IT</h3><p>Hardware, sistemas operativos, redes, atención al usuario y seguridad. Seis módulos.</p></div>' +
+      '<div class="track-card it"><h3>Soporte IT</h3><p>Hardware, sistemas operativos, Linux y terminal, redes, atención al usuario, seguridad y herramientas remotas. Siete módulos.</p></div>' +
       '<div class="track-card data"><h3>Datos</h3><p>Excel aplicado a soporte, SQL básico y reportes. Tres módulos.</p></div>' +
+      '<div class="track-card cloud"><h3>Cloud (AWS)</h3><p>Servicios clave de AWS, monitoreo con CloudWatch y manejo de alertas en producción. Dos módulos.</p></div>' +
       '<div class="track-card core"><h3>Base y cierre</h3><p>Introducción al rol y caso integrador final con evaluación. Dos módulos.</p></div>' +
-      '<div class="track-card cloud"><h3>Cloud (AWS)</h3><p>Servicios clave de AWS y diagnósticos frecuentes en pruebas técnicas. Un módulo.</p></div>' +
     '</div>' +
     '<h3 style="font-size:16px;margin-bottom:2px;">Recorrido completo</h3>' +
     '<div class="roadmap">' + roadmap + '</div>';
