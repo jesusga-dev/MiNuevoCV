@@ -54,5 +54,5 @@ Al ser un sitio estático, funciona igual en las tres plataformas:
 ## 📬 Contacto
 
 - **Email:** yaffle9174@anglernook.com
-- **GitHub:** https://github.com/JesusYG
+- **GitHub:** https://github.com/jesusga-dev
 - **LinkedIn:** https://www.linkedin.com/in/jesús-garcía-a07729222
